@@ -9,8 +9,19 @@ const meta: Meta<typeof Card> = {
 export default meta;
 type Story = StoryObj<typeof Card>;
 
-export const Default: Story = {
+export const Light: Story = {
   render: () => (
     <Card title="Jean-Honore Fragonard" years="1732 - 1806" imgUrl="../1.jpg" />
+  ),
+};
+
+export const Dark: Story = {
+  render: () => (
+    <Card
+      title="Jean-Honore Fragonard"
+      years="1732 - 1806"
+      imgUrl="../1.jpg"
+      theme="dark"
+    />
   ),
 };

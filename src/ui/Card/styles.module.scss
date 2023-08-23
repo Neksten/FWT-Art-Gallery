@@ -7,6 +7,44 @@
   overflow: hidden;
   position: relative;
   cursor: pointer;
+  &-light {
+    .card__body {
+      background-color: $color-primary-white;
+    }
+    .card__arrow {
+      background-color: $color-accent-red;
+    }
+    .card__title {
+      color: $color-primary-black;
+    }
+    .card__date {
+      color: $color-accent-red;
+    }
+    .card__info {
+      &:before {
+        background: $color-accent-red;
+      }
+    }
+  }
+  &-dark {
+    .card__body {
+      background-color: $color-primary-black;
+    }
+    .card__arrow {
+      background-color: $color-accent-gold;
+    }
+    .card__title {
+      color: $color-primary-white;
+    }
+    .card__date {
+      color:$color-accent-gold;
+    }
+    .card__info {
+      &:before {
+        background: $color-accent-gold;
+      }
+    }
+  }
   &__image {
     max-width: 100%;
     transform: scale(1);
@@ -25,33 +63,33 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: $color-primary-black;
     width: 84.29%;
     max-width: 300px;
   }
   &__info {
     padding: 8px 0 8px 12px;
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -24px;
-      bottom: 0;
-      width: 24px;
-      background: $color-accent-gold url("../../assets/img/arrow_icon.svg") center no-repeat;
-    }
+  }
+  &__arrow {
+    position: absolute;
+    top: 0;
+    right: -24px;
+    bottom: 0;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   &__title {
-    color: $color-primary-white;
     font-family: $font-cormorant-sc;
     margin: 0 0 4px 0;
   }
   &__date {
-    color: $color-accent-gold;
     display: flex;
     align-items: center;
     column-gap: 2px;
+    font-family: $font-inter;
+    font-size: 8px;
   }
   @media (min-width: $md4) {
     max-height: 220px;
@@ -79,9 +117,6 @@
     }
     &__info {
       padding: 0 0 0 20px;
-      &::after {
-        content: none;
-      }
       &:before {
         content: "";
         position: absolute;
@@ -89,8 +124,10 @@
         left: 0;
         bottom: 0;
         width: 3px;
-        background: $color-accent-gold;
       }
+    }
+    &__arrow {
+      display: none;
     }
   }
 }

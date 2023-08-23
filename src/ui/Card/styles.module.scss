@@ -2,8 +2,6 @@
 
 .card {
   width: 100%;
-  max-width: 392px;
-  max-height: 185px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -91,9 +89,6 @@
     font-family: $font-inter;
     font-size: 8px;
   }
-  @media (min-width: $md4) {
-    max-height: 220px;
-  }
   @media (min-width: $md3) {
     &__title {
       font-size: 16px;
@@ -101,14 +96,12 @@
     &__date {
       font-size: 12px !important;
     }
-
     &__info {
       padding: 12px 0 12px 12px;
       position: relative;
     }
   }
   @media (min-width: $maxWidthContainer) {
-    max-height: 260px;
     &__body {
       padding: 20px 20px 20px 0;
     }

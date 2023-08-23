@@ -2,14 +2,14 @@
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  @media (max-width: $md2) {
+  gap: 20px;
+  grid-template-columns: 1fr;
+  @media (min-width: $md3) {
     gap: 24px;
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: $md4) {
-    gap: 20px;
-    grid-template-columns: 1fr;
+  @media (min-width: $maxWidthContainer) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
   }
 }

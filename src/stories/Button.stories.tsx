@@ -1,27 +1,75 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Card from "../ui/Card/Card";
+import Button from "../ui/Button/Button";
+import { Plus } from "../assets/Plus";
 
-const meta: Meta<typeof Card> = {
-  component: Card,
+const meta: Meta<typeof Button> = {
+  component: Button,
 };
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof Button>;
 
-export const Light: Story = {
+export const FilledLight: Story = {
   render: () => (
-    <Card title="Jean-Honore Fragonard" years="1732 - 1806" imgUrl="../1.jpg" />
+    <Button variant="filled" theme="light">
+      Button text
+    </Button>
   ),
 };
 
-export const Dark: Story = {
+export const FilledDark: Story = {
   render: () => (
-    <Card
-      title="Jean-Honore Fragonard"
-      years="1732 - 1806"
-      imgUrl="../1.jpg"
-      theme="dark"
-    />
+    <Button variant="filled" theme="dark">
+      Button text
+    </Button>
+  ),
+};
+
+export const OutlinedLight: Story = {
+  render: () => (
+    <Button startIcon={<Plus />} variant="outlined" theme="light">
+      Button text
+    </Button>
+  ),
+};
+
+export const OutlinedDark: Story = {
+  render: () => (
+    <Button startIcon={<Plus />} variant="outlined" theme="dark">
+      Button text
+    </Button>
+  ),
+};
+
+export const FilledLightDisabled: Story = {
+  render: () => (
+    <Button disabled variant="filled" theme="light">
+      Button text
+    </Button>
+  ),
+};
+
+export const FilledDarkDisabled: Story = {
+  render: () => (
+    <Button disabled variant="filled" theme="dark">
+      Button text
+    </Button>
+  ),
+};
+
+export const OutlinedLightDisabled: Story = {
+  render: () => (
+    <Button disabled startIcon={<Plus />} variant="outlined" theme="light">
+      Button text
+    </Button>
+  ),
+};
+
+export const OutlinedDarkDisabled: Story = {
+  render: () => (
+    <Button disabled startIcon={<Plus />} variant="outlined" theme="dark">
+      Button text
+    </Button>
   ),
 };

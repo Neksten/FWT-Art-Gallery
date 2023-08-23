@@ -10,11 +10,26 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.2s ease-out;
   svg path {
     transition: all 0.2s ease-out;
   }
   &.fullBorderRadius {
     border-radius: 100%;
+  }
+  &-theme {
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+  }
+  &-arrow {
+    padding: 18px;
+    width: 60px;
+    height: 60px;
+    border: 1px solid $color-primary-light-gray;
+    svg path {
+      fill: $color-primary-dark-gray;
+    }
   }
   &-light {
     background-color: $color-secondary-white;
@@ -34,6 +49,13 @@
         svg path {
           fill: $color-primary-dark-gray;
         }
+      }
+    }
+
+    &.button-arrow:hover {
+      background-color: $color-primary-white;
+      svg path {
+        fill: $color-primary-dark-gray;
       }
     }
   }
@@ -57,6 +79,12 @@
         svg path {
           fill: $color-primary-light-gray;
         }
+      }
+    }
+    &.button-arrow:hover {
+      background-color: #242222;
+      svg path {
+        fill: $color-primary-light-gray;
       }
     }
   }

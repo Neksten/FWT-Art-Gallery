@@ -4,6 +4,7 @@ import IconButton from "../ui/IconButton/IconButton";
 import { Delete } from "../assets/Delete";
 import { Moon } from "../assets/Moon";
 import { Sun } from "../assets/Sun";
+import { ArrowUp } from "../assets/ArrowUp";
 
 const meta: Meta<typeof IconButton> = {
   component: IconButton,
@@ -46,7 +47,7 @@ export const DeleteDarkDisabled: Story = {
 
 export const ThemeLight: Story = {
   render: () => (
-    <IconButton fullBorderRadius>
+    <IconButton fullBorderRadius variant="theme">
       <Moon />
     </IconButton>
   ),
@@ -54,8 +55,24 @@ export const ThemeLight: Story = {
 
 export const ThemeDark: Story = {
   render: () => (
-    <IconButton theme="dark" fullBorderRadius>
+    <IconButton theme="dark" fullBorderRadius variant="theme">
       <Sun />
+    </IconButton>
+  ),
+};
+
+export const ArrowLight: Story = {
+  render: () => (
+    <IconButton fullBorderRadius variant="arrow">
+      <ArrowUp />
+    </IconButton>
+  ),
+};
+
+export const ArrowDark: Story = {
+  render: () => (
+    <IconButton theme="dark" fullBorderRadius variant="arrow">
+      <ArrowUp />
     </IconButton>
   ),
 };

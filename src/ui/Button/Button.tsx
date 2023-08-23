@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
 import styles from "./styles.module.scss";
+import { classParser } from "../helpers/classParser";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "filled" | "outlined";
@@ -21,12 +22,12 @@ const Button: FC<ButtonProps> = ({
     `button__${variant}-${theme}`,
   ];
 
-  const readyClasses = (): string => {
-    return rootClasses.map((className) => styles[className]).join(" ");
-  };
-
   return (
-    <button type="button" className={readyClasses()} {...props}>
+    <button
+      type="button"
+      className={classParser(rootClasses, styles)}
+      {...props}
+    >
       {startIcon && startIcon}
       <span>{children}</span>
     </button>

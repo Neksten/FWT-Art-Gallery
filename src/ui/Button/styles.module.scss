@@ -7,7 +7,7 @@
   cursor: pointer;
   span {
     font-size: 12px;
-    transition: all 0.3s ease-out;
+    transition: all 0.2s ease-out;
     text-transform: uppercase;
     font-weight: 700;
     white-space: nowrap;
@@ -59,7 +59,7 @@
     &-light {
       svg path {
         fill: $color-primary-dark-gray;
-        transition: all 0.3s ease-out;
+        transition: all 0.2s ease-out;
       }
       span {
         color: $color-primary-dark-gray;
@@ -87,7 +87,7 @@
         color: $color-primary-light-gray;
         svg path {
           fill: $color-primary-light-gray;
-          transition: all 0.3s ease-out;
+          transition: all 0.2s ease-out;
         }
         span {
           color: $color-primary-light-gray;
@@ -96,7 +96,7 @@
         &:hover {
           svg path {
             fill: $color-primary-light-gray;
-            transition: all 0.3s ease-out;
+            transition: all 0.2s ease-out;
           }
           span {
             color: $color-primary-light-gray;
@@ -108,7 +108,7 @@
     &-dark {
       svg path {
         fill: $color-primary-light-gray;
-        transition: all 0.3s ease-out;
+        transition: all 0.2s ease-out;
       }
       span {
         color: $color-primary-light-gray;
@@ -136,7 +136,7 @@
         color: $color-secondary-gray;
         svg path {
           fill: $color-secondary-gray;
-          transition: all 0.3s ease-out;
+          transition: all 0.2s ease-out;
         }
         span {
           color: $color-secondary-gray;
@@ -145,7 +145,7 @@
         &:hover {
           svg path {
             fill: $color-secondary-gray;
-            transition: all 0.3s ease-out;
+            transition: all 0.2s ease-out;
           }
           span {
             color: $color-secondary-gray;

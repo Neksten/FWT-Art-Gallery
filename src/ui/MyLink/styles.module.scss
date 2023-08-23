@@ -9,6 +9,7 @@
   font-family: $font-inter;
   font-size: 16px;
   font-weight: 500;
+  white-space: nowrap;
   &-light {
     color: $color-primary-dark-gray;
     border-bottom-color: $color-primary-dark-gray;

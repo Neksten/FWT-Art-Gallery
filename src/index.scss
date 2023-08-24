@@ -123,6 +123,16 @@ span {
   font-weight: 700;
 }
 
-.page {
+.container {
+  max-width: $maxWidthContainer;
+  padding: 0 20px;
+  margin: 0 auto;
+  @media (min-width: $maxWidthContainer) {
+    padding: 0 100px;
+    margin: 0;
+  }
+}
+
+main {
   flex: 1;
 }

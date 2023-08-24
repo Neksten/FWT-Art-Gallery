@@ -1,0 +1,62 @@
+import React, {
+  createContext,
+  Dispatch,
+  FC,
+  HTMLAttributes,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+type TThemeType = "light" | "dark";
+type TSetTheme<T> = Dispatch<SetStateAction<T>>;
+
+interface IContext {
+  theme: TThemeType;
+  changeTheme: TSetTheme<TThemeType>;
+}
+
+const initialThemeValue: IContext = {
+  theme: "light",
+  changeTheme: () => {},
+};
+
+export const ThemeContext = createContext<IContext>(initialThemeValue);
+
+type TThemeProvider = HTMLAttributes<HTMLDivElement>;
+
+const getTheme = () => {
+  const theme = localStorage.getItem("theme");
+
+  if (!theme) {
+    localStorage.setItem("theme", initialThemeValue.theme);
+  }
+
+  return theme as TThemeType;
+};
+
+export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
+  const [theme, setTheme] = useState<TThemeType>(getTheme());
+
+  const changeTheme = useCallback((): void => {
+    const newTheme = theme === "light" ? "dark" : "light";
+
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  }, [theme, setTheme]);
+
+  const contextValue = useMemo(() => {
+    return { theme, changeTheme };
+  }, [theme, changeTheme]);
+
+  useEffect(() => {
+    setTheme(getTheme());
+  }, []);
+  return (
+    <ThemeContext.Provider value={contextValue}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};

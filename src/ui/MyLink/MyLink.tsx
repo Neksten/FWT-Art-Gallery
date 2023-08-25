@@ -1,17 +1,17 @@
 import React, { AnchorHTMLAttributes, FC } from "react";
 
-import { classParser } from "@helpers/classParser";
+import classNames from "classnames/bind";
 import styles from "./styles.module.scss";
+
+const cx = classNames.bind(styles);
 
 interface MyLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   theme?: "light" | "dark";
 }
 
 const MyLink: FC<MyLinkProps> = ({ theme = "light", children, ...props }) => {
-  const rootClasses: string[] = ["link", `link-${theme}`];
-
   return (
-    <a {...props} className={classParser(rootClasses, styles)}>
+    <a {...props} className={cx(styles.link, styles[`link-${theme}`])}>
       {children}
     </a>
   );

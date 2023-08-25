@@ -1,9 +1,11 @@
 import { FC, MouseEvent } from "react";
 
 import { ReactComponent as ArrowNext } from "@assets/arrow-next.svg";
-import { classParser } from "@helpers/classParser";
 
+import classNames from "classnames/bind";
 import styles from "./styles.module.scss";
+
+const cx = classNames.bind(styles);
 
 interface CardProps {
   title: string;
@@ -20,13 +22,11 @@ const Card: FC<CardProps> = ({
   imgUrl,
   onClick,
 }) => {
-  const rootClasses: string[] = ["card", `card-${theme}`];
-
   return (
     <div
       aria-hidden
       onClick={(e) => onClick?.(e)}
-      className={classParser(rootClasses, styles)}
+      className={cx(styles.card, styles[`card-${theme}`])}
     >
       <div className={styles.card__image}>
         <img src={imgUrl} alt="" />

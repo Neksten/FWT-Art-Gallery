@@ -1,7 +1,8 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
+import { classParser } from "@helpers/classParser";
+
 import styles from "./styles.module.scss";
-import { classParser } from "../helpers/classParser";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "filled" | "outlined";

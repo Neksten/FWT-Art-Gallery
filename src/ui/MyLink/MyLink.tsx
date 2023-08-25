@@ -1,7 +1,7 @@
 import React, { AnchorHTMLAttributes, FC } from "react";
 
+import { classParser } from "@helpers/classParser";
 import styles from "./styles.module.scss";
-import { classParser } from "../helpers/classParser";
 
 interface MyLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   theme?: "light" | "dark";

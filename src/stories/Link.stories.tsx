@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import MyLink from "../ui/MyLink/MyLink";
+import MyLink from "@ui/MyLink/MyLink";
 
 const meta: Meta<typeof MyLink> = {
   component: MyLink,

@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC } from "react";
 import classNames from "classnames/bind";
+import { classParser } from "@helpers/classParser";
 import styles from "./styles.module.scss";
-import { classParser } from "../helpers/classParser";
 
 const cx = classNames.bind(styles);
 

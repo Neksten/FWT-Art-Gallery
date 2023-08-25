@@ -29,7 +29,7 @@ const Button: FC<ButtonProps> = ({
       {...props}
     >
       {startIcon && startIcon}
-      <span>{children}</span>
+      <span className={styles.button__text}>{children}</span>
     </button>
   );
 };

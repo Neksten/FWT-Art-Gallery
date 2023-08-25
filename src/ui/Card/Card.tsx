@@ -1,8 +1,9 @@
 import { FC, MouseEvent } from "react";
 
-import styles from "./styles.module.scss";
-import { ArrowNext } from "../../assets/ArrowNext";
 import { classParser } from "../helpers/classParser";
+
+import styles from "./styles.module.scss";
+import { ReactComponent as ArrowNext } from "../../assets/arrow-next.svg";
 
 interface CardProps {
   title: string;

@@ -22,7 +22,12 @@
       "error",
       { "namedComponents": "arrow-function", "unnamedComponents": "arrow-function" }
     ],
-
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     //ts
     "@typescript-eslint/no-misused-promises": [
       "error",

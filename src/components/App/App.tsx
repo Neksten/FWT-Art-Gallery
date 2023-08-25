@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import styles from "./styles.module.scss";
+
 import Home from "../../pages/Home/Home";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
+
+import styles from "./styles.module.scss";
 
 const App: FC = () => (
   <div className={styles.app}>

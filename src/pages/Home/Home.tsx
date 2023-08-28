@@ -2,6 +2,7 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "../../hooks/useTheme";
+import { useGetArtistsQuery } from "../../store/artists/artist.api";
 import GridLayout from "../../ui/GridLayout/GridLayout";
 import Card from "../../ui/Card/Card";
 
@@ -11,6 +12,7 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
+  const { data } = useGetArtistsQuery("");
 
   return (
     <main
@@ -20,10 +22,10 @@ const Home: FC = () => {
     >
       <section className={`${styles.home__content} container`}>
         <GridLayout>
-          {[...Array(5)].map(() => (
+          {data?.map((item) => (
             <Card
-              title="Jean-Honore Fragonard"
-              years="1732 - 1806"
+              title={item.name}
+              years={item.yearsOfLife}
               imgUrl="../1.jpg"
               theme={theme}
             />

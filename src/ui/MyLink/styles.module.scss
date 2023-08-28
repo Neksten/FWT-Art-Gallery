@@ -1,0 +1,29 @@
+@import "../../_variables";
+
+.link {
+  border-bottom: 1px solid;
+  width: max-content;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  font-family: $font-inter;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  &-light {
+    color: $color-primary-dark-gray;
+    border-bottom-color: $color-primary-dark-gray;
+    &:hover {
+      color: $color-primary-black;
+      border-bottom-color: $color-primary-black;
+    }
+  }
+  &-dark {
+    color: $color-primary-light-gray;
+    border-bottom-color: $color-primary-light-gray;
+    &:hover {
+      color: $color-primary-white;
+      border-bottom-color: $color-primary-white;
+    }
+  }
+}

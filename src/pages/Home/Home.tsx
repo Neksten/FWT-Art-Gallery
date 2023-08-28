@@ -24,6 +24,7 @@ const Home: FC = () => {
         <GridLayout>
           {data?.map((item) => (
             <Card
+              key={item._id}
               title={item.name}
               years={item.yearsOfLife}
               imgUrl="../1.jpg"

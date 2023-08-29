@@ -27,7 +27,7 @@ const Home: FC = () => {
               key={item._id}
               title={item.name}
               years={item.yearsOfLife}
-              imgUrl="../1.jpg"
+              imgUrl={`https://internship-front.framework.team/${item.mainPainting.image.src}`}
               theme={theme}
             />
           ))}

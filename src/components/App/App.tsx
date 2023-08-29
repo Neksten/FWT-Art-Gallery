@@ -6,6 +6,7 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
 import styles from "./styles.module.scss";
+import Artist from "../../pages/Artist/Artist";
 
 const App: FC = () => (
   <div className={styles.app}>
@@ -13,6 +14,7 @@ const App: FC = () => (
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/artist" element={<Artist />} />
       </Routes>
       <Footer />
     </Router>

@@ -55,6 +55,7 @@
     width: max-content;
     background: none;
     display: flex;
+    align-items: center;
     column-gap: 12px;
     &-light {
       svg path {

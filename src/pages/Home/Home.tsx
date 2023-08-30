@@ -5,7 +5,8 @@ import { useTheme } from "@hooks/useTheme";
 import GridLayout from "@ui/GridLayout/GridLayout";
 import Card from "@ui/Card/Card";
 
-import { useGetArtistsQuery } from "../../store/artists/artist.api";
+import Loader from "@ui/Loader/Loader";
+import { useGetArtistsQuery } from "@store/artists/artist.api";
 
 import styles from "./styles.module.scss";
 
@@ -14,14 +15,13 @@ const cx = classNames.bind(styles);
 const Home: FC = () => {
   const { theme } = useTheme();
   const { data } = useGetArtistsQuery("");
-
   return (
     <main
       className={cx(`${styles.home}`, {
         dark: theme === "dark",
       })}
     >
-      {data && (
+      {data ? (
         <section className={`${styles.home__content} container`}>
           <GridLayout>
             {data.map((item) => (
@@ -36,6 +36,8 @@ const Home: FC = () => {
             ))}
           </GridLayout>
         </section>
+      ) : (
+        <Loader />
       )}
     </main>
   );

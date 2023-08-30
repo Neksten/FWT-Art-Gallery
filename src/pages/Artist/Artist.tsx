@@ -11,8 +11,10 @@ import Accordion from "@ui/Accordion/Accordion";
 import { Link, useParams } from "react-router-dom";
 
 import Genre from "@ui/Genre/Genre";
+import Loader from "@ui/Loader/Loader";
+import { useGetArtistQuery } from "@store/artists/artist.api";
+
 import styles from "./styles.module.scss";
-import { useGetArtistQuery } from "../../store/artists/artist.api";
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +30,7 @@ const Artist: FC = () => {
         dark: theme === "dark",
       })}
     >
-      {data && (
+      {data ? (
         <div className={cx(styles.artist__content, "container")}>
           <nav className={styles.artist__menu}>
             <Link to="/">
@@ -102,6 +104,8 @@ const Artist: FC = () => {
             </div>
           </section>
         </div>
+      ) : (
+        <Loader />
       )}
     </main>
   );

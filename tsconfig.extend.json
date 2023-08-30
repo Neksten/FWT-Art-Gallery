@@ -13,6 +13,12 @@
       ],
       "@hooks/*": [
         "./hooks/*"
+      ],
+      "@store/*": [
+        "./store/*"
+      ],
+      "@models/*": [
+        "./models/*"
       ]
     }
   }

@@ -70,6 +70,7 @@
     left: 0;
     width: 84.29%;
     max-width: 300px;
+    transition: background-color 0.2s ease-out;
   }
   &__info {
     padding: 8px 0 8px 12px;

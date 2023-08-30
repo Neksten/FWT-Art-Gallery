@@ -1,7 +1,9 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
+import classNames from "classnames";
 import styles from "./styles.module.scss";
-import { classParser } from "../helpers/classParser";
+
+const cx = classNames.bind(styles);
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "filled" | "outlined";
@@ -16,20 +18,18 @@ const Button: FC<ButtonProps> = ({
   children,
   ...props
 }) => {
-  const rootClasses: string[] = [
-    "button",
-    `button__${variant}`,
-    `button__${variant}-${theme}`,
-  ];
-
   return (
     <button
       type="button"
-      className={classParser(rootClasses, styles)}
+      className={cx(
+        styles.button,
+        styles[`button__${variant}`],
+        styles[`button__${variant}-${theme}`]
+      )}
       {...props}
     >
       {startIcon && startIcon}
-      <span>{children}</span>
+      <span className={styles.button__text}>{children}</span>
     </button>
   );
 };

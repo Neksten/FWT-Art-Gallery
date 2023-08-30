@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import MyLink from "../ui/MyLink/MyLink";
+import MyLink from "@ui/MyLink/MyLink";
 
 const meta: Meta<typeof MyLink> = {
   component: MyLink,

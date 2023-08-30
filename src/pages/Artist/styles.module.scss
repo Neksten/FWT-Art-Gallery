@@ -12,13 +12,12 @@
     flex-direction: column;
     &-info {
       order: 2;
-      position: relative;
-      left: 0;
-      top: -120px;
-      margin-bottom: -120px;
       width: 92.75%;
       max-width: 560px;
       &__intelligence {
+        position: absolute;
+        width: 93%;
+        transform: translateY(calc(-100% + 1px));
         max-width: 560px;
         background-color: $color-primary-white;
         padding: 20px;
@@ -31,50 +30,22 @@
         line-height: 33.3px;
         color: $color-accent-red;
       }
-      &__date, &__country {
+      &__date {
         display: inline-block;
         line-height: 14.53px;
         color: $color-primary-dark-gray;
       }
-      &__date, &__title {
+      &__date {
         margin: 0 0 8px 0;
       }
-      &__date, &__title, &__country {
+      &__date, &__title {
         font-family: $font-cormorant-sc;
-      }
-      &__text {
-        line-height: 22.4px;
-        position: relative;
-        overflow: hidden;
-        height: 100px;
-        background-image: linear-gradient(180deg, $color-primary-dark-gray 10%, transparent);
-        -webkit-background-clip: text;
-        color: transparent;
-        margin: 0 0 20px 0;
-        &.open {
-          height: auto;
-          -webkit-mask-image: none;
-        }
-      }
-      &__button {
-        display: flex;
-        align-items: center;
-        column-gap: 8px;
-        margin: 0 0 30px 0;
-        svg path {
-          fill: $color-primary-dark-gray;
-        }
       }
       &__genres {
         display: flex;
         flex-wrap: wrap;
         column-gap: 8px;
         row-gap: 12px;
-      }
-      &__genre {
-        padding: 8px 16px;
-        border-radius: 30px;
-        background-color: rgba(18, 18, 18, 0.05);
       }
     }
     &__image {
@@ -95,21 +66,19 @@
       &-info {
         width: 100%;
         max-width: none;
-        &__intelligence {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          grid-template-rows: repeat(2, auto);
+        &__data {
+          padding: 40px 20px 0 20px;
         }
-        &__date, &__country {
-          grid-row: 1 / 2;
+        &__date {
           margin: 0 0 12px 0;
-          font-size: 16px;
+          line-height: 24px;
+          font-size: 16px !important;
         }
         &__title {
-          grid-column: 1 / 3;
           margin: 0;
           position: relative;
           font-size: 48px;
+          line-height: 48px;
           &::before {
             content: "";
             position: absolute;
@@ -119,12 +88,6 @@
             width: 2px;
             background-color: $color-accent-red;
           }
-        }
-        &__country {
-          grid-column: 2 / 3;
-        }
-        &__data {
-          padding: 20px 20px 0 20px;
         }
         &__genres {
           column-gap: 20px;
@@ -142,13 +105,16 @@
         left: 0;
         max-width: 605px;
         &__intelligence {
+          position: static;
+          width: auto;
+          transform: none;
           max-width: none;
           padding: 60px 80px 30px 80px;
         }
         &__data {
           padding: 20px 80px 60px 80px;
         }
-        &__date, &__country {
+        &__date {
           margin: 0 0 32px 0;
         }
         &__title {
@@ -190,7 +156,7 @@
         &__data, &__intelligence {
           background-color: $color-primary-black;
         }
-        &__date, &__country {
+        &__date {
           color: $color-secondary-gray;
         }
         &__title {
@@ -204,14 +170,12 @@
         }
         &__text {
           background-image: linear-gradient(180deg, $color-primary-light-gray 10%, transparent);
+          &.open {
+            color: $color-primary-light-gray;
+          }
         }
         &__button svg path {
           fill: $color-primary-light-gray;
-        }
-        &__genre {
-          background-color: rgba(205, 205, 205, 0.05);
-          color: $color-primary-light-gray;
-          border: 1px solid $color-primary-light-gray;
         }
       }
     }

@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { IArtist } from "../../models/IArtist";
+
+import { IArtist, IArtistProfile } from "../../models/IArtist";
 
 export const artistApi = createApi({
   reducerPath: "arist/api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://internship-front.framework.team/",
+    baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   endpoints: (build) => ({
     getArtists: build.query<IArtist[], any>({
@@ -12,7 +13,12 @@ export const artistApi = createApi({
         url: `artists/static`,
       }),
     }),
+    getArtist: build.query<IArtistProfile, string>({
+      query: (id: string) => ({
+        url: `artists/static/${id}`,
+      }),
+    }),
   }),
 });
 
-export const { useGetArtistsQuery } = artistApi;
+export const { useGetArtistsQuery, useGetArtistQuery } = artistApi;

@@ -1,3 +1,9 @@
+export interface IArtistProfile extends Omit<IArtist, "genres"> {
+  paintings: IMainPainting[];
+  genres: IGenre[];
+  avatar: IImage;
+}
+
 export interface IArtist {
   genres: string[];
   _id: string;
@@ -6,6 +12,11 @@ export interface IArtist {
   yearsOfLife: string;
   __v: number;
   mainPainting: IMainPainting;
+}
+
+export interface IGenre {
+  _id: string;
+  name: string;
 }
 
 export interface IMainPainting {

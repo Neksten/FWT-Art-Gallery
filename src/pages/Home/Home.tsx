@@ -21,19 +21,22 @@ const Home: FC = () => {
         dark: theme === "dark",
       })}
     >
-      <section className={`${styles.home__content} container`}>
-        <GridLayout>
-          {data?.map((item) => (
-            <Card
-              key={item._id}
-              title={item.name}
-              years={item.yearsOfLife}
-              imgUrl={`https://internship-front.framework.team/${item.mainPainting.image.src}`}
-              theme={theme}
-            />
-          ))}
-        </GridLayout>
-      </section>
+      {data && (
+        <section className={`${styles.home__content} container`}>
+          <GridLayout>
+            {data.map((item) => (
+              <Card
+                to={`/artist/${item._id}`}
+                key={item._id}
+                title={item.name}
+                years={item.yearsOfLife}
+                imgUrl={`${process.env.REACT_APP_BASE_URL}${item.mainPainting.image.src}`}
+                theme={theme}
+              />
+            ))}
+          </GridLayout>
+        </section>
+      )}
     </main>
   );
 };

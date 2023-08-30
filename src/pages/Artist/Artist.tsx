@@ -142,7 +142,8 @@ const Artist: FC = () => {
             <GridLayout>
               {[...Array(5)].map(() => (
                 <Card
-                  title="Jean-Honore Fragonard"
+                  to="#"
+                  title="Jean-Honor Fragonard"
                   years="1732 - 1806"
                   imgUrl="../1.jpg"
                   theme={theme}

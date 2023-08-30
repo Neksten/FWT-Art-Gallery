@@ -2,15 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import IconButton from "../../ui/IconButton/IconButton";
-import { Moon } from "../../assets/Moon";
-import { Logo } from "../../assets/Logo";
-import { Burger } from "../../assets/Burger";
-import MyLink from "../../ui/MyLink/MyLink";
-import Scrim from "../../ui/Scrim/Scrim";
-import { useTheme } from "../../hooks/useTheme";
-import { Sun } from "../../assets/Sun";
-import { Close } from "../../assets/Close";
+import IconButton from "@ui/IconButton/IconButton";
+import { ReactComponent as Moon } from "@assets/moon.svg";
+import { ReactComponent as Logo } from "@assets/logo.svg";
+import { ReactComponent as Burger } from "@assets/burger.svg";
+import MyLink from "@ui/MyLink/MyLink";
+import Scrim from "@ui/Scrim/Scrim";
+import { ReactComponent as Sun } from "@assets/sun.svg";
+import { ReactComponent as Close } from "@assets/close.svg";
+import { useTheme } from "@hooks/useTheme";
 
 import styles from "./styles.module.scss";
 

@@ -3,15 +3,20 @@
 .home {
   background-color: $color-primary-white;
   transition: background-color 0.2s ease-out;
-  &__content {
+  display: flex;
+  & > &__content {
     padding-top: 80px;
     padding-bottom: 80px;
+  }
+  &__content {
+    position: relative;
+    flex: 1;
   }
   &.dark {
     background-color: $color-primary-black;
   }
   @media (min-width: $md3) {
-    &__content {
+    & > &__content {
       padding-top: 100px;
       padding-bottom: 100px;
     }

@@ -1,10 +1,11 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@hooks/useTheme";
+import GridLayout from "@ui/GridLayout/GridLayout";
+import Card from "@ui/Card/Card";
+
 import { useGetArtistsQuery } from "../../store/artists/artist.api";
-import GridLayout from "../../ui/GridLayout/GridLayout";
-import Card from "../../ui/Card/Card";
 
 import styles from "./styles.module.scss";
 

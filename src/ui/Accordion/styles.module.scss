@@ -1,0 +1,45 @@
+@import "../../_variables";
+
+.accordion {
+  &__text {
+    line-height: 22.4px;
+    position: relative;
+    overflow: hidden;
+    max-height: 90px;
+    background-image: linear-gradient(180deg, $color-primary-dark-gray 10%, transparent);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0 0 20px 0;
+  }
+  &__button {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    margin: 0 0 30px 0;
+    cursor: pointer;
+    svg path {
+      fill: $color-primary-dark-gray;
+    }
+  }
+  &.dark {
+    background-color: $color-primary-black;
+    .accordion {
+      &__text {
+        background-image: linear-gradient(180deg, $color-primary-light-gray 10%, transparent);
+      }
+      &__button svg path {
+        fill: $color-primary-light-gray;
+      }
+    }
+  }
+  &.open &__text {
+    max-height: none;
+    color: $color-primary-dark-gray;
+  }
+  &.open &__button svg {
+    transform: rotate(180deg);
+  }
+  &.open.dark &__text {
+    color: $color-primary-light-gray;
+  }
+}

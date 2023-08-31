@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import MyLink from "@ui/MyLink/MyLink";
+import { MyLink } from "@ui/MyLink";
 import { ReactComponent as Fb } from "@assets/fb.svg";
 import { ReactComponent as Inst } from "@assets/inst.svg";
 import { ReactComponent as Vk } from "@assets/vk.svg";
@@ -14,11 +14,7 @@ const cx = classNames.bind(styles);
 const Footer: FC = () => {
   const { theme } = useTheme();
   return (
-    <footer
-      className={cx(`${styles.footer}`, {
-        dark: theme === "dark",
-      })}
-    >
+    <footer className={cx(styles.footer, styles[`footer-${theme}`])}>
       <div className={`${styles.footer__content} container`}>
         <div className={styles.footer__left}>
           <div className={styles.footer__info}>

@@ -19,6 +19,9 @@
       ],
       "@models/*": [
         "./models/*"
+      ],
+      "@pages/*": [
+        "./pages/*"
       ]
     }
   }

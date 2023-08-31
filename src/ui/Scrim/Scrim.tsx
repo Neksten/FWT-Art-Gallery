@@ -15,7 +15,7 @@ const Scrim: FC<ScrimProps> = ({ isOpen }) => {
 
   return (
     <div
-      className={cx(`${styles.scrim}`, {
+      className={cx(styles.scrim, {
         open: isOpen,
       })}
     />

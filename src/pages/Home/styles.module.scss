@@ -12,7 +12,7 @@
     position: relative;
     flex: 1;
   }
-  &.dark {
+  &-dark {
     background-color: $color-primary-black;
   }
   @media (min-width: $md3) {

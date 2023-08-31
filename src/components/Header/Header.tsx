@@ -31,11 +31,7 @@ const Header = () => {
   };
 
   return (
-    <header
-      className={cx(`${styles.header}`, {
-        dark: theme === "dark",
-      })}
-    >
+    <header className={cx(styles.header, styles[`header-${theme}`])}>
       <Scrim isOpen={isOpen} />
       <div className={`${styles.header__content} container`}>
         <Link to="/" className={styles.header__logo}>

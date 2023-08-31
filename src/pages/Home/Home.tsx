@@ -13,11 +13,7 @@ const Home: FC = () => {
   const { theme } = useTheme();
 
   return (
-    <main
-      className={cx(`${styles.home}`, {
-        dark: theme === "dark",
-      })}
-    >
+    <main className={cx(styles.home, styles[`home-${theme}`])}>
       <section className={`${styles.home__content} container`}>
         <GridLayout>
           {[...Array(5)].map(() => (

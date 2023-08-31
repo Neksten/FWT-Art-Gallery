@@ -14,11 +14,7 @@ const cx = classNames.bind(styles);
 const Footer: FC = () => {
   const { theme } = useTheme();
   return (
-    <footer
-      className={cx(`${styles.footer}`, {
-        dark: theme === "dark",
-      })}
-    >
+    <footer className={cx(styles.footer, styles[`footer-${theme}`])}>
       <div className={`${styles.footer__content} container`}>
         <div className={styles.footer__left}>
           <div className={styles.footer__info}>

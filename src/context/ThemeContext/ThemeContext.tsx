@@ -40,16 +40,17 @@ const getTheme = () => {
 export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
   const [theme, setTheme] = useState<TThemeType>(getTheme());
 
-  const changeTheme = useCallback((): void => {
+  const changeTheme = useCallback(() => {
     const newTheme = theme === "light" ? "dark" : "light";
 
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   }, [theme, setTheme]);
 
-  const contextValue = useMemo(() => {
-    return { theme, changeTheme };
-  }, [theme, changeTheme]);
+  const contextValue = useMemo(
+    () => ({ theme, changeTheme }),
+    [theme, changeTheme]
+  );
 
   useEffect(() => {
     setTheme(getTheme());

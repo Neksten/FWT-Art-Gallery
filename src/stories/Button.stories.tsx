@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Button from "@ui/Button/Button";
+import { Button } from "@ui/Button";
 import { ReactComponent as Plus } from "@assets/plus.svg";
 
 const meta: Meta<typeof Button> = {

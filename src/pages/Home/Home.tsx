@@ -2,8 +2,8 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@hooks/useTheme";
-import GridLayout from "@ui/GridLayout/GridLayout";
-import Card from "@ui/Card/Card";
+import { GridLayout } from "@ui/GridLayout";
+import { Card } from "@ui/Card";
 
 import styles from "./styles.module.scss";
 

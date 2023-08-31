@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import MyLink from "@ui/MyLink/MyLink";
 import { ReactComponent as Expand } from "@assets/expand.svg";
@@ -15,8 +15,12 @@ interface AccordionProps {
   setIsOpen: (value: boolean) => void;
 }
 
+const MAX_HEIGHT_TEXT = 90;
+
 const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
   const { theme } = useTheme();
+  const [heightText, setHeightText] = useState(MAX_HEIGHT_TEXT);
+  const textRef = useRef<null | HTMLDivElement>(null);
   const textAutoOpen = text.length < 150;
 
   const handleClickReadMore = () => {
@@ -27,6 +31,14 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
     setIsOpen(textAutoOpen);
   }, [setIsOpen, textAutoOpen]);
 
+  useEffect(() => {
+    if (isOpen && textRef !== null && textRef.current != null) {
+      setHeightText(textRef.current.clientHeight);
+    } else {
+      setHeightText(MAX_HEIGHT_TEXT);
+    }
+  }, [isOpen, setHeightText]);
+
   return (
     <div
       className={cx(styles.accordion, {
@@ -34,7 +46,14 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
         open: isOpen,
       })}
     >
-      <p className={`${styles.accordion__text} base lh`}>{text}</p>
+      <div
+        style={{ maxHeight: `${heightText}px` }}
+        className={styles["accordion__text-container"]}
+      >
+        <p ref={textRef} className={`${styles.accordion__text} base lh`}>
+          {text}
+        </p>
+      </div>
       {!textAutoOpen && (
         <div
           aria-hidden

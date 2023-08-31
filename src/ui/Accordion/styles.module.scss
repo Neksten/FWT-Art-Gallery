@@ -2,14 +2,18 @@
 
 .accordion {
   &__text {
+    transition: all 0.2s ease-out;
+    height: 100%;
     line-height: 22.4px;
-    position: relative;
-    overflow: hidden;
-    max-height: 90px;
     background-image: linear-gradient(180deg, $color-primary-dark-gray 10%, transparent);
     -webkit-background-clip: text;
     color: transparent;
-    margin: 0 0 20px 0;
+    &-container {
+      transition: all 0.2s ease-out;
+      max-height: 90px;
+      margin: 0 0 20px 0;
+      overflow: hidden;
+    }
   }
   &__button {
     display: flex;
@@ -33,7 +37,6 @@
     }
   }
   &.open &__text {
-    max-height: none;
     color: $color-primary-dark-gray;
   }
   &.open &__button svg {

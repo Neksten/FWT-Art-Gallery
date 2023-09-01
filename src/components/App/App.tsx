@@ -5,9 +5,9 @@ import ScrollToTop from "@components/ScrollToTop/ScrollToTop";
 import { Header } from "@components/Header";
 import { Footer } from "@components/Footer";
 import { Home } from "@pages/Home";
+import { Artist } from "@pages/Artist";
 
 import styles from "./styles.module.scss";
-import Artist from "../../pages/Artist/Artist";
 
 const App: FC = () => (
   <div className={styles.app}>

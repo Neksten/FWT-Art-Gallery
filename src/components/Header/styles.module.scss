@@ -25,8 +25,9 @@
       margin: 0 0 32px 0;
     }
   }
-  &__menu {
+  &__modal {
     position: fixed;
+    top: 0;
     right: -100%;
     transition: right 0.3s ease-out, background-color 0.2s ease-out;
     z-index: 250;
@@ -37,13 +38,15 @@
     padding: 144px 0 144px 47px;
     background-color: $color-primary-white;
     overflow-y: auto;
-    &.open {
+    &-open {
       top: 0;
       right: 0;
     }
-    &:not(.open) {
-      top: 0;
-      right: -100%;
+    &-dark {
+      background-color: $color-primary-black;
+      & .header__link {
+        color: $color-primary-light-gray;
+      }
     }
   }
   &__logo {
@@ -68,16 +71,19 @@
   }
   &__close {
     position: absolute;
-    top: 0;
+    top: 20px;
     right: -100%;
-    z-index: 250;
+    z-index: 300;
     width: 24px;
     height: 24px;
     transition: right 0.3s ease-out;
     svg path {
       fill: $color-primary-dark-gray;
     }
-    &.open {
+    &-dark svg path {
+      fill: $color-primary-light-gray;
+    }
+    &-open {
       right: 20px;
     }
   }
@@ -86,15 +92,11 @@
     font-weight: 600;
     font-family: $font-cormorant-sc;
     color: $color-primary-dark-gray;
+    background: none;
+    text-transform: none;
   }
   &-dark {
     background-color: $color-primary-black;
-    & .header__menu {
-      background-color: $color-primary-black;
-      .open {
-        background-color: $color-primary-black;
-      }
-    }
     & .header__link {
       color: $color-primary-light-gray;
     }
@@ -103,14 +105,14 @@
         fill: $color-primary-white;
       }
     }
-    & .header__link {
-      color: $color-primary-light-gray;
-    }
     & .header__burger {
       svg path {
         fill: $color-primary-light-gray;
       }
     }
+  }
+  &__menu {
+    display: none;
   }
   @media (min-width: $md3) {
     &__theme {
@@ -125,19 +127,15 @@
       font-size: 60px;
       font-weight: 500;
     }
-    &__menu {
+    &__modal {
       width: 466px;
       padding: 200px 0 200px 94px;
     }
   }
   @media (min-width: $maxWidthContainer) {
-    &__menu, &__list, &__theme {
+    &__menu, &__list {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-    }
-    &__menu {
-      background-color: rgba(0, 0,0 ,0);
     }
     &-dark {
       .header__menu {
@@ -145,19 +143,11 @@
       }
     }
     &__list {
-      order: 1;
       li:not(:last-child) {
         margin: 0 0 0 0;
       }
     }
-    &__theme {
-      order: 2;
-      margin: 0;
-    }
-    &__theme a {
-      display: none;
-    }
-    &__list, &__theme {
+    &__list {
       column-gap: 20px;
     }
     &__link {
@@ -168,12 +158,7 @@
       display: none;
     }
     &__menu {
-      padding: 0;
-      flex-direction: row;
       column-gap: 60px;
-      position: static;
-      width: auto;
-      height: auto;
     }
   }
 }

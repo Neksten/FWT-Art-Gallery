@@ -1,0 +1,120 @@
+@import "../../_variables";
+
+.authorization {
+  position: absolute;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: $color-secondary-white;
+  justify-content: center;
+  display: none;
+  &-open {
+    display: flex;
+  }
+  &__info {
+    padding: 110px 30px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 60px 0;
+  }
+  &__inputs {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 260px;
+    row-gap: 30px;
+    width: 100%;
+    margin: 0 0 40px 0;
+  }
+  &__title {
+    font-family: $font-cormorant-sc;
+    color: $color-primary-dark-gray;
+    margin: 0 0 60px 0;
+  }
+  &__description {
+    display: flex;
+    align-items: center;
+    a {
+      font-size: 12px;
+      margin: 0 0 0 3px;
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  &__image {
+    display: none;
+  }
+  @media (min-width: $md3) {
+    align-items: center;
+    &__info {
+      padding: 110px 30px;
+    }
+    &__title {
+      font-weight: 500;
+      font-size: 60px;
+    }
+    &__description {
+      order: 2;
+      margin: 0 0 60px 0;
+      a {
+        font-size: 16px;
+        margin: 0 0 0 6px;
+      }
+    }
+    & &__text {
+      font-size: 16px;
+    }
+    &__form {
+      margin: 0;
+      order: 3;
+    }
+    &__inputs {
+      row-gap: 40px;
+      margin: 0 0 60px 0;
+      max-width: 340px;
+    }
+    &__close {
+      top: 32px;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translate(-50%, -50%);
+    grid-template-columns: 500px 530px;
+    height: 700px;
+    &-open {
+      display: grid;
+    }
+    &__image {
+      display: block;
+    }
+    &__close {
+      right: 32px;
+    }
+    &__title {
+      font-size: 48px;
+      margin: 0 0 20px 0;
+    }
+    &__info {
+      position: relative;
+      padding: 130px 85px;
+    }
+  }
+}

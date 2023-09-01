@@ -1,0 +1,46 @@
+@import "../../_variables";
+
+.text-field {
+  width: 100%;
+  &__label {
+    display: inline-block;
+    margin: 0 0 8px 0;
+    color: $color-primary-black;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  &__input {
+    background-color: $color-primary-white;
+    color: $color-primary-dark-gray;
+    border: 1px solid $color-primary-light-gray;
+    border-radius: 4px;
+    padding: 12px 16px;
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    &::placeholder {
+      font-weight: 300;
+      font-size: 16px;
+      color: $color-primary-light-gray;
+    }
+    &:hover {
+      border-color: $color-secondary-gray;
+    }
+    &:focus {
+      border-color: $color-primary-dark-gray;
+    }
+    &-error {
+      border-color: $color-accent-red !important;
+    }
+  }
+  &__error {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    font-weight: 300;
+    color: $color-accent-red;
+  }
+}

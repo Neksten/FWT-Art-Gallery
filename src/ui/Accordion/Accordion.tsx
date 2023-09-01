@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 
 import MyLink from "@ui/MyLink/MyLink";
-import { ReactComponent as Expand } from "@assets/expand.svg";
+import { ReactComponent as Expand } from "@assets/icons/expand.svg";
 import { useTheme } from "@hooks/useTheme";
 import classNames from "classnames/bind";
 

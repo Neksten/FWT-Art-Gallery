@@ -2,9 +2,9 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { MyLink } from "@ui/MyLink";
-import { ReactComponent as Fb } from "@assets/fb.svg";
-import { ReactComponent as Inst } from "@assets/inst.svg";
-import { ReactComponent as Vk } from "@assets/vk.svg";
+import { ReactComponent as Fb } from "@assets/icons/fb.svg";
+import { ReactComponent as Inst } from "@assets/icons/inst.svg";
+import { ReactComponent as Vk } from "@assets/icons/vk.svg";
 import { useTheme } from "@hooks/useTheme";
 
 import styles from "./styles.module.scss";

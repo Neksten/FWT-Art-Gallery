@@ -4,22 +4,18 @@ import styles from "./style.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface ScrimProps {
+interface OverlayProps {
   isOpen: boolean;
 }
 
-const Scrim: FC<ScrimProps> = ({ isOpen }) => {
+const Overlay: FC<OverlayProps> = ({ isOpen }) => {
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
   return (
-    <div
-      className={cx(styles.scrim, {
-        open: isOpen,
-      })}
-    />
+    <div className={cx(styles.overlay, isOpen && styles["overlay-visible"])} />
   );
 };
 
-export default Scrim;
+export default Overlay;

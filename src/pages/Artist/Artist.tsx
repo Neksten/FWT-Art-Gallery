@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 import Button from "@ui/Button/Button";
-import { ReactComponent as ArrowBack } from "@assets/arrow-back.svg";
+import { ReactComponent as ArrowBack } from "@assets/icons/arrow-back.svg";
 import Card from "@ui/Card/Card";
 import GridLayout from "@ui/GridLayout/GridLayout";
 import classNames from "classnames/bind";

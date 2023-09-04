@@ -2,6 +2,7 @@
 
 .text-field {
   width: 100%;
+  transition: background-color 0.2s ease-out;
   &__label {
     display: inline-block;
     margin: 0 0 8px 0;
@@ -19,6 +20,7 @@
     width: 100%;
     font-weight: 300;
     font-size: 16px;
+    transition: border-color 0.2s ease-out;
     &::placeholder {
       font-weight: 300;
       font-size: 16px;
@@ -33,6 +35,10 @@
     &-error {
       border-color: $color-accent-red !important;
     }
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px $color-primary-white inset;
+      -webkit-text-fill-color: $color-primary-dark-gray !important;
+    }
   }
   &__error {
     display: flex;
@@ -42,5 +48,26 @@
     font-size: 12px;
     font-weight: 300;
     color: $color-accent-red;
+  }
+  &-dark {
+    .text-field {
+      &__label {
+        color: $color-primary-white;
+      }
+      &__input {
+        background-color: $color-secondary-black;
+        border: 1px solid $color-secondary-black;
+        &:hover {
+          border: 1px solid $color-primary-dark-gray;
+        }
+        &:focus {
+          border: 1px solid $color-primary-light-gray;
+        }
+        &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 1000px $color-secondary-black inset;
+          -webkit-text-fill-color: $color-primary-white !important;
+        }
+      }
+    }
   }
 }

@@ -17,7 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, htmlFor, theme = "light", error, ...props }, ref) => {
     return (
-      <div className={styles["text-field"]}>
+      <div className={cx(styles["text-field"], styles[`text-field-${theme}`])}>
         <label className={styles["text-field__label"]} htmlFor={htmlFor}>
           {label}
         </label>

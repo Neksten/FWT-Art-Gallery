@@ -41,6 +41,10 @@
     font-family: $font-cormorant-sc;
     color: $color-primary-dark-gray;
     margin: 0 0 60px 0;
+    text-align: center;
+  }
+  &__text {
+    text-align: center;
   }
   &__description {
     display: flex;
@@ -127,7 +131,8 @@
     }
     &__info {
       position: relative;
-      padding: 130px 85px;
+      padding-top: 130px;
+      padding-bottom: 130px;
     }
   }
 }

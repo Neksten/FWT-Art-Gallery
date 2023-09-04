@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { useTheme } from "@hooks/useTheme";
 import Modal from "@components/Modal/Modal";
 import loginBg from "@assets/login.jpg";
+import registrationBg from "@assets/registration.jpg";
 import { ReactComponent as Close } from "@assets/icons/close.svg";
 import classNames from "classnames/bind";
 import { MyLink } from "@ui/MyLink";
@@ -20,6 +21,7 @@ const cx = classNames.bind(styles);
 interface AuthorizationProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  variant?: "login" | "signup";
 }
 
 const validationSchema = yup.object({
@@ -30,7 +32,11 @@ const validationSchema = yup.object({
     .required("Required field"),
 });
 
-const AuthModal: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
+const AuthModal: FC<AuthorizationProps> = ({
+  isOpen,
+  setIsOpen,
+  variant = "login",
+}) => {
   const { theme } = useTheme();
   const {
     register,
@@ -53,7 +59,10 @@ const AuthModal: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
         )}
       >
         <div className={styles.authorization__image}>
-          <img src={loginBg} alt="authorization" />
+          <img
+            src={variant === "login" ? loginBg : registrationBg}
+            alt="authorization"
+          />
         </div>
         <div className={styles.authorization__info}>
           <div
@@ -67,7 +76,9 @@ const AuthModal: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
           >
             <Close />
           </div>
-          <h3 className={styles.authorization__title}>Welcome back</h3>
+          <h3 className={styles.authorization__title}>
+            {variant === "login" ? "Welcome back" : "Create your profile"}
+          </h3>
           <form
             onSubmit={handleSubmit(onSubmitHandler)}
             className={styles.authorization__form}
@@ -96,9 +107,11 @@ const AuthModal: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
           </form>
           <div className={styles.authorization__description}>
             <p className={cx(styles.authorization__text, "small", "lh")}>
-              If you already have an account, please
+              {variant === "login"
+                ? "If you don't have an account yet, please"
+                : "If you already have an account, please"}
             </p>
-            <MyLink to="">sign up</MyLink>
+            <MyLink to="">{variant === "login" ? "sign up" : "log in"}</MyLink>
           </div>
         </div>
       </div>

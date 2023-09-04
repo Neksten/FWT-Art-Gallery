@@ -11,7 +11,7 @@ import { ReactComponent as Sun } from "@assets/icons/sun.svg";
 import { ReactComponent as Close } from "@assets/icons/close.svg";
 import { useTheme } from "@hooks/useTheme";
 import Modal from "@components/Modal/Modal";
-import { Authorization } from "@components/AuthModal";
+import AuthModal from "@components/AuthModal/AuthModal";
 
 import styles from "./styles.module.scss";
 
@@ -20,7 +20,8 @@ const cx = classNames.bind(styles);
 const SCREEN_WIDTH = window.screen.width < 1440;
 
 const Header = () => {
-  const [isOpenAuth, setIsOpenAuth] = useState(false);
+  const [isOpenLogin, setIsOpenLogin] = useState(false);
+  const [isOpenSignup, setIsOpenSignup] = useState(false);
   const { theme, changeTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +32,11 @@ const Header = () => {
     setIsOpen(false);
   };
   const handleClickLogin = () => {
-    setIsOpenAuth(true);
+    setIsOpenLogin(true);
+    setIsOpen(false);
+  };
+  const handleClickSignup = () => {
+    setIsOpenSignup(true);
     setIsOpen(false);
   };
   const handleClickTheme = () => {
@@ -40,8 +45,13 @@ const Header = () => {
 
   return (
     <header className={cx(styles.header, styles[`header-${theme}`])}>
-      <Authorization isOpen={isOpenAuth} setIsOpen={setIsOpenAuth} />
-      {SCREEN_WIDTH && !isOpenAuth && (
+      <AuthModal isOpen={isOpenLogin} setIsOpen={setIsOpenLogin} />
+      <AuthModal
+        isOpen={isOpenSignup}
+        setIsOpen={setIsOpenSignup}
+        variant="signup"
+      />
+      {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && (
         <Modal isOpen={isOpen}>
           <nav
             className={cx(
@@ -73,9 +83,13 @@ const Header = () => {
                 </button>
               </li>
               <li>
-                <Link to="/" className={styles.header__link}>
+                <button
+                  type="button"
+                  onClick={handleClickSignup}
+                  className={styles.header__link}
+                >
                   Sign up
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
@@ -108,7 +122,13 @@ const Header = () => {
               </button>
             </li>
             <li>
-              <p className={styles.header__link}>Sign up</p>
+              <button
+                type="button"
+                onClick={handleClickSignup}
+                className={styles.header__link}
+              >
+                Sign up
+              </button>
             </li>
           </ul>
           <IconButton

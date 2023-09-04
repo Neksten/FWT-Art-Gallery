@@ -11,9 +11,9 @@ import classNames from "classnames/bind";
 import { MyLink } from "@ui/MyLink";
 import { Button } from "@ui/Button";
 import { Input } from "@ui/Input";
-
 import { IAuthInputs } from "@models/IAuthInputs";
-import styles from "./Authorization.module.scss";
+
+import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -30,7 +30,7 @@ const validationSchema = yup.object({
     .required("Required field"),
 });
 
-const Authorization: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
+const AuthModal: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
   const { theme } = useTheme();
   const {
     register,
@@ -48,6 +48,7 @@ const Authorization: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
       <div
         className={cx(
           styles.authorization,
+          styles[`authorization-${theme}`],
           isOpen && styles["authorization-open"]
         )}
       >
@@ -77,6 +78,7 @@ const Authorization: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
                 type="text"
                 label="email"
                 htmlFor="email"
+                theme={theme}
                 error={errors.email ? errors.email.message : ""}
               />
               <Input
@@ -84,6 +86,7 @@ const Authorization: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
                 type="text"
                 label="password"
                 htmlFor="password"
+                theme={theme}
                 error={errors.password ? errors.password.message : ""}
               />
             </div>
@@ -103,4 +106,4 @@ const Authorization: FC<AuthorizationProps> = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default Authorization;
+export default AuthModal;

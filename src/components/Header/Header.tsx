@@ -11,7 +11,7 @@ import { ReactComponent as Sun } from "@assets/icons/sun.svg";
 import { ReactComponent as Close } from "@assets/icons/close.svg";
 import { useTheme } from "@hooks/useTheme";
 import Modal from "@components/Modal/Modal";
-import { Authorization } from "@components/Authorization";
+import { Authorization } from "@components/AuthModal";
 
 import styles from "./styles.module.scss";
 
@@ -32,6 +32,7 @@ const Header = () => {
   };
   const handleClickLogin = () => {
     setIsOpenAuth(true);
+    setIsOpen(false);
   };
   const handleClickTheme = () => {
     changeTheme(theme);

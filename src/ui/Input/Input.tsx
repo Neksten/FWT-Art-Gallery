@@ -10,12 +10,17 @@ const cx = classNames.bind(styles);
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   htmlFor: string;
+  value: string;
+  setValue: (value: string) => void;
   error?: string;
   theme?: "light" | "dark";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, htmlFor, theme = "light", error, ...props }, ref) => {
+  (
+    { label, htmlFor, theme = "light", error, value, setValue, ...props },
+    ref
+  ) => {
     return (
       <div className={cx(styles["text-field"], styles[`text-field-${theme}`])}>
         <label className={styles["text-field__label"]} htmlFor={htmlFor}>
@@ -24,6 +29,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           {...props}
           ref={ref}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
           className={cx(
             styles["text-field__input"],
             styles[`text-field__input-${theme}`],

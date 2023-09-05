@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +12,10 @@ import classNames from "classnames/bind";
 import { MyLink } from "@ui/MyLink";
 import { Button } from "@ui/Button";
 import { Input } from "@ui/Input";
-import { IAuthInputs } from "@models/IAuthInputs";
+import { IAuthInputs } from "@models/Auth";
+import { useRegisterMutation } from "@store/auth/auth.api";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
+import { setIsAuth } from "@store/auth/authSlice";
 
 import styles from "./styles.module.scss";
 
@@ -25,12 +28,20 @@ interface AuthorizationProps {
 }
 
 const validationSchema = yup.object({
-  email: yup.string().email("Enter a valid email").required("Required field"),
+  username: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Required field"),
   password: yup
     .string()
     .min(8, "The password must contain at least 8 characters")
     .required("Required field"),
 });
+
+const initialFormValue: IAuthInputs = {
+  username: "",
+  password: "",
+};
 
 const AuthModal: FC<AuthorizationProps> = ({
   isOpen,
@@ -38,6 +49,11 @@ const AuthModal: FC<AuthorizationProps> = ({
   variant = "login",
 }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector((state) => state.authSlice);
+  const [loginForm, setLoginForm] = useState(initialFormValue);
+  const [signupForm, setSignupForm] = useState(initialFormValue);
+  const [registerRequest, { isError }] = useRegisterMutation();
   const {
     register,
     handleSubmit,
@@ -47,8 +63,43 @@ const AuthModal: FC<AuthorizationProps> = ({
     mode: "onBlur",
   });
 
-  const onSubmitHandler = () => {};
+  const handleClickClose = () => {
+    setIsOpen(false);
+    if (variant === "login") {
+      setLoginForm(initialFormValue);
+    } else {
+      setSignupForm(initialFormValue);
+    }
+  };
+  const handleChangeState = (
+    setForm: Dispatch<SetStateAction<IAuthInputs>>,
+    name: string,
+    value: string
+  ) => {
+    setForm((prev: IAuthInputs) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
+  const onSubmitHandler = async () => {
+    if (variant === "login") {
+      console.table(loginForm);
+    } else {
+      await registerRequest({
+        ...signupForm,
+        fingerprint: "test",
+      }).unwrap();
+      if (!isError) {
+        dispatch(setIsAuth(true));
+        setIsOpen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log(isAuth);
+  }, [isAuth]);
   return (
     <Modal isOpen={isOpen}>
       <div
@@ -67,7 +118,7 @@ const AuthModal: FC<AuthorizationProps> = ({
         <div className={styles.authorization__info}>
           <div
             aria-hidden
-            onClick={() => setIsOpen(false)}
+            onClick={handleClickClose}
             className={cx(
               styles.authorization__close,
               styles[`authorization__close-${theme}`],
@@ -85,12 +136,22 @@ const AuthModal: FC<AuthorizationProps> = ({
           >
             <div className={styles.authorization__inputs}>
               <Input
-                {...register("email")}
+                {...register("username")}
                 type="text"
                 label="email"
                 htmlFor="email"
                 theme={theme}
-                error={errors.email ? errors.email.message : ""}
+                error={errors.username ? errors.username.message : ""}
+                value={
+                  variant === "login" ? loginForm.username : signupForm.username
+                }
+                setValue={
+                  variant === "login"
+                    ? (value) =>
+                        handleChangeState(setLoginForm, "username", value)
+                    : (value) =>
+                        handleChangeState(setSignupForm, "username", value)
+                }
               />
               <Input
                 {...register("password")}
@@ -99,6 +160,16 @@ const AuthModal: FC<AuthorizationProps> = ({
                 htmlFor="password"
                 theme={theme}
                 error={errors.password ? errors.password.message : ""}
+                value={
+                  variant === "login" ? loginForm.password : signupForm.password
+                }
+                setValue={
+                  variant === "login"
+                    ? (value) =>
+                        handleChangeState(setLoginForm, "password", value)
+                    : (value) =>
+                        handleChangeState(setSignupForm, "password", value)
+                }
               />
             </div>
             <Button type="submit" theme={theme}>

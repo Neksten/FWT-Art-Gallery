@@ -7,7 +7,7 @@ import GridLayout from "@ui/GridLayout/GridLayout";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@hooks/useTheme";
-import Accordion from "@ui/Accordion/Accordion";
+import { Accordion } from "@ui/Accordion";
 import { Link, useParams } from "react-router-dom";
 
 import Genre from "@ui/Genre/Genre";

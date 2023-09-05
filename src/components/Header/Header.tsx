@@ -12,6 +12,7 @@ import { ReactComponent as Close } from "@assets/icons/close.svg";
 import { useTheme } from "@hooks/useTheme";
 import Modal from "@components/Modal/Modal";
 import AuthModal from "@components/AuthModal/AuthModal";
+import { useAppSelector } from "@hooks/redux";
 
 import styles from "./styles.module.scss";
 
@@ -20,6 +21,7 @@ const cx = classNames.bind(styles);
 const SCREEN_WIDTH = window.screen.width < 1440;
 
 const Header = () => {
+  const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenSignup, setIsOpenSignup] = useState(false);
   const { theme, changeTheme } = useTheme();
@@ -73,24 +75,34 @@ const Header = () => {
               </MyLink>
             </div>
             <ul className={styles.header__list}>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleClickLogin}
-                  className={styles.header__link}
-                >
-                  Log In
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleClickSignup}
-                  className={styles.header__link}
-                >
-                  Sign up
-                </button>
-              </li>
+              {isAuth ? (
+                <li>
+                  <button type="button" className={styles.header__link}>
+                    Log out
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={handleClickLogin}
+                      className={styles.header__link}
+                    >
+                      Log In
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={handleClickSignup}
+                      className={styles.header__link}
+                    >
+                      Sign up
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
           <div
@@ -112,24 +124,34 @@ const Header = () => {
         </Link>
         <nav className={styles.header__menu}>
           <ul className={styles.header__list}>
-            <li>
-              <button
-                type="button"
-                onClick={handleClickLogin}
-                className={styles.header__link}
-              >
-                Log In
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={handleClickSignup}
-                className={styles.header__link}
-              >
-                Sign up
-              </button>
-            </li>
+            {isAuth ? (
+              <li>
+                <button type="button" className={styles.header__link}>
+                  Log out
+                </button>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleClickLogin}
+                    className={styles.header__link}
+                  >
+                    Log In
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleClickSignup}
+                    className={styles.header__link}
+                  >
+                    Sign up
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
           <IconButton
             fullBorderRadius

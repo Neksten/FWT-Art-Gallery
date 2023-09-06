@@ -1,0 +1,16 @@
+@import "../../../_variables";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 40px 0;
+  background: none;
+  a {
+    margin: 0 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  @media (min-width: $maxWidthContainer) {
+    display: none;
+  }
+}

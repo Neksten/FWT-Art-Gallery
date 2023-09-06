@@ -48,9 +48,10 @@ export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
     localStorage.setItem("theme", newTheme);
   }, [theme, setTheme]);
 
-  const contextValue = useMemo(() => {
-    return { theme, changeTheme };
-  }, [theme, changeTheme]);
+  const contextValue = useMemo(
+    () => ({ theme, changeTheme }),
+    [theme, changeTheme]
+  );
 
   useEffect(() => {
     setTheme(getTheme());

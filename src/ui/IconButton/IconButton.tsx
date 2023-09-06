@@ -8,13 +8,11 @@ const cx = classNames.bind(styles);
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: "light" | "dark";
-  fullBorderRadius?: boolean;
   variant?: "delete" | "theme" | "arrow";
 }
 
 const IconButton: FC<IconButtonProps> = ({
   theme = "light",
-  fullBorderRadius = false,
   variant = "delete",
   children,
   ...props
@@ -22,9 +20,7 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <button
       type="button"
-      className={cx("button", `button-${theme}`, `button-${variant}`, {
-        fullBorderRadius: fullBorderRadius === true,
-      })}
+      className={cx("button", `button-${theme}`, `button-${variant}`)}
       {...props}
     >
       {children}

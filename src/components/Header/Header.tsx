@@ -2,16 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import { MyLink } from "@/ui/MyLink";
 import { Scrim } from "@/ui/Scrim";
-import { IconButton } from "@/ui/IconButton";
-import { ReactComponent as Moon } from "@/assets/moon.svg";
 import { ReactComponent as Logo } from "@/assets/logo.svg";
 import { ReactComponent as Burger } from "@/assets/burger.svg";
-import { ReactComponent as Sun } from "@/assets/sun.svg";
 import { ReactComponent as Close } from "@/assets/close.svg";
 import { useTheme } from "@/context/ThemeContext/ThemeContext";
 
+import { ThemeButton } from "@/components/Header/ThemeButton";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -19,10 +16,6 @@ const cx = classNames.bind(styles);
 const Header = () => {
   const { theme, changeTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleClickBurger = () => setIsOpen(true);
-  const handleClickClose = () => setIsOpen(false);
-  const handleClickTheme = () => changeTheme(theme);
 
   return (
     <header
@@ -40,18 +33,7 @@ const Header = () => {
             open: isOpen,
           })}
         >
-          <div
-            aria-hidden
-            onClick={handleClickTheme}
-            className={cx("header__theme")}
-          >
-            <IconButton fullBorderRadius variant="theme" theme={theme}>
-              {theme === "light" ? <Moon /> : <Sun />}
-            </IconButton>
-            <MyLink to="#" theme={theme}>
-              Dark mode
-            </MyLink>
-          </div>
+          <ThemeButton theme={theme} changeTheme={changeTheme} />
           <ul className={cx("header__list")}>
             <li>
               <Link to="/" className={cx("header__link")}>
@@ -65,22 +47,22 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-        <div
-          aria-hidden
-          onClick={handleClickBurger}
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
           className={cx("header__burger")}
         >
           <Burger />
-        </div>
-        <div
-          aria-hidden
-          onClick={handleClickClose}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsOpen(false)}
           className={cx("header__close", {
             open: isOpen,
           })}
         >
           <Close />
-        </div>
+        </button>
       </div>
     </header>
   );

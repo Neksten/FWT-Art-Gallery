@@ -14,19 +14,18 @@
   svg path {
     transition: all 0.2s ease-out;
   }
-  &.fullBorderRadius {
-    border-radius: 100%;
-  }
   &-theme {
     padding: 8px;
     width: 40px;
     height: 40px;
+    border-radius: 100%;
   }
   &-arrow {
     padding: 18px;
     width: 60px;
     height: 60px;
     border: 1px solid $color-primary-light-gray;
+    border-radius: 100%;
     svg path {
       fill: $color-primary-dark-gray;
     }

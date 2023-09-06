@@ -14,23 +14,19 @@ const cx = classNames.bind(styles);
 const Footer: FC = () => {
   const { theme } = useTheme();
   return (
-    <footer
-      className={cx(`${styles.footer}`, {
-        dark: theme === "dark",
-      })}
-    >
-      <div className={`${styles.footer__content} container`}>
-        <div className={styles.footer__left}>
-          <div className={styles.footer__info}>
-            <p className={styles.footer__text}>
+    <footer className={cx("footer", `footer-${theme}`)}>
+      <div className={cx("footer__content", "container")}>
+        <div className={cx("footer__left")}>
+          <div className={cx("footer__info")}>
+            <p className={cx("footer__text")}>
               Проект реализован в рамках стажировки для Frontend-разработчиков
               от компании
             </p>
             <MyLink to="https://framework.team/">Framework Team</MyLink>
           </div>
-          <p className={styles.footer__name}>Иванов Иван, 2021</p>
+          <p className={cx("footer__name")}>Иванов Иван, 2021</p>
         </div>
-        <div className={styles.footer__socials}>
+        <div className={cx("footer__socials")}>
           <Fb />
           <Inst />
           <Vk />

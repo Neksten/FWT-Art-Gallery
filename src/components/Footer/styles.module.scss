@@ -37,7 +37,7 @@
       fill: $color-primary-dark-gray;
     }
   }
-  &.dark {
+  &-dark {
     background-color: $color-primary-black;
     & .footer__text, a {
       color: $color-primary-light-gray;

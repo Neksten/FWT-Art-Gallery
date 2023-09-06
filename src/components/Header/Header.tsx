@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import IconButton from "@ui/IconButton/IconButton";
+import { MyLink } from "@ui/MyLink";
+import { Scrim } from "@ui/Scrim";
+import { IconButton } from "@ui/IconButton";
 import { ReactComponent as Moon } from "@assets/moon.svg";
 import { ReactComponent as Logo } from "@assets/logo.svg";
 import { ReactComponent as Burger } from "@assets/burger.svg";
-import MyLink from "@ui/MyLink/MyLink";
-import Scrim from "@ui/Scrim/Scrim";
 import { ReactComponent as Sun } from "@assets/sun.svg";
 import { ReactComponent as Close } from "@assets/close.svg";
 import { useTheme } from "@hooks/useTheme";
@@ -20,15 +20,9 @@ const Header = () => {
   const { theme, changeTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClickBurger = () => {
-    setIsOpen(true);
-  };
-  const handleClickClose = () => {
-    setIsOpen(false);
-  };
-  const handleClickTheme = () => {
-    changeTheme(theme);
-  };
+  const handleClickBurger = () => setIsOpen(true);
+  const handleClickClose = () => setIsOpen(false);
+  const handleClickTheme = () => changeTheme(theme);
 
   return (
     <header

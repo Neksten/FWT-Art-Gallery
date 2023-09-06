@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import IconButton from "@ui/IconButton/IconButton";
+import { IconButton } from "@ui/IconButton";
 import { ReactComponent as Delete } from "@assets/delete.svg";
 import { ReactComponent as Moon } from "@assets/moon.svg";
 import { ReactComponent as Sun } from "@assets/sun.svg";

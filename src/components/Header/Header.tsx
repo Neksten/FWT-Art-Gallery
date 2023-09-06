@@ -10,7 +10,7 @@ import { ReactComponent as Logo } from "@assets/logo.svg";
 import { ReactComponent as Burger } from "@assets/burger.svg";
 import { ReactComponent as Sun } from "@assets/sun.svg";
 import { ReactComponent as Close } from "@assets/close.svg";
-import { useTheme } from "@hooks/useTheme";
+import { useTheme } from "../../context/ThemeContext/ThemeContext";
 
 import styles from "./styles.module.scss";
 
@@ -31,19 +31,19 @@ const Header = () => {
       })}
     >
       <Scrim isOpen={isOpen} />
-      <div className={`${styles.header__content} container`}>
-        <Link to="/" className={styles.header__logo}>
+      <div className={cx("header__content", "container")}>
+        <Link to="/" className={cx("header__logo")}>
           <Logo />
         </Link>
         <nav
-          className={cx(`header__menu`, {
+          className={cx("header__menu", {
             open: isOpen,
           })}
         >
           <div
             aria-hidden
             onClick={handleClickTheme}
-            className={styles.header__theme}
+            className={cx("header__theme")}
           >
             <IconButton fullBorderRadius variant="theme" theme={theme}>
               {theme === "light" ? <Moon /> : <Sun />}
@@ -52,14 +52,14 @@ const Header = () => {
               Dark mode
             </MyLink>
           </div>
-          <ul className={styles.header__list}>
+          <ul className={cx("header__list")}>
             <li>
-              <Link to="/" className={styles.header__link}>
+              <Link to="/" className={cx("header__link")}>
                 Log In
               </Link>
             </li>
             <li>
-              <Link to="/" className={styles.header__link}>
+              <Link to="/" className={cx("header__link")}>
                 Sign up
               </Link>
             </li>
@@ -68,14 +68,14 @@ const Header = () => {
         <div
           aria-hidden
           onClick={handleClickBurger}
-          className={styles.header__burger}
+          className={cx("header__burger")}
         >
           <Burger />
         </div>
         <div
           aria-hidden
           onClick={handleClickClose}
-          className={cx(`header__close`, {
+          className={cx("header__close", {
             open: isOpen,
           })}
         >

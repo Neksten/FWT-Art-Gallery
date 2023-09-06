@@ -1,9 +1,9 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@hooks/useTheme";
 import GridLayout from "@ui/GridLayout/GridLayout";
 import Card from "@ui/Card/Card";
+import { useTheme } from "../../context/ThemeContext/ThemeContext";
 
 import { useGetArtistsQuery } from "../../store/artists/artist.api";
 
@@ -17,11 +17,11 @@ const Home: FC = () => {
 
   return (
     <main
-      className={cx(`${styles.home}`, {
+      className={cx("home", {
         dark: theme === "dark",
       })}
     >
-      <section className={`${styles.home__content} container`}>
+      <section className={cx("home__content", "container")}>
         <GridLayout>
           {data?.map((item) => (
             <Card

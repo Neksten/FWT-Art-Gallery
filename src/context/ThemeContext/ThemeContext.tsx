@@ -5,6 +5,7 @@ import React, {
   HTMLAttributes,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -60,3 +61,5 @@ export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+export const useTheme = () => useContext(ThemeContext);

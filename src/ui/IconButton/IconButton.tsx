@@ -20,14 +20,9 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <button
       type="button"
-      className={cx(
-        styles.button,
-        styles[`button-${theme}`],
-        styles[`button-${variant}`],
-        {
-          fullBorderRadius: fullBorderRadius === true,
-        }
-      )}
+      className={cx("button", `button-${theme}`, `button-${variant}`, {
+        fullBorderRadius: fullBorderRadius === true,
+      })}
       {...props}
     >
       {children}

@@ -4,11 +4,14 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Header } from "@components/Header";
 import { Home } from "@pages/Home";
 import { Footer } from "@components/Footer";
+import classNames from "classnames/bind";
 
 import styles from "./styles.module.scss";
 
+const cx = classNames.bind(styles);
+
 const App: FC = () => (
-  <div className={styles.app}>
+  <div className={cx("app")}>
     <Router>
       <Header />
       <Routes>

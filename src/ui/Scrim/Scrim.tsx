@@ -13,13 +13,7 @@ const Scrim: FC<ScrimProps> = ({ isOpen }) => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
-  return (
-    <div
-      className={cx(`${styles.scrim}`, {
-        open: isOpen,
-      })}
-    />
-  );
+  return <div className={cx("scrim", { open: isOpen })} />;
 };
 
 export default Scrim;

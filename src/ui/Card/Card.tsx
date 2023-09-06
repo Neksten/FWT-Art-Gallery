@@ -26,16 +26,16 @@ const Card: FC<CardProps> = ({
     <div
       aria-hidden
       onClick={(e) => onClick?.(e)}
-      className={cx(styles.card, styles[`card-${theme}`])}
+      className={cx("card", `card-${theme}`)}
     >
-      <div className={styles.card__image}>
+      <div className={cx("card__image")}>
         <img src={imgUrl} alt="" />
       </div>
-      <div className={styles.card__body}>
-        <div className={styles.card__info}>
-          <h6 className={styles.card__title}>{title}</h6>
-          <span className={`${styles.card__date} small`}>{years}</span>
-          <div className={styles.card__arrow}>
+      <div className={cx("card__body")}>
+        <div className={cx("card__info")}>
+          <h6 className={cx("card__title")}>{title}</h6>
+          <span className={`${cx("card__date")} small`}>{years}</span>
+          <div className={cx("card__arrow")}>
             <ArrowNext />
           </div>
         </div>

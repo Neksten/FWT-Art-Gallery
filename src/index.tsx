@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { App } from "@components/App";
 import { ThemeProvider } from "./context/ThemeContext/ThemeContext";
 import { store } from "./store";
+import { AuthProvider } from "./providers";
 
 import "./index.scss";
 
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <ThemeProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </ThemeProvider>
   </Provider>
 );

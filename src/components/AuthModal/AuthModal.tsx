@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,9 +13,7 @@ import { MyLink } from "@ui/MyLink";
 import { Button } from "@ui/Button";
 import { Input } from "@ui/Input";
 import { IAuthInputs } from "@models/Auth";
-import { useRegisterMutation } from "@store/auth/auth.api";
-import { useAppDispatch, useAppSelector } from "@hooks/redux";
-import { setIsAuth } from "@store/auth/authSlice";
+import { useLoginMutation, useRegisterMutation } from "@store/auth/auth.api";
 
 import styles from "./styles.module.scss";
 
@@ -49,11 +47,10 @@ const AuthModal: FC<AuthorizationProps> = ({
   variant = "login",
 }) => {
   const { theme } = useTheme();
-  const dispatch = useAppDispatch();
-  const { isAuth } = useAppSelector((state) => state.authSlice);
   const [loginForm, setLoginForm] = useState(initialFormValue);
   const [signupForm, setSignupForm] = useState(initialFormValue);
-  const [registerRequest, { isError }] = useRegisterMutation();
+  const [registerRequest, { isError: isErrorRegister }] = useRegisterMutation();
+  const [loginRequest, { isError: isErrorLogin }] = useLoginMutation();
   const {
     register,
     handleSubmit,
@@ -84,22 +81,17 @@ const AuthModal: FC<AuthorizationProps> = ({
 
   const onSubmitHandler = async () => {
     if (variant === "login") {
-      console.table(loginForm);
+      await loginRequest({ ...loginForm, fingerprint: "test" });
+      if (!isErrorLogin) {
+        setIsOpen(false);
+      }
     } else {
-      await registerRequest({
-        ...signupForm,
-        fingerprint: "test",
-      }).unwrap();
-      if (!isError) {
-        dispatch(setIsAuth(true));
+      await registerRequest({ ...signupForm, fingerprint: "test" });
+      if (!isErrorRegister) {
         setIsOpen(false);
       }
     }
   };
-
-  useEffect(() => {
-    console.log(isAuth);
-  }, [isAuth]);
   return (
     <Modal isOpen={isOpen}>
       <div

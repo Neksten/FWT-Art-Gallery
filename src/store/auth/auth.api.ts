@@ -13,11 +13,6 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
-      transformResponse: (response: AuthResponse) => {
-        localStorage.setItem("access", response.accessToken);
-        localStorage.setItem("refresh", response.refreshToken);
-        return response;
-      },
     }),
     login: build.mutation<AuthResponse, AuthRequest>({
       query: (body) => ({
@@ -28,7 +23,7 @@ export const authApi = createApi({
     }),
     refresh: build.mutation<AuthResponse, AuthRefreshRequest>({
       query: (body) => ({
-        url: `login`,
+        url: `refresh`,
         method: "POST",
         body,
       }),

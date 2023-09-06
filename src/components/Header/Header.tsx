@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
+import { logout } from "@store/auth/authSlice";
 import { MyLink } from "@ui/MyLink";
 import { IconButton } from "@ui/IconButton";
 import { ReactComponent as Moon } from "@assets/icons/moon.svg";
@@ -12,7 +13,7 @@ import { ReactComponent as Close } from "@assets/icons/close.svg";
 import { useTheme } from "@hooks/useTheme";
 import Modal from "@components/Modal/Modal";
 import AuthModal from "@components/AuthModal/AuthModal";
-import { useAppSelector } from "@hooks/redux";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 
 import styles from "./styles.module.scss";
 
@@ -21,6 +22,7 @@ const cx = classNames.bind(styles);
 const SCREEN_WIDTH = window.screen.width < 1440;
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenSignup, setIsOpenSignup] = useState(false);
@@ -43,6 +45,9 @@ const Header = () => {
   };
   const handleClickTheme = () => {
     changeTheme(theme);
+  };
+  const handleClickLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -77,7 +82,11 @@ const Header = () => {
             <ul className={styles.header__list}>
               {isAuth ? (
                 <li>
-                  <button type="button" className={styles.header__link}>
+                  <button
+                    onClick={handleClickLogout}
+                    type="button"
+                    className={styles.header__link}
+                  >
                     Log out
                   </button>
                 </li>
@@ -126,7 +135,11 @@ const Header = () => {
           <ul className={styles.header__list}>
             {isAuth ? (
               <li>
-                <button type="button" className={styles.header__link}>
+                <button
+                  onClick={handleClickLogout}
+                  type="button"
+                  className={styles.header__link}
+                >
                   Log out
                 </button>
               </li>

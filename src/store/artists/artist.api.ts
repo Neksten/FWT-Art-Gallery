@@ -7,7 +7,7 @@ export const artistApi = createApi({
     baseUrl: "https://internship-front.framework.team/",
   }),
   endpoints: (build) => ({
-    getArtists: build.query<IArtist[], any>({
+    getArtists: build.query<IArtist[], void>({
       query: () => ({
         url: `artists/static`,
       }),

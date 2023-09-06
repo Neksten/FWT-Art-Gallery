@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
-  const { data } = useGetArtistsQuery("");
+  const { data } = useGetArtistsQuery();
 
   return (
     <main

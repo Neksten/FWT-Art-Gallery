@@ -1,6 +1,6 @@
 import { FC, MouseEvent } from "react";
 
-import { ReactComponent as ArrowNext } from "@assets/arrow-next.svg";
+import { ReactComponent as ArrowNext } from "@/assets/arrow-next.svg";
 
 import classNames from "classnames/bind";
 import styles from "./styles.module.scss";

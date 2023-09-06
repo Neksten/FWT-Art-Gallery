@@ -1,11 +1,12 @@
 import { FC } from "react";
-import classNames from "classnames/bind";
 
-import MyLink from "@ui/MyLink/MyLink";
-import { ReactComponent as Fb } from "@assets/fb.svg";
-import { ReactComponent as Inst } from "@assets/inst.svg";
-import { ReactComponent as Vk } from "@assets/vk.svg";
-import { useTheme } from "../../context/ThemeContext/ThemeContext";
+import { MyLink } from "@/ui/MyLink";
+import { ReactComponent as Fb } from "@/assets/fb.svg";
+import { ReactComponent as Inst } from "@/assets/inst.svg";
+import { ReactComponent as Vk } from "@/assets/vk.svg";
+
+import classNames from "classnames/bind";
+import { useTheme } from "@/context/ThemeContext/ThemeContext";
 
 import styles from "./styles.module.scss";
 

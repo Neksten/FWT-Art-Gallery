@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { IconButton } from "@ui/IconButton";
-import { ReactComponent as Delete } from "@assets/delete.svg";
-import { ReactComponent as Moon } from "@assets/moon.svg";
-import { ReactComponent as Sun } from "@assets/sun.svg";
-import { ReactComponent as ArrowUp } from "@assets/arrow-up.svg";
+import { IconButton } from "@/ui/IconButton";
+import { ReactComponent as Delete } from "@/assets/delete.svg";
+import { ReactComponent as Moon } from "@/assets/moon.svg";
+import { ReactComponent as Sun } from "@/assets/sun.svg";
+import { ReactComponent as ArrowUp } from "@/assets/arrow-up.svg";
 
 const meta: Meta<typeof IconButton> = {
   component: IconButton,

@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import classNames from "classnames/bind";
+
 import styles from "./style.module.scss";
 
 const cx = classNames.bind(styles);
@@ -13,13 +14,7 @@ const Scrim: FC<ScrimProps> = ({ isOpen }) => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
-  return (
-    <div
-      className={cx(styles.scrim, {
-        open: isOpen,
-      })}
-    />
-  );
+  return <div className={cx("scrim", { open: isOpen })} />;
 };
 
 export default Scrim;

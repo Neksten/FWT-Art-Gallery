@@ -1,18 +1,18 @@
-import { FC, MouseEvent } from "react";
-
-import { ReactComponent as ArrowNext } from "@assets/arrow-next.svg";
-
+import { FC } from "react";
+import { Link, LinkProps } from "react-router-dom";
 import classNames from "classnames/bind";
+
+import { ReactComponent as ArrowNext } from "@/assets/arrow-next.svg";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface CardProps {
+interface CardProps extends LinkProps {
   title: string;
   years: string;
   imgUrl: string;
   theme?: "light" | "dark";
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 const Card: FC<CardProps> = ({
@@ -20,27 +20,24 @@ const Card: FC<CardProps> = ({
   theme = "light",
   years,
   imgUrl,
-  onClick,
+  className,
+  ...props
 }) => {
   return (
-    <div
-      aria-hidden
-      onClick={(e) => onClick?.(e)}
-      className={cx(styles.card, styles[`card-${theme}`])}
-    >
-      <div className={styles.card__image}>
-        <img src={imgUrl} alt="" />
+    <Link {...props} className={cx("card", `card-${theme}`, className)}>
+      <div className={cx("card__image-container")}>
+        <img src={imgUrl} className={cx("card__image")} alt="" />
       </div>
-      <div className={styles.card__body}>
-        <div className={styles.card__info}>
-          <h6 className={styles.card__title}>{title}</h6>
-          <span className={`${styles.card__date} small`}>{years}</span>
-          <div className={styles.card__arrow}>
+      <div className={cx("card__body")}>
+        <div className={cx("card__info")}>
+          <h6 className={cx("card__title")}>{title}</h6>
+          <span className={cx("card__date", "small")}>{years}</span>
+          <div className={cx("card__arrow")}>
             <ArrowNext />
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

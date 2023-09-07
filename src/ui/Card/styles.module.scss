@@ -2,6 +2,7 @@
 
 .card {
   width: 100%;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -43,18 +44,24 @@
       }
     }
   }
-  &__image {
-    max-width: 100%;
-    transform: scale(1);
+  &__image-container {
+    width: 100%;
+    transform: scale(1) translateY(-50%);
     transition: all 0.5s ease-out;
     user-select: none;
-    img {
-      max-width: 100%;
-    }
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+  }
+  .card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   &:hover {
-    .card__image {
-      transform: scale(1.2);
+    .card__image-container {
+      transform: scale(1.2) translateY(-50%);
     }
   }
   &__body {
@@ -78,9 +85,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: $color-primary-light-gray;
   }
   &__title {
     font-family: $font-cormorant-sc;
+    text-align: start;
     margin: 0 0 4px 0;
   }
   &__date {

@@ -1,0 +1,12 @@
+@import "../../_variables";
+
+.genre {
+  padding: 8px 16px;
+  border-radius: 30px;
+  background-color: rgba(18, 18, 18, 0.05);
+  &-dark {
+    background-color: rgba(205, 205, 205, 0.05);
+    color: $color-primary-light-gray;
+    border: 1px solid $color-primary-light-gray;
+  }
+}

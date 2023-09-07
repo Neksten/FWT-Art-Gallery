@@ -85,9 +85,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: $color-primary-light-gray;
   }
   &__title {
     font-family: $font-cormorant-sc;
+    text-align: start;
     margin: 0 0 4px 0;
   }
   &__date {

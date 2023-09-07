@@ -1,9 +1,9 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@hooks/useTheme";
-import GridLayout from "@ui/GridLayout/GridLayout";
-import Card from "@ui/Card/Card";
+import GridLayout from "@/ui/GridLayout/GridLayout";
+import Card from "@/ui/Card/Card";
+import { useTheme } from "@/context/ThemeContext";
 
 import styles from "./styles.module.scss";
 
@@ -13,12 +13,8 @@ const Home: FC = () => {
   const { theme } = useTheme();
 
   return (
-    <main
-      className={cx(`${styles.home}`, {
-        dark: theme === "dark",
-      })}
-    >
-      <section className={`${styles.home__content} container`}>
+    <main className={cx("home", `home-${theme}`)}>
+      <section className={cx("home__content", "container")}>
         <GridLayout>
           {[...Array(5)].map(() => (
             <Card

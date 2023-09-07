@@ -13,11 +13,11 @@
     margin: 0 0 10px 0;
     column-gap: 5px;
   }
-  &__text, &__name, a {
+  &__text, &__name, &__link {
     font-weight: 300;
     font-size: 12px;
   }
-  a {
+  &__link {
     font-weight: 500;
   }
   &__text {
@@ -33,19 +33,15 @@
     display: flex;
     align-items: center;
     column-gap: 20px;
-    svg path {
-      fill: $color-primary-dark-gray;
-    }
+    color: $color-primary-dark-gray;
   }
-  &.dark {
+  &-dark {
     background-color: $color-primary-black;
-    & .footer__text, a {
+    & .footer__text, &__link {
       color: $color-primary-light-gray;
     }
     & .footer__socials {
-      svg path {
-        fill: $color-primary-light-gray;
-      }
+      color: $color-primary-light-gray;
     }
   }
   @media (min-width: $md3) {
@@ -66,7 +62,7 @@
     &__left {
       margin: 0;
     }
-    &__text, &__name, a {
+    &__text, &__name, &__link {
       font-size: 16px;
     }
   }

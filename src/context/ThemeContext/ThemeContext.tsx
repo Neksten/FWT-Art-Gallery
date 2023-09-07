@@ -5,6 +5,7 @@ import React, {
   HTMLAttributes,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -23,7 +24,7 @@ const initialThemeValue: IContext = {
   changeTheme: () => {},
 };
 
-export const ThemeContext = createContext<IContext>(initialThemeValue);
+const ThemeContext = createContext<IContext>(initialThemeValue);
 
 type TThemeProvider = HTMLAttributes<HTMLDivElement>;
 
@@ -47,9 +48,10 @@ export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
     localStorage.setItem("theme", newTheme);
   }, [theme, setTheme]);
 
-  const contextValue = useMemo(() => {
-    return { theme, changeTheme };
-  }, [theme, changeTheme]);
+  const contextValue = useMemo(
+    () => ({ theme, changeTheme }),
+    [theme, changeTheme]
+  );
 
   useEffect(() => {
     setTheme(getTheme());
@@ -60,3 +62,5 @@ export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+export const useTheme = () => useContext(ThemeContext);

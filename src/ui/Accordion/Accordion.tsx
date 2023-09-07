@@ -23,10 +23,6 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
   const textRef = useRef<null | HTMLDivElement>(null);
   const textAutoOpen = text.length < 150;
 
-  const handleClickReadMore = () => {
-    setIsOpen(!isOpen);
-  };
-
   useEffect(() => {
     setIsOpen(textAutoOpen);
   }, [setIsOpen, textAutoOpen]);
@@ -56,7 +52,7 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
       {!textAutoOpen && (
         <div
           aria-hidden
-          onClick={handleClickReadMore}
+          onClick={() => setIsOpen(!isOpen)}
           className={cx("accordion__button")}
         >
           <MyLink to="#" theme={theme}>

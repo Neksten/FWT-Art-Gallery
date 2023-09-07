@@ -1,0 +1,59 @@
+@import "../../_variables";
+
+.loader-container  {
+  animation: 2s linear infinite svg-animation;
+  max-width: 50px;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes svg-animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg)
+  }
+}
+
+.loader {
+  animation: 2s ease-in-out infinite both circle-animation;
+  display: block;
+  fill: transparent;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 282.999;
+  stroke-width: 5px;
+  transform-origin: 50% 50%;
+  &-light {
+    stroke: #121212;
+  }
+  &-dark {
+    stroke: $color-primary-light-gray;
+  }
+}
+@keyframes circle-animation {
+  0% {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
+  15% {
+    opacity: 35%;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+  75% {
+    stroke-dasharray: 500;
+    transform: rotate(270deg);
+  }
+  100% {
+    opacity: 1;
+    stroke-dasharray: 283;
+    transform: rotate(450deg);
+  }
+}

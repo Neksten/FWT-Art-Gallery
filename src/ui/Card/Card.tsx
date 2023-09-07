@@ -34,7 +34,7 @@ const Card: FC<CardProps> = ({
       <div className={cx("card__body")}>
         <div className={cx("card__info")}>
           <h6 className={cx("card__title")}>{title}</h6>
-          <span className={`${cx("card__date")} small`}>{years}</span>
+          <span className={cx("card__date", "small")}>{years}</span>
           <div className={cx("card__arrow")}>
             <ArrowNext />
           </div>

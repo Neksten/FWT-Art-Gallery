@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 import GridLayout from "@/ui/GridLayout/GridLayout";
 import Card from "@/ui/Card/Card";
-import { useTheme } from "@/context/ThemeContext/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
 

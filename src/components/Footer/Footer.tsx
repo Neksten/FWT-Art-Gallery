@@ -4,9 +4,9 @@ import { MyLink } from "@/ui/MyLink";
 import { ReactComponent as Fb } from "@/assets/fb.svg";
 import { ReactComponent as Inst } from "@/assets/inst.svg";
 import { ReactComponent as Vk } from "@/assets/vk.svg";
+import { useTheme } from "@/context/ThemeContext";
 
 import classNames from "classnames/bind";
-import { useTheme } from "@/context/ThemeContext/ThemeContext";
 
 import styles from "./styles.module.scss";
 
@@ -23,7 +23,9 @@ const Footer: FC = () => {
               Проект реализован в рамках стажировки для Frontend-разработчиков
               от компании
             </p>
-            <MyLink to="https://framework.team/">Framework Team</MyLink>
+            <MyLink to="https://framework.team/" className={cx("footer__link")}>
+              Framework Team
+            </MyLink>
           </div>
           <p className={cx("footer__name")}>Иванов Иван, 2021</p>
         </div>

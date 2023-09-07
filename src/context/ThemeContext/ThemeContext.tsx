@@ -24,7 +24,7 @@ const initialThemeValue: IContext = {
   changeTheme: () => {},
 };
 
-export const ThemeContext = createContext<IContext>(initialThemeValue);
+const ThemeContext = createContext<IContext>(initialThemeValue);
 
 type TThemeProvider = HTMLAttributes<HTMLDivElement>;
 

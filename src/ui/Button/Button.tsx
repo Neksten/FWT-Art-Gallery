@@ -16,6 +16,7 @@ const Button: FC<ButtonProps> = ({
   theme = "light",
   startIcon,
   children,
+  className,
   ...props
 }) => {
   return (
@@ -24,7 +25,8 @@ const Button: FC<ButtonProps> = ({
       className={cx(
         "button",
         `button__${variant}`,
-        `button__${variant}-${theme}`
+        `button__${variant}-${theme}`,
+        className
       )}
       {...props}
     >

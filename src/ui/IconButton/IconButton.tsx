@@ -15,12 +15,18 @@ const IconButton: FC<IconButtonProps> = ({
   theme = "light",
   variant = "delete",
   children,
+  className,
   ...props
 }) => {
   return (
     <button
       type="button"
-      className={cx("button", `button-${theme}`, `button-${variant}`)}
+      className={cx(
+        "button",
+        `button-${theme}`,
+        `button-${variant}`,
+        className
+      )}
       {...props}
     >
       {children}

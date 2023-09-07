@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 
 import { ReactComponent as ArrowNext } from "@/assets/arrow-next.svg";
 
@@ -7,12 +7,11 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface CardProps {
+interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
   years: string;
   imgUrl: string;
   theme?: "light" | "dark";
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 const Card: FC<CardProps> = ({
@@ -20,16 +19,17 @@ const Card: FC<CardProps> = ({
   theme = "light",
   years,
   imgUrl,
-  onClick,
+  className,
+  ...props
 }) => {
   return (
-    <div
-      aria-hidden
-      onClick={(e) => onClick?.(e)}
-      className={cx("card", `card-${theme}`)}
+    <button
+      type="button"
+      className={cx("card", `card-${theme}`, className)}
+      {...props}
     >
-      <div className={cx("card__image")}>
-        <img src={imgUrl} alt="" />
+      <div className={cx("card__image-container")}>
+        <img src={imgUrl} className={cx("card__image")} alt="" />
       </div>
       <div className={cx("card__body")}>
         <div className={cx("card__info")}>
@@ -40,7 +40,7 @@ const Card: FC<CardProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

@@ -6,9 +6,9 @@ import { Scrim } from "@/ui/Scrim";
 import { ReactComponent as Logo } from "@/assets/logo.svg";
 import { ReactComponent as Burger } from "@/assets/burger.svg";
 import { ReactComponent as Close } from "@/assets/close.svg";
-import { useTheme } from "@/context/ThemeContext/ThemeContext";
-
+import { useTheme } from "@/context/ThemeContext";
 import { ThemeButton } from "@/components/Header/ThemeButton";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -35,12 +35,12 @@ const Header = () => {
         >
           <ThemeButton theme={theme} changeTheme={changeTheme} />
           <ul className={cx("header__list")}>
-            <li>
+            <li className={cx("header__item")}>
               <Link to="/" className={cx("header__link")}>
                 Log In
               </Link>
             </li>
-            <li>
+            <li className={cx("header__item")}>
               <Link to="/" className={cx("header__link")}>
                 Sign up
               </Link>

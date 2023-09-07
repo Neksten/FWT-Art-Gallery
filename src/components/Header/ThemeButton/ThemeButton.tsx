@@ -5,11 +5,9 @@ import { ReactComponent as Moon } from "@/assets/moon.svg";
 import { ReactComponent as Sun } from "@/assets/sun.svg";
 
 import { MyLink } from "@/ui/MyLink";
-import stylesButton from "@/ui/IconButton/styles.module.scss";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
-const cxBtn = classNames.bind(stylesButton);
 
 interface IconButtonProps {
   theme: "light" | "dark";
@@ -21,12 +19,12 @@ const ThemeButton: FC<IconButtonProps> = ({ theme = "light", changeTheme }) => {
     <button
       onClick={() => changeTheme(theme)}
       type="button"
-      className={cx("button")}
+      className={cx("button", `button-${theme}`)}
     >
-      <div className={cxBtn("button", `button-${theme}`, "button-theme")}>
+      <div className={cx("button__icon")}>
         {theme === "light" ? <Moon /> : <Sun />}
       </div>
-      <MyLink to="#" theme={theme}>
+      <MyLink to="#" theme={theme} className={cx("button__link")}>
         Dark mode
       </MyLink>
     </button>

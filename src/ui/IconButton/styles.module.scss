@@ -1,90 +1,22 @@
 @import "../../_variables";
+@import "../../common/iconButton/iconButtonExtend";
+@import "../../common/iconButton/iconButtonMixin";
 
 .button {
-  width: 28px;
-  height: 28px;
-  padding: 2px;
-  border-radius: 4px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease-out;
-  svg path {
-    transition: all 0.2s ease-out;
-  }
+  @extend %extend-icon-button;
   &-theme {
-    padding: 8px;
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-  }
-  &-arrow {
-    padding: 18px;
-    width: 60px;
-    height: 60px;
-    border: 1px solid $color-primary-light-gray;
-    border-radius: 100%;
-    svg path {
-      fill: $color-primary-dark-gray;
-    }
+    @include icon-button(theme, _);
   }
   &-light {
-    background-color: $color-secondary-white;
-    svg path {
-      fill: $color-primary-dark-gray;
-    }
-    &:hover, &:focus {
-      svg path {
-        fill: $color-primary-black;
-      }
-    }
-    &:disabled {
-      svg path {
-        fill: $color-primary-dark-gray;
-      }
-      &:hover {
-        svg path {
-          fill: $color-primary-dark-gray;
-        }
-      }
-    }
-
-    &.button-arrow:hover {
-      background-color: $color-primary-white;
-      svg path {
-        fill: $color-primary-dark-gray;
-      }
+    @extend %extend-icon-button-light;
+    &.button-arrow {
+      @include icon-button(arrow, light);
     }
   }
   &-dark {
-    background-color: $color-secondary-black;
-    svg path {
-      fill: $color-primary-light-gray;
-    }
-    &:hover, &:focus {
-      svg path {
-        fill: $color-primary-white;
-      }
-    }
-    &:disabled {
-      background-color: $color-secondary-black;
-      svg path {
-        fill: $color-primary-light-gray;
-      }
-      &:hover {
-        background-color: $color-secondary-black;
-        svg path {
-          fill: $color-primary-light-gray;
-        }
-      }
-    }
-    &.button-arrow:hover {
-      background-color: #242222;
-      svg path {
-        fill: $color-primary-light-gray;
-      }
+    @extend %extend-icon-button-dark;
+    &.button-arrow {
+      @include icon-button(arrow, dark);
     }
   }
 }

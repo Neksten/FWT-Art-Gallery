@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
-
-import MyLink from "@ui/MyLink/MyLink";
-import { ReactComponent as Expand } from "@assets/expand.svg";
-import { useTheme } from "@hooks/useTheme";
 import classNames from "classnames/bind";
+
+import { useTheme } from "@/context/ThemeContext";
+import MyLink from "@/ui/MyLink/MyLink";
+import { ReactComponent as Expand } from "@/assets/expand.svg";
 
 import styles from "./styles.module.scss";
 
@@ -41,16 +41,15 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
 
   return (
     <div
-      className={cx(styles.accordion, {
-        dark: theme === "dark",
+      className={cx("accordion", `accordion-${theme}`, {
         open: isOpen,
       })}
     >
       <div
         style={{ maxHeight: `${heightText}px` }}
-        className={styles["accordion__text-container"]}
+        className={cx("accordion__text-container")}
       >
-        <p ref={textRef} className={`${styles.accordion__text} base lh`}>
+        <p ref={textRef} className={cx("accordion__text", "base", "lh")}>
           {text}
         </p>
       </div>
@@ -58,12 +57,14 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
         <div
           aria-hidden
           onClick={handleClickReadMore}
-          className={styles.accordion__button}
+          className={cx("accordion__button")}
         >
           <MyLink to="#" theme={theme}>
             Read {isOpen ? "less" : "more"}
           </MyLink>
-          <Expand />
+          <div className={cx("accordion__button-arrow")}>
+            <Expand />
+          </div>
         </div>
       )}
     </div>

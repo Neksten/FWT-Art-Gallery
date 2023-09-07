@@ -1,16 +1,19 @@
 import React, { FC } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import classNames from "classnames/bind";
 
-import ScrollToTop from "@components/ScrollToTop/ScrollToTop";
-import { Header } from "@components/Header";
-import { Footer } from "@components/Footer";
-import { Home } from "@pages/Home";
+import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Home } from "@/pages/Home";
+import Artist from "@/pages/Artist/Artist";
 
 import styles from "./styles.module.scss";
-import Artist from "../../pages/Artist/Artist";
+
+const cx = classNames.bind(styles);
 
 const App: FC = () => (
-  <div className={styles.app}>
+  <div className={cx("app")}>
     <Router>
       <ScrollToTop />
       <Header />

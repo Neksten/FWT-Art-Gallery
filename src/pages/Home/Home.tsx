@@ -1,12 +1,11 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@hooks/useTheme";
-import { GridLayout } from "@ui/GridLayout";
-import { Card } from "@ui/Card";
-
-import Loader from "@ui/Loader/Loader";
-import { useGetArtistsQuery } from "@store/artists/artist.api";
+import { useTheme } from "@/context/ThemeContext";
+import { useGetArtistsQuery } from "@/store/artists/artist.api";
+import GridLayout from "@/ui/GridLayout/GridLayout";
+import Card from "@/ui/Card/Card";
+import { Loader } from "@/ui/Loader";
 
 import styles from "./styles.module.scss";
 
@@ -14,11 +13,12 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
-  const { data } = useGetArtistsQuery("");
+  const { data } = useGetArtistsQuery();
+
   return (
-    <main className={cx(styles.home, styles[`home-${theme}`])}>
+    <main className={cx("home", `home-${theme}`)}>
       {data ? (
-        <section className={`${styles.home__content} container`}>
+        <section className={cx("home__content", "container")}>
           <GridLayout>
             {data.map((item) => (
               <Card

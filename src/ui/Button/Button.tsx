@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
-
 import classNames from "classnames";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);

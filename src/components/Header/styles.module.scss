@@ -68,7 +68,7 @@
     font-family: $font-cormorant-sc;
     color: $color-primary-dark-gray;
   }
-  &.dark {
+  &-dark {
     background-color: $color-primary-black;
     & .header__menu {
       background-color: $color-primary-black;
@@ -115,7 +115,7 @@
       background-color: rgba(0, 0,0 ,0);
       overflow-y: initial;
     }
-    &.dark {
+    &-dark {
       .header__menu {
         background-color: rgba(0, 0,0 ,0);
       }

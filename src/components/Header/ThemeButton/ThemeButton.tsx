@@ -1,10 +1,10 @@
 import { FC } from "react";
-
 import classNames from "classnames/bind";
+
+import { MyLink } from "@/ui/MyLink";
 import { ReactComponent as Moon } from "@/assets/moon.svg";
 import { ReactComponent as Sun } from "@/assets/sun.svg";
 
-import { MyLink } from "@/ui/MyLink";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);

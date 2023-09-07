@@ -4,7 +4,6 @@ import classNames from "classnames/bind";
 import GridLayout from "@/ui/GridLayout/GridLayout";
 import Card from "@/ui/Card/Card";
 import { useTheme } from "@/context/ThemeContext";
-
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
 
 import styles from "./styles.module.scss";
@@ -16,11 +15,7 @@ const Home: FC = () => {
   const { data } = useGetArtistsQuery();
 
   return (
-    <main
-      className={cx("home", {
-        dark: theme === "dark",
-      })}
-    >
+    <main className={cx("home", `home-${theme}`)}>
       <section className={cx("home__content", "container")}>
         <GridLayout>
           {data?.map((item) => (

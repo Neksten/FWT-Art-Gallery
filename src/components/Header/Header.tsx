@@ -18,11 +18,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header
-      className={cx(`${styles.header}`, {
-        dark: theme === "dark",
-      })}
-    >
+    <header className={cx("header", `header-${theme}`)}>
       <Scrim isOpen={isOpen} />
       <div className={cx("header__content", "container")}>
         <Link to="/" className={cx("header__logo")}>

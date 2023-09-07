@@ -1,0 +1,54 @@
+@import "../../_variables";
+
+%extend-icon-button {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border-radius: 4px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  &-light {
+    &.button-arrow:hover {
+      background-color: $color-primary-white;
+      color: $color-primary-dark-gray;
+    }
+  }
+  &-dark {
+    &.button-arrow:hover {
+      background-color: #242222;
+      color: $color-primary-light-gray;
+    }
+  }
+}
+%extend-icon-button-light {
+  background-color: $color-secondary-white;
+  color: $color-primary-dark-gray;
+  &:hover, &:focus {
+    color: $color-primary-black;
+  }
+  &:disabled {
+    color: $color-primary-dark-gray;
+    &:hover {
+      color: $color-primary-dark-gray;
+    }
+  }
+}
+%extend-icon-button-dark {
+  background-color: $color-secondary-black;
+  color: $color-primary-light-gray;
+  &:hover, &:focus {
+    color: $color-primary-white;
+  }
+  &:disabled {
+    background-color: $color-secondary-black;
+    color: $color-primary-light-gray;
+    &:hover {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+    }
+  }
+}

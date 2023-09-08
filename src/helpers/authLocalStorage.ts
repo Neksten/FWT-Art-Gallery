@@ -1,4 +1,4 @@
-import { AuthResponse } from "@models/Auth";
+import { AuthResponse } from "@/models/Auth";
 
 interface Auth {
   get: () => { accessToken: string | null; refreshToken: string | null };

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { IconButton } from "@ui/IconButton";
-import { ReactComponent as Delete } from "@assets/icons/delete.svg";
-import { ReactComponent as Moon } from "@assets/icons/moon.svg";
-import { ReactComponent as Sun } from "@assets/icons/sun.svg";
-import { ReactComponent as ArrowUp } from "@assets/icons/arrow-up.svg";
+import { IconButton } from "@/ui/IconButton";
+import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
+import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
+import { ReactComponent as ArrowUp } from "@/assets/icons/arrow-up.svg";
 
 const meta: Meta<typeof IconButton> = {
   component: IconButton,
@@ -47,7 +47,7 @@ export const DeleteDarkDisabled: Story = {
 
 export const ThemeLight: Story = {
   render: () => (
-    <IconButton fullBorderRadius variant="theme">
+    <IconButton variant="theme">
       <Moon />
     </IconButton>
   ),
@@ -55,7 +55,7 @@ export const ThemeLight: Story = {
 
 export const ThemeDark: Story = {
   render: () => (
-    <IconButton theme="dark" fullBorderRadius variant="theme">
+    <IconButton theme="dark" variant="theme">
       <Sun />
     </IconButton>
   ),
@@ -63,7 +63,7 @@ export const ThemeDark: Story = {
 
 export const ArrowLight: Story = {
   render: () => (
-    <IconButton fullBorderRadius variant="arrow">
+    <IconButton variant="arrow">
       <ArrowUp />
     </IconButton>
   ),
@@ -71,7 +71,7 @@ export const ArrowLight: Story = {
 
 export const ArrowDark: Story = {
   render: () => (
-    <IconButton theme="dark" fullBorderRadius variant="arrow">
+    <IconButton theme="dark" variant="arrow">
       <ArrowUp />
     </IconButton>
   ),

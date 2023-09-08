@@ -5,7 +5,7 @@
   border: none;
   font-family: $font-inter;
   cursor: pointer;
-  .button__text {
+  &__text {
     font-size: 12px;
     transition: all 0.2s ease-out;
     text-transform: uppercase;
@@ -58,27 +58,20 @@
     align-items: center;
     column-gap: 12px;
     &-light {
-      svg path {
-        fill: $color-primary-dark-gray;
-        transition: all 0.2s ease-out;
-      }
+      color: $color-primary-dark-gray;
       .button__text {
         color: $color-primary-dark-gray;
         border-bottom: 1px solid $color-primary-dark-gray;
       }
       &:hover {
-        svg path {
-          fill: $color-primary-black;
-        }
+        color: $color-primary-black;
         .button__text {
           color: $color-primary-black;
           border-bottom: 1px solid $color-primary-black;
         }
       }
       &:focus {
-        svg path {
-          fill: $color-primary-black;
-        }
+        color: $color-primary-black;
         .button__text {
           color: $color-primary-black;
           border-bottom: 1px solid $color-primary-black;
@@ -86,19 +79,12 @@
       }
       &:disabled {
         color: $color-primary-light-gray;
-        svg path {
-          fill: $color-primary-light-gray;
-          transition: all 0.2s ease-out;
-        }
         .button__text {
           color: $color-primary-light-gray;
           border-bottom: 1px solid $color-primary-light-gray;
         }
         &:hover {
-          svg path {
-            fill: $color-primary-light-gray;
-            transition: all 0.2s ease-out;
-          }
+          color: $color-primary-light-gray;
           .button__text {
             color: $color-primary-light-gray;
             border-bottom: 1px solid $color-primary-light-gray;
@@ -107,27 +93,20 @@
       }
     }
     &-dark {
-      svg path {
-        fill: $color-primary-light-gray;
-        transition: all 0.2s ease-out;
-      }
+      color: $color-primary-light-gray;
       .button__text {
         color: $color-primary-light-gray;
         border-bottom: 1px solid $color-primary-light-gray;
       }
       &:hover {
-        svg path {
-          fill: $color-primary-white;
-        }
+        color: $color-primary-white;
         .button__text {
           color: $color-primary-white;
           border-bottom: 1px solid $color-primary-white;
         }
       }
       &:focus {
-        svg path {
-          fill: $color-primary-white;
-        }
+        color: $color-primary-white;
         .button__text {
           color: $color-primary-white;
           border-bottom: 1px solid $color-primary-white;
@@ -135,19 +114,12 @@
       }
       &:disabled {
         color: $color-secondary-gray;
-        svg path {
-          fill: $color-secondary-gray;
-          transition: all 0.2s ease-out;
-        }
         .button__text {
           color: $color-secondary-gray;
           border-bottom: 1px solid $color-secondary-gray;
         }
         &:hover {
-          svg path {
-            fill: $color-secondary-gray;
-            transition: all 0.2s ease-out;
-          }
+          color: $color-secondary-gray;
           .button__text {
             color: $color-secondary-gray;
             border-bottom: 1px solid $color-secondary-gray;

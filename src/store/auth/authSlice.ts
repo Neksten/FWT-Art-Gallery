@@ -1,6 +1,7 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { authApi } from "@store/auth/auth.api";
-import { authLocalStorage } from "@helpers/authLocalStorage";
+
+import { authApi } from "@/store/auth/auth.api";
+import { authLocalStorage } from "@/helpers/authLocalStorage";
 
 interface Auth {
   isAuth: boolean;

@@ -6,6 +6,12 @@
   &__menu {
     padding: 16px 0 12px 0;
   }
+  &__arrow {
+    color: $color-primary-dark-gray;
+  }
+  &__back-button {
+    display: none;
+  }
   &-hero {
     margin: 0 -22px;
     display: flex;
@@ -48,7 +54,7 @@
         row-gap: 12px;
       }
     }
-    &__image {
+    &__image-container {
       user-select: none;
       order: 1;
       width: 100%;
@@ -56,11 +62,11 @@
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+    }
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     @media (min-width: $md3) {
       &-info {
@@ -93,7 +99,7 @@
           column-gap: 20px;
         }
       }
-      &__image {
+      &__image-container {
         height: 500px;
       }
     }
@@ -133,7 +139,7 @@
           }
         }
       }
-      &__image {
+      &__image-container {
         height: 1000px;
         width: 1000px;
         margin: 0 0 0 auto;
@@ -149,8 +155,11 @@
     }
   }
 
-  &.dark {
+  &-dark {
     background-color: $color-primary-black;
+    .artist__arrow {
+      color: $color-primary-light-gray;
+    }
     .artist-hero {
       &-info {
         &__data, &__intelligence {
@@ -174,8 +183,8 @@
             color: $color-primary-light-gray;
           }
         }
-        &__button svg path {
-          fill: $color-primary-light-gray;
+        &__arrow {
+          color: $color-primary-light-gray;
         }
       }
     }
@@ -186,6 +195,12 @@
     }
   }
   @media (min-width: $md3) {
+    &__arrow {
+      display: none;
+    }
+    &__back-button {
+      display: flex;
+    }
     &__menu {
       padding: 36px 0 20px 0;
     }

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { artistApi } from "@store/artists/artist.api";
-import { authApi } from "@store/auth/auth.api";
-import authSlice from "@store/auth/authSlice";
+import { artistApi } from "@/store/artists/artist.api";
+import { authApi } from "@/store/auth/auth.api";
+import authSlice from "@/store/auth/authSlice";
 
 export const store = configureStore({
   reducer: {

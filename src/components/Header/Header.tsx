@@ -2,18 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import { logout } from "@store/auth/authSlice";
-import { MyLink } from "@ui/MyLink";
-import { IconButton } from "@ui/IconButton";
-import { ReactComponent as Moon } from "@assets/icons/moon.svg";
-import { ReactComponent as Logo } from "@assets/icons/logo.svg";
-import { ReactComponent as Burger } from "@assets/icons/burger.svg";
-import { ReactComponent as Sun } from "@assets/icons/sun.svg";
-import { ReactComponent as Close } from "@assets/icons/close.svg";
-import { useTheme } from "@hooks/useTheme";
-import Modal from "@components/Modal/Modal";
-import AuthModal from "@components/AuthModal/AuthModal";
-import { useAppDispatch, useAppSelector } from "@hooks/redux";
+import { useTheme } from "@/context/ThemeContext";
+import { logout } from "@/store/auth/authSlice";
+import { IconButton } from "@/ui/IconButton";
+import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
+import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
+import { ReactComponent as Burger } from "@/assets/icons/burger.svg";
+import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
+import { ReactComponent as Close } from "@/assets/icons/close.svg";
+import { ThemeButton } from "@/components/Header/ThemeButton";
+import { Modal } from "@/components/Modal";
+import { AuthModal } from "@/components/AuthModal";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 import styles from "./styles.module.scss";
 
@@ -29,12 +29,6 @@ const Header = () => {
   const { theme, changeTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClickBurger = () => {
-    setIsOpen(true);
-  };
-  const handleClickClose = () => {
-    setIsOpen(false);
-  };
   const handleClickLogin = () => {
     setIsOpenLogin(true);
     setIsOpen(false);
@@ -42,9 +36,6 @@ const Header = () => {
   const handleClickSignup = () => {
     setIsOpenSignup(true);
     setIsOpen(false);
-  };
-  const handleClickTheme = () => {
-    changeTheme(theme);
   };
   const handleClickLogout = () => {
     dispatch(logout());
@@ -67,18 +58,7 @@ const Header = () => {
               isOpen && styles["header__modal-open"]
             )}
           >
-            <div
-              aria-hidden
-              onClick={handleClickTheme}
-              className={styles.header__theme}
-            >
-              <IconButton fullBorderRadius variant="theme" theme={theme}>
-                {theme === "light" ? <Moon /> : <Sun />}
-              </IconButton>
-              <MyLink to="#" theme={theme}>
-                Dark mode
-              </MyLink>
-            </div>
+            <ThemeButton theme={theme} changeTheme={changeTheme} />
             <ul className={styles.header__list}>
               {isAuth ? (
                 <li>
@@ -114,17 +94,15 @@ const Header = () => {
               )}
             </ul>
           </nav>
-          <div
-            aria-hidden
-            onClick={handleClickClose}
-            className={cx(
-              styles.header__close,
-              styles[`header__close-${theme}`],
-              isOpen && styles["header__close-open"]
-            )}
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className={cx("header__close", {
+              open: isOpen,
+            })}
           >
             <Close />
-          </div>
+          </button>
         </Modal>
       )}
       <div className={`${styles.header__content} container`}>
@@ -167,21 +145,20 @@ const Header = () => {
             )}
           </ul>
           <IconButton
-            fullBorderRadius
-            onClick={handleClickTheme}
+            onClick={() => changeTheme(theme === "light" ? "dark" : "light")}
             variant="theme"
             theme={theme}
           >
             {theme === "light" ? <Moon /> : <Sun />}
           </IconButton>
         </nav>
-        <div
-          aria-hidden
-          onClick={handleClickBurger}
-          className={styles.header__burger}
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className={cx("header__burger")}
         >
           <Burger />
-        </div>
+        </button>
       </div>
     </header>
   );

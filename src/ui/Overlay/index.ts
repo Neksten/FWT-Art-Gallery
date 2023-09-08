@@ -1,1 +1,1 @@
-export { default as Scrim } from "./Overlay";
+export { default as Overlay } from "./Overlay";

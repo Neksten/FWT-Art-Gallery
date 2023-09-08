@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
-import { IArtist, IArtistProfile } from "@models/IArtist";
+import { IArtist, IArtistProfile } from "@/models/IArtist";
 
 export const artistApi = createApi({
   reducerPath: "arist/api",
@@ -8,7 +8,7 @@ export const artistApi = createApi({
     baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   endpoints: (build) => ({
-    getArtists: build.query<IArtist[], any>({
+    getArtists: build.query<IArtist[], void>({
       query: () => ({
         url: `artists/static`,
       }),

@@ -1,9 +1,9 @@
 import { FC, PropsWithChildren, useEffect } from "react";
-import { useAppDispatch } from "@hooks/redux";
+import { useAppDispatch } from "@/hooks/redux";
 import jwt_decode from "jwt-decode";
-import { useRefreshMutation } from "@store/auth/auth.api";
-import { setIsAuth } from "@store/auth/authSlice";
-import { authLocalStorage } from "@helpers/authLocalStorage";
+import { useRefreshMutation } from "@/store/auth/auth.api";
+import { setIsAuth } from "@/store/auth/authSlice";
+import { authLocalStorage } from "@/helpers/authLocalStorage";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();

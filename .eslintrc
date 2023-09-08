@@ -9,6 +9,14 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".ts", ".tsx", ".js", ".json"]
+      }
+    }
+  },
   "rules": {
     // import
     "import/prefer-default-export": "off",

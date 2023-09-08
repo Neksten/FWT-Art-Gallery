@@ -11,7 +11,7 @@
   transition: background-color 0.2s ease-out;
   justify-content: center;
   display: none;
-  &-open {
+  &.open {
     display: flex;
   }
   &__info {
@@ -49,10 +49,10 @@
   &__description {
     display: flex;
     align-items: center;
-    a {
-      font-size: 12px;
-      margin: 0 0 0 3px;
-    }
+  }
+  &__link {
+    font-size: 12px;
+    margin: 0 0 0 3px;
   }
   &__close {
     position: absolute;
@@ -60,14 +60,14 @@
     right: 20px;
     cursor: pointer;
   }
-  &__image {
+  &__image-container {
     display: none;
     height: 100%;
   }
   &-dark {
     background-color: $color-primary-black;
     .authorization {
-      &__title, &__description, &__description a {
+      &__title, &__description, &__description, &__link {
         color: $color-primary-white;
       }
       &__close svg path {
@@ -87,10 +87,10 @@
     &__description {
       order: 2;
       margin: 0 0 60px 0;
-      a {
-        font-size: 16px;
-        margin: 0 0 0 6px;
-      }
+    }
+    &__link {
+      font-size: 16px;
+      margin: 0 0 0 6px;
     }
     & &__text {
       font-size: 16px;
@@ -116,10 +116,10 @@
     transform: translate(-50%, -50%);
     grid-template-columns: 500px 530px;
     height: 700px;
-    &-open {
+    &.open {
       display: grid;
     }
-    &__image {
+    &__image-container {
       display: block;
     }
     &__close {

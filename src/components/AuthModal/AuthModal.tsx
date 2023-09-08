@@ -1,19 +1,19 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
-
+import classNames from "classnames/bind";
+import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useTheme } from "@hooks/useTheme";
-import Modal from "@components/Modal/Modal";
-import loginBg from "@assets/login.jpg";
-import registrationBg from "@assets/registration.jpg";
-import { ReactComponent as Close } from "@assets/icons/close.svg";
-import classNames from "classnames/bind";
-import { MyLink } from "@ui/MyLink";
-import { Button } from "@ui/Button";
-import { Input } from "@ui/Input";
-import { IAuthInputs } from "@models/Auth";
-import { useLoginMutation, useRegisterMutation } from "@store/auth/auth.api";
+
+import { useTheme } from "@/context/ThemeContext";
+import Modal from "@/components/Modal/Modal";
+import { Input } from "@/ui/Input";
+import { MyLink } from "@/ui/MyLink";
+import { Button } from "@/ui/Button";
+import loginBg from "@/assets/login.jpg";
+import registrationBg from "@/assets/registration.jpg";
+import { ReactComponent as Close } from "@/assets/icons/close.svg";
+import { IAuthInputs } from "@/models/Auth";
+import { useLoginMutation, useRegisterMutation } from "@/store/auth/auth.api";
 
 import styles from "./styles.module.scss";
 
@@ -95,38 +95,37 @@ const AuthModal: FC<AuthorizationProps> = ({
   return (
     <Modal isOpen={isOpen}>
       <div
-        className={cx(
-          styles.authorization,
-          styles[`authorization-${theme}`],
-          isOpen && styles["authorization-open"]
-        )}
+        className={cx("authorization", `authorization-${theme}`, {
+          open: isOpen,
+        })}
       >
-        <div className={styles.authorization__image}>
+        <div className={cx("authorization__image-container")}>
           <img
             src={variant === "login" ? loginBg : registrationBg}
             alt="authorization"
+            className={cx("authorization__image")}
           />
         </div>
-        <div className={styles.authorization__info}>
+        <div className={cx("authorization__info")}>
           <div
             aria-hidden
             onClick={handleClickClose}
             className={cx(
-              styles.authorization__close,
-              styles[`authorization__close-${theme}`],
-              isOpen && styles["authorization__close-open"]
+              "authorization__close",
+              `authorization__close-${theme}`,
+              { open: isOpen }
             )}
           >
             <Close />
           </div>
-          <h3 className={styles.authorization__title}>
+          <h3 className={cx("authorization__title")}>
             {variant === "login" ? "Welcome back" : "Create your profile"}
           </h3>
           <form
             onSubmit={handleSubmit(onSubmitHandler)}
-            className={styles.authorization__form}
+            className={cx("authorization__form")}
           >
-            <div className={styles.authorization__inputs}>
+            <div className={cx("authorization__inputs")}>
               <Input
                 {...register("username")}
                 type="text"
@@ -168,13 +167,15 @@ const AuthModal: FC<AuthorizationProps> = ({
               Log In
             </Button>
           </form>
-          <div className={styles.authorization__description}>
-            <p className={cx(styles.authorization__text, "small", "lh")}>
+          <div className={cx("authorization__description")}>
+            <p className={cx("authorization__text", "small", "lh")}>
               {variant === "login"
                 ? "If you don't have an account yet, please"
                 : "If you already have an account, please"}
             </p>
-            <MyLink to="">{variant === "login" ? "sign up" : "log in"}</MyLink>
+            <MyLink className={cx("authorization__link")} to="">
+              {variant === "login" ? "sign up" : "log in"}
+            </MyLink>
           </div>
         </div>
       </div>

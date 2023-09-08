@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import classNames from "classnames/bind";
+
 import styles from "./style.module.scss";
 
 const cx = classNames.bind(styles);
@@ -13,9 +14,7 @@ const Overlay: FC<OverlayProps> = ({ isOpen }) => {
     document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
-  return (
-    <div className={cx(styles.overlay, isOpen && styles["overlay-visible"])} />
-  );
+  return <div className={cx("overlay", { open: isOpen })} />;
 };
 
 export default Overlay;

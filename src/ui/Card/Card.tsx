@@ -1,8 +1,8 @@
 import { FC } from "react";
-
 import { Link, LinkProps } from "react-router-dom";
-import { ReactComponent as ArrowNext } from "@assets/icons/arrow-next.svg";
 import classNames from "classnames/bind";
+
+import { ReactComponent as ArrowNext } from "@/assets/icons/arrow-next.svg";
 
 import styles from "./styles.module.scss";
 
@@ -20,18 +20,19 @@ const Card: FC<CardProps> = ({
   theme = "light",
   years,
   imgUrl,
+  className,
   ...props
 }) => {
   return (
-    <Link {...props} className={cx(styles.card, styles[`card-${theme}`])}>
-      <div className={styles.card__image}>
-        <img src={imgUrl} alt="" />
+    <Link {...props} className={cx("card", `card-${theme}`, className)}>
+      <div className={cx("card__image-container")}>
+        <img src={imgUrl} className={cx("card__image")} alt="" />
       </div>
-      <div className={styles.card__body}>
-        <div className={styles.card__info}>
-          <h6 className={styles.card__title}>{title}</h6>
-          <span className={`${styles.card__date} small`}>{years}</span>
-          <div className={styles.card__arrow}>
+      <div className={cx("card__body")}>
+        <div className={cx("card__info")}>
+          <h6 className={cx("card__title")}>{title}</h6>
+          <span className={cx("card__date", "small")}>{years}</span>
+          <div className={cx("card__arrow")}>
             <ArrowNext />
           </div>
         </div>

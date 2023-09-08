@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <header className={cx(styles.header, styles[`header-${theme}`])}>
+    <header className={cx("header", `header-${theme}`)}>
       <AuthModal isOpen={isOpenLogin} setIsOpen={setIsOpenLogin} />
       <AuthModal
         isOpen={isOpenSignup}
@@ -52,20 +52,18 @@ const Header = () => {
       {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && (
         <Modal isOpen={isOpen}>
           <nav
-            className={cx(
-              styles.header__modal,
-              styles[`header__modal-${theme}`],
-              isOpen && styles["header__modal-open"]
-            )}
+            className={cx("header__modal", `header__modal-${theme}`, {
+              open: isOpen,
+            })}
           >
             <ThemeButton theme={theme} changeTheme={changeTheme} />
-            <ul className={styles.header__list}>
+            <ul className={cx("header__list")}>
               {isAuth ? (
                 <li>
                   <button
                     onClick={handleClickLogout}
                     type="button"
-                    className={styles.header__link}
+                    className={cx("header__link")}
                   >
                     Log out
                   </button>
@@ -76,7 +74,7 @@ const Header = () => {
                     <button
                       type="button"
                       onClick={handleClickLogin}
-                      className={styles.header__link}
+                      className={cx("header__link")}
                     >
                       Log In
                     </button>
@@ -85,7 +83,7 @@ const Header = () => {
                     <button
                       type="button"
                       onClick={handleClickSignup}
-                      className={styles.header__link}
+                      className={cx("header__link")}
                     >
                       Sign up
                     </button>
@@ -105,18 +103,18 @@ const Header = () => {
           </button>
         </Modal>
       )}
-      <div className={`${styles.header__content} container`}>
-        <Link to="/" className={styles.header__logo}>
+      <div className={cx("header__content", "container")}>
+        <Link to="/" className={cx("header__logo")}>
           <Logo />
         </Link>
-        <nav className={styles.header__menu}>
-          <ul className={styles.header__list}>
+        <nav className={cx("header__menu")}>
+          <ul className={cx("header__list")}>
             {isAuth ? (
               <li>
                 <button
                   onClick={handleClickLogout}
                   type="button"
-                  className={styles.header__link}
+                  className={cx("header__link")}
                 >
                   Log out
                 </button>
@@ -127,7 +125,7 @@ const Header = () => {
                   <button
                     type="button"
                     onClick={handleClickLogin}
-                    className={styles.header__link}
+                    className={cx("header__link")}
                   >
                     Log In
                   </button>
@@ -136,7 +134,7 @@ const Header = () => {
                   <button
                     type="button"
                     onClick={handleClickSignup}
-                    className={styles.header__link}
+                    className={cx("header__link")}
                   >
                     Sign up
                   </button>

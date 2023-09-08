@@ -26,7 +26,7 @@
     padding: 144px 0 144px 47px;
     background-color: $color-primary-white;
     overflow-y: auto;
-    &-open {
+    &.open {
       top: 0;
       right: 0;
     }

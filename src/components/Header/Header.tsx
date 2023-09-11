@@ -28,6 +28,7 @@ const Header = () => {
   const [isOpenSignup, setIsOpenSignup] = useState(false);
   const { theme, changeTheme } = useTheme();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
   const handleClickLogin = () => {
     setIsOpenLogin(true);
@@ -39,21 +40,46 @@ const Header = () => {
   };
   const handleClickLogout = () => dispatch(logout());
 
+  const handleClickClose = () => {
+    setMenuClass("delete");
+    setTimeout(() => {
+      setIsOpenMenu(false);
+      setMenuClass("open");
+    }, 300);
+  };
   return (
     <header className={cx("header", `header-${theme}`)}>
-      <AuthModal isOpen={isOpenLogin} setIsOpen={setIsOpenLogin} />
-      <AuthModal
-        isOpen={isOpenSignup}
-        setIsOpen={setIsOpenSignup}
-        variant="signup"
-      />
-      {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && (
-        <Modal closeModal={() => setIsOpenMenu(false)} isOpen={isOpenMenu}>
+      {isOpenLogin && (
+        <AuthModal
+          setMenuClass={setMenuClass}
+          menuClass={menuClass}
+          setIsOpen={setIsOpenLogin}
+          setIsRedirect={() => setIsOpenSignup(true)}
+        />
+      )}
+      {isOpenSignup && (
+        <AuthModal
+          setMenuClass={setMenuClass}
+          menuClass={menuClass}
+          setIsOpen={setIsOpenSignup}
+          setIsRedirect={() => setIsOpenLogin(true)}
+          variant="signup"
+        />
+      )}
+      {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && isOpenMenu && (
+        <Modal menuClass={menuClass} closeModal={handleClickClose}>
           <nav
-            className={cx("header__modal", `header__modal-${theme}`, {
-              open: isOpenMenu,
-            })}
+            className={cx("header__modal", `header__modal-${theme}`, menuClass)}
           >
+            <button
+              type="button"
+              onClick={handleClickClose}
+              className={cx("header__close", {
+                open: isOpenMenu,
+              })}
+            >
+              <Close />
+            </button>
             <ThemeButton theme={theme} changeTheme={changeTheme} />
             <ul className={cx("header__list")}>
               {isAuth ? (
@@ -90,15 +116,6 @@ const Header = () => {
               )}
             </ul>
           </nav>
-          <button
-            type="button"
-            onClick={() => setIsOpenMenu(false)}
-            className={cx("header__close", {
-              open: isOpenMenu,
-            })}
-          >
-            <Close />
-          </button>
         </Modal>
       )}
       <div className={cx("header__content", "container")}>

@@ -10,9 +10,14 @@
   background-color: $color-secondary-white;
   transition: background-color 0.2s ease-out;
   justify-content: center;
-  display: none;
+  display: flex;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
   &.open {
-    display: flex;
+    animation-name: opacity-visible;
+  }
+  &.delete {
+    animation-name: opacity-hidden;
   }
   &__info {
     padding: 110px 30px 30px 30px;
@@ -117,9 +122,7 @@
     transform: translate(-50%, -50%);
     grid-template-columns: 500px 530px;
     height: 700px;
-    &.open {
-      display: grid;
-    }
+    display: grid;
     &__image-container {
       display: block;
     }
@@ -135,5 +138,22 @@
       padding-top: 130px;
       padding-bottom: 130px;
     }
+  }
+}
+
+@keyframes opacity-visible {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity-hidden {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./style.module.scss";
@@ -6,20 +6,16 @@ import styles from "./style.module.scss";
 const cx = classNames.bind(styles);
 
 interface OverlayProps {
-  isOpen: boolean;
   onClick: () => void;
+  menuClass: "open" | "delete";
 }
 
-const Overlay: FC<OverlayProps> = ({ isOpen, onClick }) => {
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  }, [isOpen]);
-
+const Overlay: FC<OverlayProps> = ({ onClick, menuClass }) => {
   return (
     <div
       role="presentation"
       onClick={onClick}
-      className={cx("overlay", { open: isOpen })}
+      className={cx("overlay", menuClass)}
     />
   );
 };

@@ -21,6 +21,7 @@
     "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
     "react-redux": "^8.1.2",
+    "react-remove-scroll-bar": "^2.3.4",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "sass": "^1.66.1",

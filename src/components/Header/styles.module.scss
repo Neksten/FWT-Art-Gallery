@@ -16,7 +16,6 @@
   &__modal {
     position: fixed;
     top: 0;
-    right: -100%;
     transition: right 0.3s ease-out, background-color 0.2s ease-out;
     z-index: 250;
     width: 252px;
@@ -26,9 +25,13 @@
     padding: 144px 0 144px 47px;
     background-color: $color-primary-white;
     overflow-y: auto;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
     &.open {
-      top: 0;
-      right: 0;
+      animation-name: right-menu-open;
+    }
+    &.delete {
+      animation-name: right-menu-delete;
     }
     &-dark {
       background-color: $color-primary-black;
@@ -55,16 +58,15 @@
   &__close {
     position: absolute;
     top: 20px;
-    right: -100%;
+    right: 20px;
     z-index: 300;
     width: 24px;
     height: 24px;
     transition: right 0.3s ease-out;
     background: none;
     color: $color-primary-dark-gray;
-    &.open {
-      right: 20px;
-    }
+    animation-name: right-close;
+    animation-duration: 0.3s;
   }
   &__link {
     font-size: 32px;
@@ -131,5 +133,22 @@
     &__menu {
       column-gap: 60px;
     }
+  }
+}
+
+@keyframes right-menu-open {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+@keyframes right-menu-delete {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
   }
 }

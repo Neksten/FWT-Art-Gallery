@@ -20,9 +20,11 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 interface AuthorizationProps {
-  isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  setIsRedirect: () => void;
   variant?: "login" | "signup";
+  menuClass: "open" | "delete";
+  setMenuClass: (value: "open" | "delete") => void;
 }
 
 const validationSchema = yup.object({
@@ -42,9 +44,11 @@ const initialFormValue: IAuthInputs = {
 };
 
 const AuthModal: FC<AuthorizationProps> = ({
-  isOpen,
   setIsOpen,
+  setIsRedirect,
+  setMenuClass,
   variant = "login",
+  menuClass,
 }) => {
   const { theme } = useTheme();
   const [loginForm, setLoginForm] = useState(initialFormValue);
@@ -62,13 +66,17 @@ const AuthModal: FC<AuthorizationProps> = ({
   });
 
   const closeForm = () => {
-    setIsOpen(false);
-    reset({ username: "", password: "" });
-    if (variant === "login") {
-      setLoginForm(initialFormValue);
-    } else {
-      setSignupForm(initialFormValue);
-    }
+    setMenuClass("delete");
+    setTimeout(() => {
+      setMenuClass("open");
+      setIsOpen(false);
+      reset({ username: "", password: "" });
+      if (variant === "login") {
+        setLoginForm(initialFormValue);
+      } else {
+        setSignupForm(initialFormValue);
+      }
+    }, 300);
   };
 
   const handleChangeState = (
@@ -81,6 +89,7 @@ const AuthModal: FC<AuthorizationProps> = ({
       [name]: value,
     }));
   };
+
   const onSubmitHandler = async () => {
     if (variant === "login") {
       await loginRequest({ ...loginForm, fingerprint: "test" })
@@ -95,13 +104,13 @@ const AuthModal: FC<AuthorizationProps> = ({
     }
   };
 
+  const handleClickRedirect = () => {
+    closeForm();
+    setIsRedirect();
+  };
   return (
-    <Modal closeModal={closeForm} isOpen={isOpen}>
-      <div
-        className={cx("authorization", `authorization-${theme}`, {
-          open: isOpen,
-        })}
-      >
+    <Modal menuClass={menuClass} closeModal={closeForm}>
+      <div className={cx("authorization", `authorization-${theme}`, menuClass)}>
         <div className={cx("authorization__image-container")}>
           <img
             src={variant === "login" ? loginBg : registrationBg}
@@ -115,8 +124,7 @@ const AuthModal: FC<AuthorizationProps> = ({
             onClick={closeForm}
             className={cx(
               "authorization__close",
-              `authorization__close-${theme}`,
-              { open: isOpen }
+              `authorization__close-${theme}`
             )}
           >
             <Close />
@@ -176,7 +184,11 @@ const AuthModal: FC<AuthorizationProps> = ({
                 ? "If you don't have an account yet, please"
                 : "If you already have an account, please"}
             </p>
-            <MyLink className={cx("authorization__link")} to="">
+            <MyLink
+              className={cx("authorization__link")}
+              onClick={handleClickRedirect}
+              to=""
+            >
               {variant === "login" ? "sign up" : "log in"}
             </MyLink>
           </div>

@@ -37,9 +37,7 @@ const Header = () => {
     setIsOpenSignup(true);
     setIsOpen(false);
   };
-  const handleClickLogout = () => {
-    dispatch(logout());
-  };
+  const handleClickLogout = () => dispatch(logout());
 
   return (
     <header className={cx("header", `header-${theme}`)}>

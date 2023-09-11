@@ -49,25 +49,28 @@ const AuthModal: FC<AuthorizationProps> = ({
   const { theme } = useTheme();
   const [loginForm, setLoginForm] = useState(initialFormValue);
   const [signupForm, setSignupForm] = useState(initialFormValue);
-  const [registerRequest, { isError: isErrorRegister }] = useRegisterMutation();
-  const [loginRequest, { isError: isErrorLogin }] = useLoginMutation();
+  const [registerRequest] = useRegisterMutation();
+  const [loginRequest] = useLoginMutation();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IAuthInputs>({
     resolver: yupResolver(validationSchema),
     mode: "onBlur",
   });
 
-  const handleClickClose = () => {
+  const closeForm = () => {
     setIsOpen(false);
+    reset({ username: "", password: "" });
     if (variant === "login") {
       setLoginForm(initialFormValue);
     } else {
       setSignupForm(initialFormValue);
     }
   };
+
   const handleChangeState = (
     setForm: Dispatch<SetStateAction<IAuthInputs>>,
     name: string,
@@ -78,20 +81,20 @@ const AuthModal: FC<AuthorizationProps> = ({
       [name]: value,
     }));
   };
-
   const onSubmitHandler = async () => {
     if (variant === "login") {
-      await loginRequest({ ...loginForm, fingerprint: "test" });
-      if (!isErrorLogin) {
-        setIsOpen(false);
-      }
+      await loginRequest({ ...loginForm, fingerprint: "test" })
+        .unwrap()
+        .then(closeForm)
+        .catch(() => {});
     } else {
-      await registerRequest({ ...signupForm, fingerprint: "test" });
-      if (!isErrorRegister) {
-        setIsOpen(false);
-      }
+      await registerRequest({ ...signupForm, fingerprint: "test" })
+        .unwrap()
+        .then(closeForm)
+        .catch(() => {});
     }
   };
+
   return (
     <Modal isOpen={isOpen}>
       <div
@@ -109,7 +112,7 @@ const AuthModal: FC<AuthorizationProps> = ({
         <div className={cx("authorization__info")}>
           <div
             aria-hidden
-            onClick={handleClickClose}
+            onClick={closeForm}
             className={cx(
               "authorization__close",
               `authorization__close-${theme}`,

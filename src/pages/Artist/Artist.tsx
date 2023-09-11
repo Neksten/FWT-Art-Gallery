@@ -11,6 +11,7 @@ import { Accordion } from "@/ui/Accordion";
 import { Genre } from "@/ui/Genre";
 import { Loader } from "@/ui/Loader";
 import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);

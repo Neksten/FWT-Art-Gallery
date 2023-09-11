@@ -5,11 +5,12 @@ import { Overlay } from "@/ui/Overlay";
 
 interface ModalProps extends PropsWithChildren {
   isOpen: boolean;
+  closeModal: () => void;
 }
 
-const Modal: FC<ModalProps> = ({ isOpen, children }) => (
+const Modal: FC<ModalProps> = ({ isOpen, closeModal, children }) => (
   <Portal>
-    <Overlay isOpen={isOpen} />
+    <Overlay isOpen={isOpen} onClick={closeModal} />
     {children}
   </Portal>
 );

@@ -27,15 +27,15 @@ const Header = () => {
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenSignup, setIsOpenSignup] = useState(false);
   const { theme, changeTheme } = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const handleClickLogin = () => {
     setIsOpenLogin(true);
-    setIsOpen(false);
+    setIsOpenMenu(false);
   };
   const handleClickSignup = () => {
     setIsOpenSignup(true);
-    setIsOpen(false);
+    setIsOpenMenu(false);
   };
   const handleClickLogout = () => dispatch(logout());
 
@@ -48,10 +48,10 @@ const Header = () => {
         variant="signup"
       />
       {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && (
-        <Modal isOpen={isOpen}>
+        <Modal closeModal={() => setIsOpenMenu(false)} isOpen={isOpenMenu}>
           <nav
             className={cx("header__modal", `header__modal-${theme}`, {
-              open: isOpen,
+              open: isOpenMenu,
             })}
           >
             <ThemeButton theme={theme} changeTheme={changeTheme} />
@@ -92,9 +92,9 @@ const Header = () => {
           </nav>
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpenMenu(false)}
             className={cx("header__close", {
-              open: isOpen,
+              open: isOpenMenu,
             })}
           >
             <Close />
@@ -150,7 +150,7 @@ const Header = () => {
         </nav>
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpenMenu(true)}
           className={cx("header__burger")}
         >
           <Burger />

@@ -10,10 +10,10 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 interface ToastProps extends PropsWithChildren {
-  // closeToast: () => void;
+  closeToast: () => void;
 }
 
-const Toast: FC<ToastProps> = ({ children }) => {
+const Toast: FC<ToastProps> = ({ closeToast, children }) => {
   const { theme } = useTheme();
   return (
     <div className={cx("toast", `toast-${theme}`)}>
@@ -22,7 +22,7 @@ const Toast: FC<ToastProps> = ({ children }) => {
         <p className={cx("toast__title", "base", "md")}>Error!</p>
       </div>
       <p className={cx("toast__error", "small", "lh")}>{children}</p>
-      <button type="button" className={cx("toast__close")}>
+      <button type="button" onClick={closeToast} className={cx("toast__close")}>
         <Close />
       </button>
     </div>

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useTheme } from "@/context/ThemeContext";
-import Modal from "@/components/Modal/Modal";
+import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
 import { MyLink } from "@/ui/MyLink";
 import { Button } from "@/ui/Button";
@@ -96,7 +96,7 @@ const AuthModal: FC<AuthorizationProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal closeModal={closeForm} isOpen={isOpen}>
       <div
         className={cx("authorization", `authorization-${theme}`, {
           open: isOpen,

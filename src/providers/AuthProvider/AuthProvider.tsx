@@ -15,10 +15,15 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (error && !isLoading) {
-      toast.custom(<Toast>{error}</Toast>, {
-        duration: 4000,
-        position: "bottom-right",
-      });
+      const toastId = String(Date.now());
+      toast.custom(
+        <Toast closeToast={() => toast.remove(toastId)}>{error}</Toast>,
+        {
+          id: toastId,
+          duration: 4000,
+          position: "bottom-right",
+        }
+      );
     }
   }, [error, isLoading]);
   useEffect(() => {

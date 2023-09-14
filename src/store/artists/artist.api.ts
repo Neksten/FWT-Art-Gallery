@@ -10,7 +10,7 @@ export const artistApi = createApi({
   endpoints: (build) => ({
     getArtists: build.query<IArtist[], void>({
       query: () => ({
-        url: `artists/static`,
+        url: "artists/static",
       }),
     }),
     getArtist: build.query<IArtistProfile, string>({

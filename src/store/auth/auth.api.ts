@@ -1,36 +1,39 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { BaseQueryFn, createApi } from "@reduxjs/toolkit/dist/query/react";
+import { AuthRequest, AuthResponse } from "@/models/Auth";
+import { AxiosError, AxiosRequestConfig } from "axios";
+import instance from "@/api/instance";
 
-import { AuthRefreshRequest, AuthRequest, AuthResponse } from "@/models/Auth";
+const axiosBaseQuery =
+  <T>(): BaseQueryFn<AxiosRequestConfig, T> =>
+  async (config: AxiosRequestConfig<T>) => {
+    try {
+      return await instance(config);
+    } catch (axiosError) {
+      return {
+        error: (axiosError as AxiosError).response?.data,
+      };
+    }
+  };
 
 export const authApi = createApi({
   reducerPath: "auth/api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BASE_URL}auth/`,
-  }),
+  baseQuery: axiosBaseQuery(),
   endpoints: (build) => ({
     register: build.mutation<AuthResponse, AuthRequest>({
-      query: (body) => ({
-        url: `register`,
+      query: (data) => ({
+        url: "auth/register",
         method: "POST",
-        body,
+        data,
       }),
     }),
     login: build.mutation<AuthResponse, AuthRequest>({
-      query: (body) => ({
-        url: `login`,
+      query: (data) => ({
+        url: "auth/login",
         method: "POST",
-        body,
-      }),
-    }),
-    refresh: build.mutation<AuthResponse, AuthRefreshRequest>({
-      query: (body) => ({
-        url: `refresh`,
-        method: "POST",
-        body,
+        data,
       }),
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useRefreshMutation } =
-  authApi;
+export const { useRegisterMutation, useLoginMutation } = authApi;

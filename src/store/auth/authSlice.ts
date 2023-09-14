@@ -6,8 +6,8 @@ import {
 } from "@reduxjs/toolkit";
 
 import { authApi } from "@/store/auth/auth.api";
-import { authLocalStorage } from "@/helpers/authLocalStorage";
-import { IError } from "@/models/IError";
+import { authLocalStorage } from "@/utils/auth/authLocalStorage";
+import { AxiosError } from "axios";
 
 interface Auth {
   isAuth: boolean;
@@ -34,9 +34,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    const matchFulfilledEndpoints = Object.values(authApi.endpoints).map(
-      (item) => item.matchFulfilled
-    );
     const matchRejectedEndpoints = Object.values(authApi.endpoints).map(
       (item) => item.matchRejected
     );
@@ -44,18 +41,9 @@ const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addMatcher(
-      isAnyOf(...matchFulfilledEndpoints),
-      (state, { payload }) => {
-        authLocalStorage.set(payload);
-        state.isAuth = true;
-        state.error = "";
-        state.isLoading = false;
-      }
-    );
-    builder.addMatcher(
       isAnyOf(...matchRejectedEndpoints),
       (state, { payload }) => {
-        state.error = (payload?.data as IError).message;
+        state.error = (payload as AxiosError).message;
         state.isLoading = false;
       }
     );

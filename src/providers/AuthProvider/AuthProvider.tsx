@@ -1,16 +1,14 @@
 import React, { FC, PropsWithChildren, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import jwt_decode from "jwt-decode";
 
 import { Toast } from "@/ui/Toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useRefreshMutation } from "@/store/auth/auth.api";
-import { setIsAuth } from "@/store/auth/authSlice";
-import { authLocalStorage } from "@/helpers/authLocalStorage";
+import { authLocalStorage } from "@/utils/auth/authLocalStorage";
+import { isExpiredToken } from "@/store/auth/isExpiredToken";
+import { logout, setIsAuth } from "@/store/auth/authSlice";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const [refreshRequest] = useRefreshMutation();
   const { error, isLoading } = useAppSelector((state) => state.authSlice);
 
   useEffect(() => {
@@ -26,28 +24,14 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       );
     }
   }, [error, isLoading]);
-  useEffect(() => {
-    try {
-      const { accessToken, refreshToken } = authLocalStorage.get();
-      const decodedToken: { exp: number; iat: number; username: string } =
-        jwt_decode(accessToken || "");
-      const currentDate = new Date();
 
-      if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        // Token expired.
-        (async () => {
-          const response = await refreshRequest({
-            fingerprint: "test",
-            refreshToken: refreshToken || "",
-          }).unwrap();
-          authLocalStorage.set(response);
-        })();
-      } else {
-        // Valid token
-        dispatch(setIsAuth(true));
-      }
-    } catch (e) {
-      // token null
+  useEffect(() => {
+    const { accessToken, refreshToken } = authLocalStorage.get();
+
+    if (!isExpiredToken(accessToken)) {
+      dispatch(setIsAuth(true));
+    } else if (isExpiredToken(accessToken) && isExpiredToken(refreshToken)) {
+      dispatch(logout());
     }
     // eslint-disable-next-line
   }, []);

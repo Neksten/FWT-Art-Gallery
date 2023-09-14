@@ -15,6 +15,10 @@ import { ReactComponent as Close } from "@/assets/icons/close.svg";
 import { IAuthInputs } from "@/models/Auth";
 import { useLoginMutation, useRegisterMutation } from "@/store/auth/auth.api";
 
+import { useAppDispatch } from "@/hooks/redux";
+import { setIsAuth } from "@/store/auth/authSlice";
+import { getFingerprint } from "@/utils/auth/getFingerprint";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -51,6 +55,7 @@ const AuthModal: FC<AuthorizationProps> = ({
   menuClass,
 }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
   const [loginForm, setLoginForm] = useState(initialFormValue);
   const [signupForm, setSignupForm] = useState(initialFormValue);
   const [registerRequest] = useRegisterMutation();
@@ -78,7 +83,10 @@ const AuthModal: FC<AuthorizationProps> = ({
       }
     }, 300);
   };
-
+  const fulfilledRequest = () => {
+    dispatch(setIsAuth(true));
+    closeForm();
+  };
   const handleChangeState = (
     setForm: Dispatch<SetStateAction<IAuthInputs>>,
     name: string,
@@ -91,15 +99,17 @@ const AuthModal: FC<AuthorizationProps> = ({
   };
 
   const onSubmitHandler = async () => {
+    const fingerprint = await getFingerprint();
+
     if (variant === "login") {
-      await loginRequest({ ...loginForm, fingerprint: "test" })
+      await loginRequest({ ...loginForm, fingerprint })
         .unwrap()
-        .then(closeForm)
+        .then(fulfilledRequest)
         .catch(() => {});
     } else {
-      await registerRequest({ ...signupForm, fingerprint: "test" })
+      await registerRequest({ ...signupForm, fingerprint })
         .unwrap()
-        .then(closeForm)
+        .then(fulfilledRequest)
         .catch(() => {});
     }
   };

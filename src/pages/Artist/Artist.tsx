@@ -2,7 +2,8 @@ import { FC, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 
-import { useGetArtistQuery } from "@/store/artists/artist.api";
+import { useAppSelector } from "@/hooks/redux";
+import { useGetArtistByIdQuery } from "@/store/artists/artist.api";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/ui/Button";
 import { Card } from "@/ui/Card";
@@ -19,8 +20,12 @@ const cx = classNames.bind(styles);
 const Artist: FC = () => {
   const { id } = useParams();
   const { theme } = useTheme();
+  const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenDescription, setIsOpenDescriptions] = useState<boolean>(false);
-  const { data } = useGetArtistQuery(String(id));
+  const { data } = useGetArtistByIdQuery(
+    { isAuth, id: id || "" },
+    { skip: isAuth === null }
+  );
 
   return (
     <main className={cx("artist", `artist-${theme}`)}>

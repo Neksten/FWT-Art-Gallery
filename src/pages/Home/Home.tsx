@@ -2,6 +2,7 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+import { useAppSelector } from "@/hooks/redux";
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
 import GridLayout from "@/ui/GridLayout/GridLayout";
 import Card from "@/ui/Card/Card";
@@ -13,14 +14,20 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
-  const { data } = useGetArtistsQuery();
+  const { isAuth } = useAppSelector((state) => state.authSlice);
+  const { data, isLoading } = useGetArtistsQuery(
+    { isAuth },
+    { skip: isAuth === null }
+  );
+
+  const artists = data?.data;
 
   return (
     <main className={cx("home", `home-${theme}`)}>
-      {data ? (
+      {!isLoading && artists ? (
         <section className={cx("home__content", "container")}>
           <GridLayout>
-            {data.map((item) => (
+            {artists.map((item) => (
               <Card
                 to={`/artist/${item._id}`}
                 key={item._id}

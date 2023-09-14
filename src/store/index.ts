@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { artistApi } from "@/store/artists/artist.api";
 import { authApi } from "@/store/auth/auth.api";
 import authSlice from "@/store/auth/authSlice";
+import { apiService } from "@/api";
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +11,7 @@ export const store = configureStore({
     authSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(artistApi.middleware, authApi.middleware),
+    getDefaultMiddleware().concat(apiService.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

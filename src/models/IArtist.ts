@@ -14,6 +14,16 @@ export interface IArtist {
   mainPainting: IMainPainting;
 }
 
+export interface IArtistResponse {
+  data: IArtist[];
+  meta: IArtistMetaResponse;
+}
+
+export interface IArtistMetaResponse {
+  count: number;
+  pageNumber: number;
+  perPage: number;
+}
 export interface IGenre {
   _id: string;
   name: string;

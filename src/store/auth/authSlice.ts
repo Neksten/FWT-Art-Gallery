@@ -10,13 +10,13 @@ import { authLocalStorage } from "@/utils/auth/authLocalStorage";
 import { AxiosError } from "axios";
 
 interface Auth {
-  isAuth: boolean;
+  isAuth: boolean | null;
   isLoading: boolean;
   error: string;
 }
 
 const initialState: Auth = {
-  isAuth: false,
+  isAuth: null,
   isLoading: false,
   error: "",
 };

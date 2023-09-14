@@ -1,24 +1,28 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
+import { apiService } from "@/api";
 
-import { IArtist, IArtistProfile } from "@/models/IArtist";
-
-export const artistApi = createApi({
-  reducerPath: "arist/api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_BASE_URL,
-  }),
+export const artistApi = apiService.injectEndpoints({
   endpoints: (build) => ({
-    getArtists: build.query<IArtist[], void>({
-      query: () => ({
-        url: "artists/static",
+    getArtists: build.query<IArtistResponse, { isAuth: boolean | null }>({
+      query: ({ isAuth }) => ({
+        url: isAuth ? "artists" : "artists/static",
       }),
+      transformResponse: (response: IArtistResponse, _, arg): any => {
+        return arg.isAuth ? response : { data: response, meta: null };
+      },
     }),
-    getArtist: build.query<IArtistProfile, string>({
-      query: (id: string) => ({
-        url: `artists/static/${id}`,
+    getArtistById: build.query<
+      IArtistProfile,
+      {
+        isAuth: boolean | null;
+        id: string;
+      }
+    >({
+      query: ({ isAuth, id }) => ({
+        url: isAuth ? `artists/${id}` : `artists/static/${id}`,
       }),
     }),
   }),
 });
 
-export const { useGetArtistsQuery, useGetArtistQuery } = artistApi;
+export const { useGetArtistsQuery, useGetArtistByIdQuery } = artistApi;

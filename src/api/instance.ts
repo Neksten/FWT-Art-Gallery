@@ -50,6 +50,10 @@ const onRefreshToken = async () => {
 };
 
 export const onRequest = async (config: InternalAxiosRequestConfig) => {
+  if (config.url?.includes("static")) {
+    return config;
+  }
+
   const { accessToken, refreshToken } = authLocalStorage.get();
 
   if (isExpiredToken(accessToken) && !isExpiredToken(refreshToken)) {
@@ -78,6 +82,11 @@ export const onResponseError = async (
   }
 
   const config = error.config as AxiosRequestConfig;
+
+  if (config.url?.includes("static")) {
+    return Promise.reject(error);
+  }
+
   const { refreshToken } = authLocalStorage.get();
 
   if (refreshToken) {

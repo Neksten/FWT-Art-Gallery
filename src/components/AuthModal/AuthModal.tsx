@@ -157,12 +157,20 @@ const AuthModal: FC<AuthorizationProps> = ({
                 value={
                   variant === "login" ? loginForm.username : signupForm.username
                 }
-                setValue={
+                onChange={
                   variant === "login"
-                    ? (value) =>
-                        handleChangeState(setLoginForm, "username", value)
-                    : (value) =>
-                        handleChangeState(setSignupForm, "username", value)
+                    ? (e) =>
+                        handleChangeState(
+                          setLoginForm,
+                          "username",
+                          e.target.value
+                        )
+                    : (e) =>
+                        handleChangeState(
+                          setSignupForm,
+                          "username",
+                          e.target.value
+                        )
                 }
               />
               <Input
@@ -175,12 +183,20 @@ const AuthModal: FC<AuthorizationProps> = ({
                 value={
                   variant === "login" ? loginForm.password : signupForm.password
                 }
-                setValue={
+                onChange={
                   variant === "login"
-                    ? (value) =>
-                        handleChangeState(setLoginForm, "password", value)
-                    : (value) =>
-                        handleChangeState(setSignupForm, "password", value)
+                    ? (e) =>
+                        handleChangeState(
+                          setLoginForm,
+                          "password",
+                          e.target.value
+                        )
+                    : (e) =>
+                        handleChangeState(
+                          setSignupForm,
+                          "password",
+                          e.target.value
+                        )
                 }
               />
             </div>

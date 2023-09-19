@@ -7,12 +7,12 @@ const cx = classNames.bind(styles);
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: "light" | "dark";
-  variant?: "delete" | "theme" | "arrow";
+  variant?: "theme" | "arrow";
 }
 
 const IconButton: FC<IconButtonProps> = ({
   theme = "light",
-  variant = "delete",
+  variant,
   children,
   className,
   ...props

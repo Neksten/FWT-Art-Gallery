@@ -1,0 +1,37 @@
+@import "../../_variables";
+
+.checkbox {
+  position: relative;
+  height: max-content;
+  transition: all 0.2s ease-out;
+  &__input {
+    width: 24px;
+    height: 24px;
+    border-radius: 1px;
+    border: 1px solid $color-primary-light-gray;
+    background-color: $color-secondary-white;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    appearance:none;
+    cursor: pointer;
+  }
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    color: $color-primary-dark-gray;
+  }
+  &-dark {
+    .checkbox {
+      &__input {
+        border: 1px solid $color-primary-black;
+        background-color: $color-primary-black;
+      }
+      &__icon {
+        color: $color-primary-light-gray;
+      }
+    }
+  }
+}

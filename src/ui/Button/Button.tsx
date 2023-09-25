@@ -16,20 +16,22 @@ const Button: FC<ButtonProps> = ({
   theme = "light",
   startIcon,
   children,
+  className,
   ...props
 }) => {
   return (
     <button
       type="button"
       className={cx(
-        styles.button,
-        styles[`button__${variant}`],
-        styles[`button__${variant}-${theme}`]
+        "button",
+        `button__${variant}`,
+        `button__${variant}-${theme}`,
+        className
       )}
       {...props}
     >
       {startIcon && startIcon}
-      <span className={styles.button__text}>{children}</span>
+      <span className={cx("button__text")}>{children}</span>
     </button>
   );
 };

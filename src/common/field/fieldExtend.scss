@@ -11,15 +11,6 @@
     font-size: 12px;
     font-weight: 700;
   }
-  .text-field__error {
-    display: flex;
-    align-items: center;
-    column-gap: 4px;
-    margin: 4px 0 0 0;
-    font-size: 12px;
-    font-weight: 300;
-    color: $color-accent-red;
-  }
   .text-field__input, .text-field__textarea {
     background-color: $color-primary-white;
     color: $color-primary-dark-gray;
@@ -42,11 +33,16 @@
       border-color: $color-primary-dark-gray;
     }
     &-error {
-      border-color: $color-accent-red !important;
+      border-color: $color-accent-error !important;
     }
     &:-webkit-autofill {
       -webkit-box-shadow: 0 0 0 1000px $color-primary-white inset;
       -webkit-text-fill-color: $color-primary-dark-gray !important;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   }
   .text-field__textarea {

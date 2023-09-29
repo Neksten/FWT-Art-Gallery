@@ -1,0 +1,74 @@
+@import "../../_variables";
+
+%text-field {
+  width: 100%;
+  transition: background-color 0.2s ease-out;
+  .text-field__label {
+    display: inline-block;
+    margin: 0 0 8px 0;
+    color: $color-primary-black;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .text-field__input, .text-field__textarea {
+    background-color: $color-primary-white;
+    color: $color-primary-dark-gray;
+    border: 1px solid $color-primary-light-gray;
+    border-radius: 4px;
+    padding: 12px 16px;
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    transition: border-color 0.2s ease-out;
+    &::placeholder {
+      font-weight: 300;
+      font-size: 16px;
+      color: $color-primary-light-gray;
+    }
+    &:hover {
+      border-color: $color-secondary-gray;
+    }
+    &:focus {
+      border-color: $color-primary-dark-gray;
+    }
+    &-error {
+      border-color: $color-accent-error !important;
+    }
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px $color-primary-white inset;
+      -webkit-text-fill-color: $color-primary-dark-gray !important;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  .text-field__textarea {
+    resize: none;
+    height: 150px;
+  }
+  &.text-field-dark {
+    .text-field__label {
+      color: $color-primary-white;
+    }
+    .text-field__input, .text-field__textarea {
+      background-color: $color-secondary-black;
+      border: 1px solid $color-secondary-black;
+
+      &:hover {
+        border: 1px solid $color-primary-dark-gray;
+      }
+
+      &:focus {
+        border: 1px solid $color-primary-light-gray;
+      }
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px $color-secondary-black inset;
+        -webkit-text-fill-color: $color-primary-white !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import "../../../_variables";
+@import "../../../common/iconButton/iconButtonExtend";
+@import "../../../common/iconButton/iconButtonMixin";
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 40px 0;
+  background: none;
+  &__icon {
+    @extend %extend-icon-button;
+    @include icon-button(theme, _);
+  }
+  &__link {
+    margin: 0 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  &-light .button__icon {
+    @extend %extend-icon-button-light;
+  }
+  &-dark .button__icon {
+    @extend %extend-icon-button-dark;
+  }
+  @media (min-width: $maxWidthContainer) {
+    display: none;
+  }
+}

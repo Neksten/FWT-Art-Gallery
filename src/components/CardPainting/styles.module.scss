@@ -1,0 +1,58 @@
+@import "../../_variables";
+
+.card-artist {
+  position: relative;
+  &__settings {
+    position: absolute;
+    z-index: 5;
+    top: 12px;
+    left: 12px;
+    opacity: 1;
+  }
+  &__button {
+    color: $color-primary-light-gray;
+    background: none;
+  }
+  &__body {
+    background: $color-secondary-white;
+    margin-top: 2px;
+    padding: 16px 0;
+    border-radius: 5px;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 15px; top: 23px;
+      border: 5px solid transparent;
+      border-bottom-color: $color-secondary-white;
+    }
+  }
+  &__item {
+    padding: 4px 16px;
+    font-weight: 700;
+    font-size: 12px;
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    background-color: $color-secondary-white;
+    text-transform: capitalize;
+    &:hover {
+      color: $color-primary-black;
+    }
+  }
+  &-dark .card-artist {
+    &__body {
+      background-color: $color-secondary-black;
+      &::before {
+        border-bottom-color: $color-secondary-black;
+      }
+    }
+    &__item {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+      &:hover {
+        color: $color-accent-gold;
+        background-color: $color-primary-black;
+      }
+    }
+  }
+}

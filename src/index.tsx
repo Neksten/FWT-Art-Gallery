@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { App } from "@/components/App";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { store } from "@/store";
 import { AuthProvider } from "@/providers/AuthProvider";
+
+import { App } from "@/components/App";
 
 import "@/index.scss";
 

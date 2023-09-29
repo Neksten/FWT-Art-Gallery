@@ -133,15 +133,17 @@ main {
 
 
 .scroll {
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: $color-primary-dark-gray;
-  }
-  &::-webkit-scrollbar-track {
-    background: #CDCDCD0D;
-    border-radius: 10px;
+  @media (min-width: $md2) {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 6px;
+      background-color: $color-primary-dark-gray;
+    }
+    &::-webkit-scrollbar-track {
+      background: #CDCDCD0D;
+      border-radius: 10px;
+    }
   }
 }

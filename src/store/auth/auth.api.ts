@@ -5,14 +5,14 @@ export const authApi = apiService.injectEndpoints({
   endpoints: (build) => ({
     register: build.mutation<AuthResponse, AuthRequest>({
       query: (data) => ({
-        url: "auth/register",
+        url: "/auth/register",
         method: "POST",
         data,
       }),
     }),
     login: build.mutation<AuthResponse, AuthRequest>({
       query: (data) => ({
-        url: "auth/login",
+        url: "/auth/login",
         method: "POST",
         data,
       }),

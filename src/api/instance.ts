@@ -28,19 +28,15 @@ const onRefreshToken = async () => {
   const { refreshToken } = authLocalStorage.get();
   const fingerprint = await getFingerprint();
 
-  if (!isExpiredToken(refreshToken)) {
-    // TODO переделать на instance
-    refreshTokenPromise = axios.post(
-      "https://internship-front.framework.team/auth/refresh",
-      {
-        refreshToken,
-        fingerprint,
-      }
-    );
+  if (refreshToken && !isExpiredToken(refreshToken)) {
+    refreshTokenPromise = instance("/auth/refresh", {
+      method: "POST",
+      data: { refreshToken, fingerprint },
+    });
 
     await refreshTokenPromise;
-
     refreshTokenPromise = null;
+
     return Promise.resolve();
   }
 
@@ -50,14 +46,15 @@ const onRefreshToken = async () => {
 };
 
 export const onRequest = async (config: InternalAxiosRequestConfig) => {
-  if (config.url?.includes("static")) {
+  if (config.url?.includes("auth") || config.url?.includes("static")) {
     return config;
   }
 
-  const { accessToken, refreshToken } = authLocalStorage.get();
+  let { accessToken } = authLocalStorage.get();
 
-  if (isExpiredToken(accessToken) && !isExpiredToken(refreshToken)) {
+  if (isExpiredToken(accessToken)) {
     await onRefreshToken();
+    accessToken = authLocalStorage.get().accessToken;
   }
 
   if (accessToken) {
@@ -66,6 +63,9 @@ export const onRequest = async (config: InternalAxiosRequestConfig) => {
 
   return config;
 };
+
+export const onRequestError = (error: AxiosError): Promise<AxiosError> =>
+  Promise.reject(error);
 
 export const onResponse = (response: AxiosResponse): AxiosResponse => {
   if (response.config.url?.includes("auth")) {
@@ -105,7 +105,7 @@ export const onResponseError = async (
   return Promise.reject();
 };
 
-instance.interceptors.request.use(onRequest);
+instance.interceptors.request.use(onRequest, onRequestError);
 instance.interceptors.response.use(onResponse, onResponseError);
 
 export default instance;

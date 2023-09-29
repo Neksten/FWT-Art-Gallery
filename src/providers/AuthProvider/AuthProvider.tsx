@@ -1,11 +1,12 @@
-import React, { FC, PropsWithChildren, useEffect } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
-import { Toast } from "@/ui/Toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { authLocalStorage } from "@/utils/auth/authLocalStorage";
 import { isExpiredToken } from "@/store/auth/isExpiredToken";
 import { logout, setIsAuth } from "@/store/auth/authSlice";
+
+import { Toast } from "@/ui/Toast";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -26,11 +27,11 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [error, isLoading]);
 
   useEffect(() => {
-    const { accessToken, refreshToken } = authLocalStorage.get();
+    const { refreshToken } = authLocalStorage.get();
 
-    if (!isExpiredToken(accessToken)) {
+    if (!isExpiredToken(refreshToken)) {
       dispatch(setIsAuth(true));
-    } else if (isExpiredToken(accessToken) && isExpiredToken(refreshToken)) {
+    } else if (isExpiredToken(refreshToken)) {
       dispatch(logout());
     }
     // eslint-disable-next-line

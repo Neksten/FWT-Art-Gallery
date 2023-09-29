@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import { ReactComponent as Error } from "@/assets/icons/error.svg";
 import { ReactComponent as Close } from "@/assets/icons/close.svg";
+
 import { useTheme } from "@/context/ThemeContext";
 
 import styles from "./styles.module.scss";

@@ -7,15 +7,15 @@ const cx = classNames.bind(styles);
 
 interface OverlayProps {
   onClick: () => void;
-  menuClass: "open" | "delete";
+  className?: string;
 }
 
-const Overlay: FC<OverlayProps> = ({ onClick, menuClass }) => {
+const Overlay: FC<OverlayProps> = ({ onClick, className }) => {
   return (
     <div
       role="presentation"
       onClick={onClick}
-      className={cx("overlay", menuClass)}
+      className={cx("overlay", className)}
     />
   );
 };

@@ -1,7 +1,7 @@
 import { forwardRef, InputHTMLAttributes } from "react";
-
-import { ReactComponent as Error } from "@/assets/icons/error.svg";
 import classNames from "classnames/bind";
+
+import { Error } from "@/ui/Error";
 
 import styles from "./styles.module.scss";
 
@@ -9,21 +9,21 @@ const cx = classNames.bind(styles);
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  htmlFor: string;
   error?: string;
   theme?: "light" | "dark";
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, htmlFor, theme = "light", error, value, ...props }, ref) => {
+  ({ label, name, theme = "light", error, value, ...props }, ref) => {
     return (
       <div className={cx("text-field", `text-field-${theme}`)}>
-        <label className={cx("text-field__label")} htmlFor={htmlFor}>
+        <label className={cx("text-field__label")} htmlFor={name}>
           {label}
         </label>
         <input
           {...props}
           ref={ref}
+          name={name}
           value={value}
           className={cx(
             "text-field__input",
@@ -31,12 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             error ? `text-field__input-error` : ""
           )}
         />
-        {error && (
-          <p className={cx("text-field__error")}>
-            <Error />
-            {error}
-          </p>
-        )}
+        {error && <Error error={error} />}
       </div>
     );
   }

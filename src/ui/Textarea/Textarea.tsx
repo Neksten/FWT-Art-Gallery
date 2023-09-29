@@ -1,7 +1,7 @@
 import { forwardRef, TextareaHTMLAttributes } from "react";
 import classNames from "classnames/bind";
 
-import { ReactComponent as Error } from "@/assets/icons/error.svg";
+import { Error } from "@/ui/Error";
 
 import styles from "./styles.module.scss";
 
@@ -9,24 +9,23 @@ const cx = classNames.bind(styles);
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
-  htmlFor: string;
   error?: string;
   theme?: "light" | "dark";
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
-    { className, label, htmlFor, value, error, theme = "light", ...props },
+    { className, label, name, value, error, theme = "light", ...props },
     ref
   ) => {
     return (
       <div className={cx("text-field", `text-field-${theme}`)}>
-        <label className={cx("text-field__label")} htmlFor={htmlFor}>
+        <label className={cx("text-field__label")} htmlFor={name}>
           {label}
         </label>
         <textarea
           {...props}
-          name={htmlFor}
+          name={name}
           ref={ref}
           value={value}
           className={cx(
@@ -39,12 +38,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             }
           )}
         />
-        {error && (
-          <p className={cx("text-field__error")}>
-            <Error />
-            {error}
-          </p>
-        )}
+        {error && <Error error={error} />}
       </div>
     );
   }

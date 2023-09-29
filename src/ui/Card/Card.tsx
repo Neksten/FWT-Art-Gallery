@@ -1,42 +1,29 @@
 import { FC } from "react";
-import { Link, LinkProps } from "react-router-dom";
 import classNames from "classnames/bind";
 
+import { NoImage } from "@/ui/NoImage";
 import { ReactComponent as ArrowNext } from "@/assets/icons/arrow-next.svg";
-import { ReactComponent as Photo } from "@/assets/icons/photo.svg";
 
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface CardProps extends LinkProps {
+interface CardProps {
   title: string;
   years: string;
   imgUrl?: string;
   theme?: "light" | "dark";
 }
 
-const Card: FC<CardProps> = ({
-  title,
-  theme = "light",
-  years,
-  imgUrl,
-  className,
-  ...props
-}) => {
+const Card: FC<CardProps> = ({ title, theme = "light", years, imgUrl }) => {
   return (
-    <Link {...props} className={cx("card", `card-${theme}`)}>
+    <div className={cx("card", `card-${theme}`)}>
       {imgUrl ? (
         <div className={cx("card__image-container")}>
           <img src={imgUrl} className={cx("card__image")} alt="" />
         </div>
       ) : (
-        <div className={cx("card__image-none")}>
-          <div className={cx("card__icon")}>
-            <Photo />
-          </div>
-          <span className={cx("card__text")}>No Image uploaded</span>
-        </div>
+        <NoImage theme={theme} />
       )}
       <div className={cx("card__body")}>
         <div className={cx("card__info")}>
@@ -47,7 +34,7 @@ const Card: FC<CardProps> = ({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

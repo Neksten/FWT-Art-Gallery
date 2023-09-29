@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, FC } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import classNames from "classnames/bind";
 
 import { ReactComponent as Close } from "@/assets/icons/close.svg";

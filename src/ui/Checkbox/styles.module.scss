@@ -23,15 +23,13 @@
     pointer-events: none;
     color: $color-primary-dark-gray;
   }
-  &-dark {
-    .checkbox {
-      &__input {
-        border: 1px solid $color-primary-black;
-        background-color: $color-primary-black;
-      }
-      &__icon {
-        color: $color-primary-light-gray;
-      }
+  &-dark .checkbox {
+    &__input {
+      border: 1px solid $color-primary-black;
+      background-color: $color-primary-black;
+    }
+    &__icon {
+      color: $color-primary-light-gray;
     }
   }
 }

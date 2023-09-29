@@ -2,6 +2,7 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+
 import { MyLink } from "@/ui/MyLink";
 import { ReactComponent as Fb } from "@/assets/icons/fb.svg";
 import { ReactComponent as Inst } from "@/assets/icons/inst.svg";

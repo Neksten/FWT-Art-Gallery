@@ -1,11 +1,9 @@
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { FC, PropsWithChildren, useEffect, useRef } from "react";
 
-interface IOutsideClickHandlerProps {
-  onOutsideClick: (value: boolean) => void;
-  children?: ReactNode;
+interface IOutsideClickHandlerProps extends PropsWithChildren {
+  onOutsideClick: () => void;
 }
 
-// Выполнит onOutsideClick если клик произошел вне элемента
 const OutsideClickHandler: FC<IOutsideClickHandlerProps> = ({
   onOutsideClick,
   children,
@@ -14,13 +12,12 @@ const OutsideClickHandler: FC<IOutsideClickHandlerProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      // если клик произошел вне dropdown, то закрыть его
       if (
         ref.current &&
         event.target &&
         !ref.current.contains(event.target as Node)
       ) {
-        onOutsideClick(false);
+        onOutsideClick();
       }
     };
 

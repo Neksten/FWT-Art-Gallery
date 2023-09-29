@@ -1,17 +1,27 @@
+import { IGenre } from "@/models/IGenre";
+import { IImage, IMainPainting } from "@/models/IImage";
+
 export interface IArtistProfile extends Omit<IArtist, "genres"> {
   paintings: IMainPainting[];
   genres: IGenre[];
   avatar: IImage;
 }
 
-export interface IArtist {
+export interface IArtist extends IArtistRoot {
   genres: string[];
   _id: string;
+  mainPainting: IMainPainting;
+}
+
+export interface IArtistRoot {
   name: string;
   description: string;
   yearsOfLife: string;
-  __v: number;
-  mainPainting: IMainPainting;
+}
+
+export interface IArtistModal extends IArtistRoot {
+  genres: IGenre[];
+  avatar: string;
 }
 
 export interface IArtistResponse {
@@ -23,25 +33,4 @@ export interface IArtistMetaResponse {
   count: number;
   pageNumber: number;
   perPage: number;
-}
-export interface IGenre {
-  _id: string;
-  name: string;
-}
-
-export interface IMainPainting {
-  _id: string;
-  name: string;
-  yearOfCreation: string;
-  image: IImage;
-  artist: string;
-}
-
-export interface IImage {
-  _id: string;
-  src: string;
-  webp: string;
-  src2x: string;
-  webp2x: string;
-  original: string;
 }

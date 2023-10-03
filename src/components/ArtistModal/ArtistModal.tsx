@@ -28,7 +28,7 @@ const cx = classNames.bind(styles);
 
 interface EditModalProps {
   setIsOpen: (value: boolean) => void;
-  idArtist?: string;
+  artistId?: string;
   variant?: "add" | "edit";
   genresList: IGenre[];
   initialData?: IArtistModal;
@@ -60,7 +60,7 @@ const validationSchema = yup.object({
 });
 
 const ArtistModal: FC<EditModalProps> = ({
-  idArtist,
+  artistId,
   setIsOpen,
   initialData,
   genresList,
@@ -110,7 +110,7 @@ const ArtistModal: FC<EditModalProps> = ({
           .catch(() => {});
       } else if (variant === "edit") {
         await editRequest({
-          id: idArtist as string,
+          artistId: artistId || "",
           data: generationRequestBody(data),
         })
           .unwrap()

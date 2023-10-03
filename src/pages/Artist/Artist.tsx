@@ -1,9 +1,12 @@
 import { FC, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { useAppSelector } from "@/hooks/redux";
-import { useGetArtistByIdQuery } from "@/store/artists/artist.api";
+import {
+  useDeleteArtistByIdMutation,
+  useGetArtistByIdQuery,
+} from "@/store/artists/artist.api";
 import { useGetGenresQuery } from "@/store/genre/genre.api";
 import { useTheme } from "@/context/ThemeContext";
 import { IArtistModal } from "@/models/IArtist";
@@ -33,16 +36,18 @@ const cx = classNames.bind(styles);
 
 const Artist: FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [isOpenModalArtist, setIsOpenModalArtist] = useState(false);
   const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [isOpenDescription, setIsOpenDescriptions] = useState(false);
-  const [isOpenSlider, setIsOpenSlider] = useState(true);
-  const [initialActiveSlide, setInitialActiveSlide] = useState(2);
+  const [isOpenSlider, setIsOpenSlider] = useState(false);
+  const [initialActiveSlide, setInitialActiveSlide] = useState(0);
+  const [deleteArtist] = useDeleteArtistByIdMutation();
   const { data } = useGetArtistByIdQuery(
-    { isAuth, id: id || "" },
+    { isAuth, artistId: id || "" },
     { skip: isAuth === null }
   );
   const { data: genresData } = useGetGenresQuery(
@@ -64,6 +69,15 @@ const Artist: FC = () => {
     setIsOpenSlider(true);
     setInitialActiveSlide(index);
   };
+
+  const handleDeleteArtist = (artistId: string) => {
+    deleteArtist(artistId).then((e) => {
+      if ("data" in e) {
+        navigate("/");
+      }
+    });
+  };
+
   return (
     <main className={cx("artist", `artist-${theme}`)}>
       {isAuth && isOpenSlider && (
@@ -72,11 +86,12 @@ const Artist: FC = () => {
           initialActiveSlide={initialActiveSlide}
           setIsOpen={setIsOpenSlider}
           data={data?.paintings || []}
-          mainPaintingId={data?.mainPainting._id || ""}
+          mainPaintingId={data?.mainPainting?._id || ""}
         />
       )}
       {isAuth && isOpenModalDelete && (
         <DeleteModal
+          handleDelete={() => handleDeleteArtist(id || "")}
           title="Do you want to delete this artist profile?"
           setIsOpen={setIsOpenModalDelete}
         />
@@ -84,13 +99,13 @@ const Artist: FC = () => {
       {isAuth && genresData && isOpenModalArtist && (
         <ArtistModal
           initialData={initialData}
-          idArtist={id}
+          artistId={id}
           genresList={genresData}
           setIsOpen={setIsOpenModalArtist}
         />
       )}
       {isAuth && isOpenModalPainting && (
-        <PaintingModal idArtist={id || ""} setIsOpen={setIsOpenModalPainting} />
+        <PaintingModal artistId={id || ""} setIsOpen={setIsOpenModalPainting} />
       )}
       {data ? (
         <div className={cx("artist__content", "container")}>
@@ -193,7 +208,7 @@ const Artist: FC = () => {
                         imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
                         artistId={id || ""}
                         paintingId={painting._id}
-                        mainPaintingId={data.mainPainting._id}
+                        mainPaintingId={data.mainPainting?._id || ""}
                         onClick={() => handleClickCard(index)}
                       />
                     ) : (

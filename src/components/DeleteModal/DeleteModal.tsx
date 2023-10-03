@@ -1,9 +1,7 @@
 import { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
-import { useDeleteArtistByIdMutation } from "@/store/artists/artist.api";
 
 import { Modal } from "@/components/Modal";
 import { Button } from "@/ui/Button";
@@ -16,22 +14,24 @@ const cx = classNames.bind(styles);
 interface DeleteModalProps {
   setIsOpen: (value: boolean) => void;
   title: string;
+  handleDelete: () => void;
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({ setIsOpen, title }) => {
-  const { id } = useParams();
+const DeleteModal: FC<DeleteModalProps> = ({
+  setIsOpen,
+  title,
+  handleDelete,
+}) => {
   const { theme } = useTheme();
-  const navigate = useNavigate();
-  const [deleteArtist] = useDeleteArtistByIdMutation();
 
-  const handleDelete = () => {
-    deleteArtist(id as string).then((e) => {
-      if ("data" in e) {
-        navigate("/");
-      }
-    });
+  const handleDeleteRequest = async () => {
+    try {
+      handleDelete();
+      setIsOpen(false);
+    } catch {
+      //
+    }
   };
-
   return (
     <Modal
       className={cx("modal", `modal-${theme}`)}
@@ -46,7 +46,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ setIsOpen, title }) => {
         You will not be able to recover this profile afterwards.
       </p>
       <Button
-        onClick={handleDelete}
+        onClick={handleDeleteRequest}
         theme={theme}
         className={cx("modal__button")}
       >

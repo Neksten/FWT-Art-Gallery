@@ -43,13 +43,13 @@ const Header: FC = () => {
   };
   return (
     <header className={cx("header", `header-${theme}`)}>
-      {isOpenLogin && (
+      {!isAuth && isOpenLogin && (
         <AuthModal
           setIsOpen={setIsOpenLogin}
           setIsRedirect={() => setIsOpenSignup(true)}
         />
       )}
-      {isOpenSignup && (
+      {!isAuth && isOpenSignup && (
         <AuthModal
           setIsOpen={setIsOpenSignup}
           setIsRedirect={() => setIsOpenLogin(true)}

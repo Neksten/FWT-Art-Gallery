@@ -14,6 +14,7 @@ import { getFingerprint } from "@/utils/auth/getFingerprint";
 import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
+import { InputPassword } from "@/ui/InputPassword";
 import loginBg from "@/assets/login.jpg";
 import registrationBg from "@/assets/registration.jpg";
 
@@ -47,6 +48,7 @@ const AuthModal: FC<AuthorizationProps> = ({
   const dispatch = useAppDispatch();
   const [registerRequest] = useRegisterMutation();
   const [loginRequest] = useLoginMutation();
+
   const {
     register,
     handleSubmit,
@@ -106,11 +108,12 @@ const AuthModal: FC<AuthorizationProps> = ({
             <Input
               {...register("username")}
               label="email"
+              autoComplete="username"
               theme={theme}
               error={errors?.username?.message}
             />
-            <Input
-              {...register("password")}
+            <InputPassword
+              register={register("password")}
               label="password"
               theme={theme}
               error={errors?.password?.message}

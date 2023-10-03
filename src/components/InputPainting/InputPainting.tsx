@@ -83,7 +83,14 @@ const InputPainting = <T extends FieldValues>({
             >
               {value && !error && (
                 <div className={cx("input-painting__photo")}>
-                  <img src={URL.createObjectURL(value)} alt="" />
+                  <img
+                    src={
+                      value.toString().includes(process.env.REACT_APP_BASE_URL)
+                        ? value
+                        : URL.createObjectURL(value)
+                    }
+                    alt=""
+                  />
                 </div>
               )}
               <div className={cx("input-painting__image")}>

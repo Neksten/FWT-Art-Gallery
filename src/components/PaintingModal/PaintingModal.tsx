@@ -3,11 +3,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import classNames from "classnames/bind";
+import isEqual from "lodash.isequal";
 
 import { useTheme } from "@/context/ThemeContext";
 import { IPainting } from "@/models/IPainting";
 import { imageSchema } from "@/utils/Schems/imageSchema";
-import { useAddArtistPaintingMutation } from "@/store/artists/artist.api";
+import {
+  useAddArtistPaintingMutation,
+  useEditArtistPaintingMutation,
+} from "@/store/artists/artist.api";
 
 import { Modal } from "@/components/Modal";
 import { InputPainting } from "@/components/InputPainting";
@@ -18,14 +22,16 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-export interface PaintingModalProps {
-  setIsOpen: (value: boolean) => void;
-  idArtist: string;
-  variant?: "add" | "edit";
-}
-
 interface PaintingDefaultValues extends Omit<IPainting, "yearOfCreation"> {
   yearOfCreation: string;
+}
+
+export interface PaintingModalProps {
+  setIsOpen: (value: boolean) => void;
+  artistId: string;
+  paintingId?: string;
+  variant?: "add" | "edit";
+  initialData?: PaintingDefaultValues;
 }
 
 const defaultValues: PaintingDefaultValues = {
@@ -43,11 +49,14 @@ const validationSchema = yup.object({
 const PaintingModal: FC<PaintingModalProps> = ({
   setIsOpen,
   variant = "add",
-  idArtist,
+  paintingId,
+  artistId,
+  initialData,
 }) => {
   type PaintingFormData = yup.InferType<typeof validationSchema>;
   const { theme } = useTheme();
   const [addRequest] = useAddArtistPaintingMutation();
+  const [editRequest] = useEditArtistPaintingMutation();
   const {
     register,
     handleSubmit,
@@ -56,23 +65,38 @@ const PaintingModal: FC<PaintingModalProps> = ({
   } = useForm<PaintingFormData>({
     resolver: yupResolver(validationSchema),
     mode: "onBlur",
-    defaultValues,
+    defaultValues: initialData || defaultValues,
   });
 
   const generationRequestBody = (data: PaintingDefaultValues): FormData => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("yearOfCreation", data.yearOfCreation);
-    formData.append("image", data.image);
+    if (data.image !== initialData?.image) {
+      formData.append("image", data.image);
+    }
     return formData;
   };
 
   const onSubmitHandler = async (data: any) => {
-    if (variant === "add") {
-      await addRequest({ id: idArtist, data: generationRequestBody(data) })
-        .unwrap()
-        .then(() => setIsOpen(false))
-        .catch(() => {});
+    if (!isEqual(initialData, data)) {
+      if (variant === "add") {
+        await addRequest({ artistId, data: generationRequestBody(data) })
+          .unwrap()
+          .then(() => setIsOpen(false))
+          .catch(() => {});
+      } else if (variant === "edit" && paintingId) {
+        await editRequest({
+          artistId,
+          paintingId,
+          data: generationRequestBody(data),
+        })
+          .unwrap()
+          .then(() => setIsOpen(false))
+          .catch(() => {});
+      }
+    } else {
+      setIsOpen(false);
     }
   };
 

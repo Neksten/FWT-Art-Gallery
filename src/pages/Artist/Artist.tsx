@@ -12,6 +12,7 @@ import { ArtistModal } from "@/components/ArtistModal";
 import { DeleteModal } from "@/components/DeleteModal";
 import { PaintingModal } from "@/components/PaintingModal";
 import { CardPainting } from "@/components/CardPainting";
+import { SliderPaintings } from "@/components/SliderPaintings";
 import { Card } from "@/ui/Card";
 import { IconButton } from "@/ui/IconButton";
 import { Button } from "@/ui/Button";
@@ -34,10 +35,12 @@ const Artist: FC = () => {
   const { id } = useParams();
   const { theme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [isOpenModalArtist, setIsOpenModalArtist] = useState(false);
   const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [isOpenDescription, setIsOpenDescriptions] = useState(false);
+  const [isOpenSlider, setIsOpenSlider] = useState(true);
+  const [initialActiveSlide, setInitialActiveSlide] = useState(2);
   const { data } = useGetArtistByIdQuery(
     { isAuth, id: id || "" },
     { skip: isAuth === null }
@@ -57,12 +60,25 @@ const Artist: FC = () => {
       : "",
   };
 
+  const handleClickCard = (index: number) => {
+    setIsOpenSlider(true);
+    setInitialActiveSlide(index);
+  };
   return (
     <main className={cx("artist", `artist-${theme}`)}>
-      {isAuth && isOpenDelete && (
+      {isAuth && isOpenSlider && (
+        <SliderPaintings
+          artistId={id || ""}
+          initialActiveSlide={initialActiveSlide}
+          setIsOpen={setIsOpenSlider}
+          data={data?.paintings || []}
+          mainPaintingId={data?.mainPainting._id || ""}
+        />
+      )}
+      {isAuth && isOpenModalDelete && (
         <DeleteModal
           title="Do you want to delete this artist profile?"
-          setIsOpen={setIsOpenDelete}
+          setIsOpen={setIsOpenModalDelete}
         />
       )}
       {isAuth && genresData && isOpenModalArtist && (
@@ -102,7 +118,10 @@ const Artist: FC = () => {
                 >
                   <Edit />
                 </IconButton>
-                <IconButton onClick={() => setIsOpenDelete(true)} theme={theme}>
+                <IconButton
+                  onClick={() => setIsOpenModalDelete(true)}
+                  theme={theme}
+                >
                   <Delete />
                 </IconButton>
               </div>
@@ -165,15 +184,17 @@ const Artist: FC = () => {
             {data.paintings.length > 0 ? (
               <div className={cx("artist-artworks__paintings")}>
                 <GridLayout>
-                  {data.paintings.map((painting) =>
+                  {data.paintings.map((painting, index) =>
                     isAuth ? (
                       <CardPainting
                         key={painting._id}
                         title={painting.name}
                         years={painting.yearOfCreation}
                         imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
+                        artistId={id || ""}
                         paintingId={painting._id}
                         mainPaintingId={data.mainPainting._id}
+                        onClick={() => handleClickCard(index)}
                       />
                     ) : (
                       <Card

@@ -8,7 +8,7 @@ import { useGetGenresQuery } from "@/store/genre/genre.api";
 
 import { ArtistModal } from "@/components/ArtistModal";
 import { CardLink } from "@/components/CardLink";
-import GridLayout from "@/ui/GridLayout/GridLayout";
+import { GridLayout } from "@/ui/GridLayout";
 import { Loader } from "@/ui/Loader";
 import { Button } from "@/ui/Button";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";

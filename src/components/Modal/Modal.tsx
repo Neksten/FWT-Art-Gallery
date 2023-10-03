@@ -1,8 +1,9 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { RemoveScrollBar } from "react-remove-scroll-bar";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+import { handleEscapeKey } from "@/utils/handleEscapeKey";
 
 import { Portal } from "@/components/Portal";
 import { Overlay } from "@/ui/Overlay";
@@ -27,13 +28,18 @@ const Modal: FC<ModalProps> = ({
   const { theme } = useTheme();
   const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
-  const closeForm = () => {
+  const closeForm = useCallback(() => {
     setMenuClass("delete");
     setTimeout(() => {
       setMenuClass("open");
       closeModal();
     }, 300);
-  };
+  }, [closeModal]);
+
+  useEffect(() => {
+    handleEscapeKey(closeForm);
+  }, [closeForm]);
+
   return (
     <Portal>
       <RemoveScrollBar gapMode="padding" />

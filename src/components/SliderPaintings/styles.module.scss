@@ -1,5 +1,9 @@
 @import "../../_variables";
 
+.slider .swiper-button-next {
+  display: none;
+}
+
 .slider {
   position: fixed;
   z-index: 1000;
@@ -10,6 +14,34 @@
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
   transition: background-color 0.2s ease-out;
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 600;
+    background: none;
+    display: none;
+    color: $color-secondary-gray;
+    width: 40px;
+    height: 40px;
+    &::after {
+      font-size: 40px;
+    }
+    & > * {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &-prev {
+      left: 0;
+    }
+    &-next {
+      right: 0;
+    }
+    @media (min-width: $md3) {
+      display: flex;
+    }
+  }
   &.open {
     animation-name: opacity-visible;
   }
@@ -137,9 +169,6 @@
     &__icon {
       background-color: rgba($color-primary-white, 0.2);
     }
-  }
-  &.swiper-button-prev {
-    color: red !important;
   }
   &-dark .slider-description {
     background-color: $color-primary-black;

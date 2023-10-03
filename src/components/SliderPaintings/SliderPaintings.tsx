@@ -5,20 +5,26 @@ import { Navigation, Keyboard } from "swiper/modules";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
-import { useEditArtistMainPaintingMutation } from "@/store/artists/artist.api";
 import { IMainPainting } from "@/models/IImage";
+import {
+  useDeleteArtistPaintingMutation,
+  useEditArtistMainPaintingMutation,
+} from "@/store/artists/artist.api";
+import { handleEscapeKey } from "@/utils/handleEscapeKey";
 
 import { Portal } from "@/components/Portal";
+import { DeleteModal } from "@/components/DeleteModal";
+import { PaintingModal } from "@/components/PaintingModal";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Close } from "@/assets/icons/close.svg";
 import { ReactComponent as ChangePic } from "@/assets/icons/change-pic.svg";
 import { ReactComponent as Edit } from "@/assets/icons/edit.svg";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+import { ReactComponent as ArrowRight } from "@/assets/icons/arrow-right.svg";
+import { ReactComponent as ArrowLeft } from "@/assets/icons/arrow-left.svg";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import { DeleteModal } from "@/components/DeleteModal";
-import { PaintingModal } from "@/components/PaintingModal";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -41,8 +47,9 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
   const { theme } = useTheme();
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(initialActiveSlide);
   const [editMainPainting] = useEditArtistMainPaintingMutation();
+  const [deleteArtistPainting] = useDeleteArtistPaintingMutation();
 
   const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
@@ -55,21 +62,20 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
   }, [setIsOpen]);
 
   useEffect(() => {
-    const close = (e: KeyboardEvent) => {
-      if (e.code === "Escape") {
-        closeSlider();
-      }
-    };
-
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    handleEscapeKey(closeSlider);
   }, [closeSlider]);
 
   return (
     <Portal>
       {isOpenModalDelete && (
         <DeleteModal
-          title="Do you want to delete this artist profile?"
+          handleDelete={() =>
+            deleteArtistPainting({
+              artistId,
+              paintingId: data[activeIndex]._id,
+            })
+          }
+          title="Do you want to delete this picture?"
           setIsOpen={setIsOpenModalDelete}
         />
       )}
@@ -84,18 +90,21 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
           }}
           paintingId={data[activeIndex]._id}
           variant="edit"
-          idArtist={artistId}
+          artistId={artistId}
           setIsOpen={setIsOpenModalPainting}
         />
       )}
       <RemoveScrollBar gapMode="padding" />
       <Swiper
-        initialSlide={initialActiveSlide}
+        initialSlide={activeIndex}
         modules={[Navigation, Keyboard]}
         className={cx("slider", `slider-${theme}`, menuClass)}
         slidesPerView={1}
-        navigation
         keyboard
+        navigation={{
+          prevEl: `.${cx("slider__arrow-prev")}`,
+          nextEl: `.${cx("slider__arrow-next")}`,
+        }}
         onSlideChange={(swiper: any) => setActiveIndex(swiper.realIndex)}
       >
         {data.map((item) => (
@@ -174,6 +183,18 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
         <h5 className={cx("slider__length")}>
           {activeIndex + 1}/{data.length}
         </h5>
+        <button
+          type="button"
+          className={cx("slider__arrow", "slider__arrow-prev")}
+        >
+          <ArrowLeft />
+        </button>
+        <button
+          type="button"
+          className={cx("slider__arrow", "slider__arrow-next")}
+        >
+          <ArrowRight />
+        </button>
       </Swiper>
     </Portal>
   );

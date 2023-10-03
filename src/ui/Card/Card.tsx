@@ -13,11 +13,22 @@ interface CardProps {
   years: string;
   imgUrl?: string;
   theme?: "light" | "dark";
+  onClick?: () => void;
 }
 
-const Card: FC<CardProps> = ({ title, theme = "light", years, imgUrl }) => {
+const Card: FC<CardProps> = ({
+  title,
+  theme = "light",
+  onClick,
+  years,
+  imgUrl,
+}) => {
   return (
-    <div className={cx("card", `card-${theme}`)}>
+    <div
+      role="presentation"
+      onClick={onClick}
+      className={cx("card", `card-${theme}`)}
+    >
       {imgUrl ? (
         <div className={cx("card__image-container")}>
           <img src={imgUrl} className={cx("card__image")} alt="" />

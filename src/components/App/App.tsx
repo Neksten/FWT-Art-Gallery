@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 
 import { Home } from "@/pages/Home";
 import { Artist } from "@/pages/Artist";
-import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 

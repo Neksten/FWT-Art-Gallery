@@ -3,4 +3,7 @@
 
 .text-field {
   @extend %text-field;
+  &__wrapper {
+    position: relative;
+  }
 }

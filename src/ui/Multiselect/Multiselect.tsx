@@ -49,6 +49,7 @@ const Multiselect = <T extends FieldValues>({
     }
     return listSelect;
   };
+
   const handleClickDelete = (id: string, onBlur: () => void): IGenre[] => {
     const newListSelect = listSelect.filter((i) => i._id !== id);
     setListSelect(newListSelect);

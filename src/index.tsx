@@ -4,8 +4,9 @@ import { Provider } from "react-redux";
 
 import { ThemeProvider } from "@/context/ThemeContext";
 import { store } from "@/store";
-import { AuthProvider } from "@/providers/AuthProvider";
 
+import { AuthProvider } from "@/providers/AuthProvider";
+import { ErrorProvider } from "@/providers/ErrorProvider";
 import { App } from "@/components/App";
 
 import "@/index.scss";
@@ -16,9 +17,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <ThemeProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <ErrorProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ErrorProvider>
     </ThemeProvider>
   </Provider>
 );

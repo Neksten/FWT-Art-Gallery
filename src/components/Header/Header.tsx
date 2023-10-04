@@ -41,6 +41,7 @@ const Header: FC = () => {
     dispatch(apiService.util.resetApiState());
     dispatch(logout());
   };
+
   return (
     <header className={cx("header", `header-${theme}`)}>
       {!isAuth && isOpenLogin && (

@@ -1,7 +1,7 @@
 import { apiService } from "@/api";
 import { IGenre } from "@/models/IGenre";
 
-export const artistApi = apiService.injectEndpoints({
+export const genreApi = apiService.injectEndpoints({
   endpoints: (build) => ({
     getGenres: build.query<IGenre[], { isAuth: boolean | null }>({
       query: ({ isAuth }) => ({
@@ -11,4 +11,4 @@ export const artistApi = apiService.injectEndpoints({
   }),
 });
 
-export const { useGetGenresQuery } = artistApi;
+export const { useGetGenresQuery } = genreApi;

@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+import { useAppDispatch } from "@/hooks/redux";
+import { resetError } from "@/store/error/errorSlice";
 
 import { Modal } from "@/components/Modal";
 import { Button } from "@/ui/Button";
@@ -15,23 +17,29 @@ interface DeleteModalProps {
   setIsOpen: (value: boolean) => void;
   title: string;
   handleDelete: () => void;
+  isSuccess: boolean;
 }
 
 const DeleteModal: FC<DeleteModalProps> = ({
   setIsOpen,
   title,
   handleDelete,
+  isSuccess,
 }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
 
   const handleDeleteRequest = async () => {
-    try {
-      handleDelete();
-      setIsOpen(false);
-    } catch {
-      //
-    }
+    dispatch(resetError());
+    handleDelete();
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsOpen(false);
+    }
+  }, [setIsOpen, isSuccess]);
+
   return (
     <Modal
       className={cx("modal", `modal-${theme}`)}

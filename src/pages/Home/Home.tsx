@@ -31,6 +31,7 @@ const Home: FC = () => {
   );
 
   const artists = artistsData?.data;
+
   return (
     <main className={cx("home", `home-${theme}`)}>
       {isAuth && isOpenAdd && genresData && (

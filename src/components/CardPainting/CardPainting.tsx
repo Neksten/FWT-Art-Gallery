@@ -41,7 +41,8 @@ const CardPainting: FC<CardArtistProps> = ({
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [editMainPainting] = useEditArtistMainPaintingMutation();
-  const [deleteArtistPainting] = useDeleteArtistPaintingMutation();
+  const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
+    useDeleteArtistPaintingMutation();
 
   return (
     <div className={cx("card-artist", `card-artist-${theme}`)}>
@@ -53,6 +54,7 @@ const CardPainting: FC<CardArtistProps> = ({
               paintingId,
             })
           }
+          isSuccess={isSuccessDelete}
           title="Do you want to delete this picture?"
           setIsOpen={setIsOpenModalDelete}
         />

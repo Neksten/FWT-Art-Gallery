@@ -45,7 +45,8 @@ const Artist: FC = () => {
   const [isOpenDescription, setIsOpenDescriptions] = useState(false);
   const [isOpenSlider, setIsOpenSlider] = useState(false);
   const [initialActiveSlide, setInitialActiveSlide] = useState(0);
-  const [deleteArtist] = useDeleteArtistByIdMutation();
+  const [deleteArtist, { isSuccess: isSuccessDelete }] =
+    useDeleteArtistByIdMutation();
   const { data } = useGetArtistByIdQuery(
     { isAuth, artistId: id || "" },
     { skip: isAuth === null }
@@ -91,6 +92,7 @@ const Artist: FC = () => {
       )}
       {isAuth && isOpenModalDelete && (
         <DeleteModal
+          isSuccess={isSuccessDelete}
           handleDelete={() => handleDeleteArtist(id || "")}
           title="Do you want to delete this artist profile?"
           setIsOpen={setIsOpenModalDelete}
@@ -231,6 +233,7 @@ const Artist: FC = () => {
                     "artist-artworks__empty",
                     "artist-artworks-empty"
                   )}
+                  onClick={() => setIsOpenModalPainting(true)}
                 >
                   <div className={cx("artist-artworks-empty__icon")}>
                     <Photo />

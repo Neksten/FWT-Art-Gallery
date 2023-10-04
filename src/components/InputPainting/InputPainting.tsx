@@ -45,6 +45,7 @@ const InputPainting = <T extends FieldValues>({
     }
     return null;
   };
+
   return (
     <Controller
       name={name}

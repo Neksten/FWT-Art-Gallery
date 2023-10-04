@@ -1,5 +1,5 @@
 export interface IPainting {
   name: string;
-  yearOfCreation: number;
+  yearOfCreation: string;
   image: string;
 }

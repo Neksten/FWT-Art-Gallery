@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback, useEffect } from "react";
 import classNames from "classnames/bind";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { useLoginMutation, useRegisterMutation } from "@/store/auth/auth.api";
 import { useAppDispatch } from "@/hooks/redux";
 import { setIsAuth } from "@/store/auth/authSlice";
 import { getFingerprint } from "@/utils/auth/getFingerprint";
+import { resetError } from "@/store/error/errorSlice";
 
 import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
@@ -46,8 +47,9 @@ const AuthModal: FC<AuthorizationProps> = ({
 }) => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
-  const [registerRequest] = useRegisterMutation();
-  const [loginRequest] = useLoginMutation();
+  const [registerRequest, { isSuccess: isSuccessRegister }] =
+    useRegisterMutation();
+  const [loginRequest, { isSuccess: isSuccessLogin }] = useLoginMutation();
 
   const {
     register,
@@ -58,24 +60,20 @@ const AuthModal: FC<AuthorizationProps> = ({
     mode: "onBlur",
   });
 
-  const fulfilledRequest = () => {
+  const fulfilledRequest = useCallback(() => {
     dispatch(setIsAuth(true));
     setIsOpen(false);
-  };
+    // eslint-disable-next-line
+  }, [setIsOpen]);
 
   const onSubmitHandler = async (data: any) => {
+    dispatch(resetError());
     const fingerprint = await getFingerprint();
 
     if (variant === "login") {
-      await loginRequest({ ...data, fingerprint })
-        .unwrap()
-        .then(fulfilledRequest)
-        .catch(() => {});
+      await loginRequest({ ...data, fingerprint });
     } else {
-      await registerRequest({ ...data, fingerprint })
-        .unwrap()
-        .then(fulfilledRequest)
-        .catch(() => {});
+      await registerRequest({ ...data, fingerprint });
     }
   };
 
@@ -83,6 +81,12 @@ const AuthModal: FC<AuthorizationProps> = ({
     setIsOpen(false);
     setIsRedirect();
   };
+
+  useEffect(() => {
+    if (isSuccessRegister || isSuccessLogin) {
+      fulfilledRequest();
+    }
+  }, [fulfilledRequest, isSuccessRegister, isSuccessLogin]);
 
   return (
     <Modal

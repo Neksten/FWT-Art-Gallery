@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,6 +14,8 @@ import {
 import { imageSchema } from "@/utils/Schems/imageSchema";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { useTheme } from "@/context/ThemeContext";
+import { useAppDispatch } from "@/hooks/redux";
+import { resetError } from "@/store/error/errorSlice";
 
 import { Modal } from "@/components/Modal";
 import { InputAvatar } from "@/components/InputAvatar";
@@ -68,8 +70,9 @@ const ArtistModal: FC<EditModalProps> = ({
 }) => {
   type ArtistFormData = yup.InferType<typeof validationSchema>;
   const { theme } = useTheme();
-  const [addRequest] = useAddArtistMutation();
-  const [editRequest] = useEditArtistMutation();
+  const dispatch = useAppDispatch();
+  const [addRequest, { isSuccess: isSuccessAdd }] = useAddArtistMutation();
+  const [editRequest, { isSuccess: isSuccessEdit }] = useEditArtistMutation();
   const {
     drag,
     dragOverHandler,
@@ -87,6 +90,7 @@ const ArtistModal: FC<EditModalProps> = ({
     mode: "onBlur",
     defaultValues: initialData || defaultValues,
   });
+
   const generationRequestBody = (data: IArtistModal): FormData => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -102,25 +106,24 @@ const ArtistModal: FC<EditModalProps> = ({
   };
 
   const onSubmitHandler = async (data: any) => {
+    dispatch(resetError());
     if (!isEqual(initialData, data)) {
       if (variant === "add") {
-        await addRequest(generationRequestBody(data))
-          .unwrap()
-          .then(() => setIsOpen(false))
-          .catch(() => {});
-      } else if (variant === "edit") {
+        await addRequest(generationRequestBody(data));
+      } else {
         await editRequest({
           artistId: artistId || "",
           data: generationRequestBody(data),
-        })
-          .unwrap()
-          .then(() => setIsOpen(false))
-          .catch(() => {});
+        });
       }
-    } else {
-      setIsOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (isSuccessAdd || isSuccessEdit) {
+      setIsOpen(false);
+    }
+  }, [setIsOpen, isSuccessAdd, isSuccessEdit]);
 
   return (
     <Modal

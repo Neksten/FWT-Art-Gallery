@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,6 +8,8 @@ import isEqual from "lodash.isequal";
 import { useTheme } from "@/context/ThemeContext";
 import { IPainting } from "@/models/IPainting";
 import { imageSchema } from "@/utils/Schems/imageSchema";
+import { useAppDispatch } from "@/hooks/redux";
+import { resetError } from "@/store/error/errorSlice";
 import {
   useAddArtistPaintingMutation,
   useEditArtistPaintingMutation,
@@ -22,19 +24,15 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface PaintingDefaultValues extends Omit<IPainting, "yearOfCreation"> {
-  yearOfCreation: string;
-}
-
 export interface PaintingModalProps {
   setIsOpen: (value: boolean) => void;
   artistId: string;
   paintingId?: string;
   variant?: "add" | "edit";
-  initialData?: PaintingDefaultValues;
+  initialData?: IPainting;
 }
 
-const defaultValues: PaintingDefaultValues = {
+const defaultValues: IPainting = {
   name: "",
   yearOfCreation: "",
   image: "",
@@ -55,8 +53,11 @@ const PaintingModal: FC<PaintingModalProps> = ({
 }) => {
   type PaintingFormData = yup.InferType<typeof validationSchema>;
   const { theme } = useTheme();
-  const [addRequest] = useAddArtistPaintingMutation();
-  const [editRequest] = useEditArtistPaintingMutation();
+  const dispatch = useAppDispatch();
+  const [addRequest, { isSuccess: isSuccessAdd }] =
+    useAddArtistPaintingMutation();
+  const [editRequest, { isSuccess: isSuccessEdit }] =
+    useEditArtistPaintingMutation();
   const {
     register,
     handleSubmit,
@@ -68,7 +69,7 @@ const PaintingModal: FC<PaintingModalProps> = ({
     defaultValues: initialData || defaultValues,
   });
 
-  const generationRequestBody = (data: PaintingDefaultValues): FormData => {
+  const generationRequestBody = (data: IPainting): FormData => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("yearOfCreation", data.yearOfCreation);
@@ -79,26 +80,27 @@ const PaintingModal: FC<PaintingModalProps> = ({
   };
 
   const onSubmitHandler = async (data: any) => {
+    dispatch(resetError());
     if (!isEqual(initialData, data)) {
       if (variant === "add") {
-        await addRequest({ artistId, data: generationRequestBody(data) })
-          .unwrap()
-          .then(() => setIsOpen(false))
-          .catch(() => {});
+        await addRequest({ artistId, data: generationRequestBody(data) });
       } else if (variant === "edit" && paintingId) {
         await editRequest({
           artistId,
           paintingId,
           data: generationRequestBody(data),
-        })
-          .unwrap()
-          .then(() => setIsOpen(false))
-          .catch(() => {});
+        });
       }
     } else {
       setIsOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (isSuccessAdd || isSuccessEdit) {
+      setIsOpen(false);
+    }
+  }, [setIsOpen, isSuccessAdd, isSuccessEdit]);
 
   return (
     <Modal

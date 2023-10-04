@@ -49,7 +49,8 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
   const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [activeIndex, setActiveIndex] = useState(initialActiveSlide);
   const [editMainPainting] = useEditArtistMainPaintingMutation();
-  const [deleteArtistPainting] = useDeleteArtistPaintingMutation();
+  const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
+    useDeleteArtistPaintingMutation();
 
   const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
@@ -75,6 +76,7 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
               paintingId: data[activeIndex]._id,
             })
           }
+          isSuccess={isSuccessDelete}
           title="Do you want to delete this picture?"
           setIsOpen={setIsOpenModalDelete}
         />

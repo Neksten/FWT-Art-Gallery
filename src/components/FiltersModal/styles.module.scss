@@ -1,0 +1,69 @@
+@import "../../_variables";
+
+.modal {
+  left: auto;
+  height: 100vh;
+  background-color: $color-secondary-white;
+  top: 0;
+  right: 0;
+  transform: translate(0, 0);
+  padding: 100px 20px;
+  width: 252px;
+  transition: background-color 0.2s ease-out;
+  &__close {
+    top: 20px;
+    right: 20px;
+    width: max-content;
+  }
+  &__filters {
+    margin: 0 0 195px 0;
+  }
+  &__management {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 50px;
+  }
+  &__button {
+    background: none;
+    font-weight: 700;
+    font-size: 12px;
+    color: $color-primary-dark-gray;
+    text-transform: uppercase;
+    border-bottom: 1px solid $color-primary-dark-gray;
+    transition: all 0.2s ease-out;
+    &.hidden {
+      color: $color-primary-light-gray;
+      border-color: $color-primary-light-gray;
+    }
+    &:hover {
+      color: $color-primary-dark-gray;
+      border-color: $color-primary-dark-gray;
+    }
+  }
+  &-dark {
+    background-color: $color-primary-black;
+    .modal {
+      &__button {
+        color: $color-primary-light-gray;
+        border-color: $color-primary-light-gray;
+        &.hidden {
+          color: $color-primary-dark-gray;
+          border-color: $color-primary-dark-gray;
+        }
+        &:hover {
+          color: $color-primary-light-gray;
+          border-color: $color-primary-light-gray;
+        }
+      }
+    }
+  }
+  @media (min-width: $md3) {
+    padding: 170px 32px 100px 32px;
+    width: 372px;
+  }
+  @media (min-width: $maxWidthContainer) {
+    padding: 170px 130px 100px 40px;
+    width: 492px;
+  }
+}

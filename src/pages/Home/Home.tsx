@@ -11,18 +11,36 @@ import { CardLink } from "@/components/CardLink";
 import { GridLayout } from "@/ui/GridLayout";
 import { Loader } from "@/ui/Loader";
 import { Button } from "@/ui/Button";
+import { InputSearch } from "@/ui/InputSearch";
+import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
+import { ReactComponent as Filters } from "@/assets/icons/filter.svg";
 
+import { FiltersModal } from "@/components/FiltersModal";
+import { useFilters } from "@/context/FiltersContext";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
+  const { filters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(true);
+  const [search, setSearch] = useState("");
   const { data: artistsData, isLoading } = useGetArtistsQuery(
-    { isAuth },
+    {
+      isAuth,
+      filters: {
+        sortBy: "name",
+        genres: filters[0].type === "genres" ? filters[0].values : [],
+        orderBy:
+          filters[1].type === "sortBy" && filters[1].value === "A-Z"
+            ? "asc"
+            : "desc",
+      },
+    },
     { skip: isAuth === null }
   );
   const { data: genresData } = useGetGenresQuery(
@@ -34,25 +52,44 @@ const Home: FC = () => {
 
   return (
     <main className={cx("home", `home-${theme}`)}>
-      {isAuth && isOpenAdd && genresData && (
+      {isAuth && isOpenFiltersModal && (
+        <FiltersModal setIsOpen={setIsOpenFiltersModal} />
+      )}
+      {isAuth && isOpenAddModal && genresData && (
         <ArtistModal
           genresList={genresData}
           variant="add"
-          setIsOpen={setIsOpenAdd}
+          setIsOpen={setIsOpenAddModal}
         />
       )}
       {!isLoading && artists ? (
         <section className={cx("home__content", "container")}>
-          <nav className={cx("home__menu")}>
+          <nav className={cx("home__menu", "home-menu")}>
             {isAuth && (
-              <Button
-                onClick={() => setIsOpenAdd(true)}
-                variant="outlined"
-                startIcon={<Plus />}
-                theme={theme}
-              >
-                Add Artist
-              </Button>
+              <>
+                <Button
+                  onClick={() => setIsOpenAddModal(true)}
+                  variant="outlined"
+                  startIcon={<Plus />}
+                  theme={theme}
+                >
+                  Add Artist
+                </Button>
+                <div className={cx("home-menu__right")}>
+                  <InputSearch
+                    value={search}
+                    setValue={setSearch}
+                    placeholder="Search"
+                    theme={theme}
+                  />
+                  <IconButton
+                    onClick={() => setIsOpenFiltersModal(true)}
+                    theme={theme}
+                  >
+                    <Filters />
+                  </IconButton>
+                </div>
+              </>
             )}
           </nav>
           <GridLayout>

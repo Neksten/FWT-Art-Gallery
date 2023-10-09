@@ -1,5 +1,6 @@
 import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
 import { apiService } from "@/api";
+import { IFiltersRequest } from "@/models/Filter";
 
 export const artistApi = apiService
   .enhanceEndpoints({
@@ -7,9 +8,13 @@ export const artistApi = apiService
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getArtists: build.query<IArtistResponse, { isAuth: boolean | null }>({
-        query: ({ isAuth }) => ({
+      getArtists: build.query<
+        IArtistResponse,
+        { isAuth: boolean | null; filters: IFiltersRequest }
+      >({
+        query: ({ isAuth, filters }) => ({
           url: isAuth ? "/artists" : "/artists/static",
+          params: filters,
         }),
         transformResponse: (response: IArtistResponse, _, arg): any => {
           return arg.isAuth ? response : { data: response, meta: null };

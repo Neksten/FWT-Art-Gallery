@@ -7,6 +7,7 @@ import { store } from "@/store";
 
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ErrorProvider } from "@/providers/ErrorProvider";
+import { FiltersProvider } from "@/context/FiltersContext";
 import { App } from "@/components/App";
 
 import "@/index.scss";
@@ -18,9 +19,11 @@ root.render(
   <Provider store={store}>
     <ThemeProvider>
       <ErrorProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <FiltersProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </FiltersProvider>
       </ErrorProvider>
     </ThemeProvider>
   </Provider>

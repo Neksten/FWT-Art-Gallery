@@ -16,12 +16,14 @@ const cx = classNames.bind(styles);
 interface ModalProps extends PropsWithChildren {
   closeModal: () => void;
   className?: string;
+  classNameClose?: string;
   variant?: "small" | "big" | "menu";
 }
 
 const Modal: FC<ModalProps> = ({
   closeModal,
   className,
+  classNameClose,
   variant = "big",
   children,
 }) => {
@@ -56,7 +58,7 @@ const Modal: FC<ModalProps> = ({
           <button
             type="button"
             onClick={closeForm}
-            className={cx("modal__close")}
+            className={cx("modal__close", classNameClose)}
           >
             <Close />
           </button>

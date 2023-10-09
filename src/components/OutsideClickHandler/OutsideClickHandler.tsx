@@ -22,9 +22,8 @@ const OutsideClickHandler: FC<IOutsideClickHandlerProps> = ({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onOutsideClick]);
 
   return <div ref={ref}>{children}</div>;

@@ -63,8 +63,7 @@ const AuthModal: FC<AuthorizationProps> = ({
   const fulfilledRequest = useCallback(() => {
     dispatch(setIsAuth(true));
     setIsOpen(false);
-    // eslint-disable-next-line
-  }, [setIsOpen]);
+  }, [dispatch, setIsOpen]);
 
   const onSubmitHandler = async (data: any) => {
     dispatch(resetError());
@@ -72,7 +71,8 @@ const AuthModal: FC<AuthorizationProps> = ({
 
     if (variant === "login") {
       await loginRequest({ ...data, fingerprint });
-    } else {
+    }
+    if (variant === "signup") {
       await registerRequest({ ...data, fingerprint });
     }
   };

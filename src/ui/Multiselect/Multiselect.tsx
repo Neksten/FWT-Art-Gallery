@@ -36,23 +36,23 @@ const Multiselect = <T extends FieldValues>({
   theme = "light",
 }: MultiselectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [listSelect, setListSelect] = useState<IGenre[]>(
+  const [selectedList, setSelectedList] = useState<IGenre[]>(
     initialListSelect || []
   );
   const topRef = useRef<HTMLDivElement>(null);
 
   const handleAddListSelect = (item: IGenre): IGenre[] => {
-    if (!listSelect.find((i) => i.name === item.name)) {
-      const newListSelect = [...listSelect, item];
-      setListSelect(newListSelect);
+    if (!selectedList.find((i) => i.name === item.name)) {
+      const newListSelect = [...selectedList, item];
+      setSelectedList(newListSelect);
       return newListSelect;
     }
-    return listSelect;
+    return selectedList;
   };
 
   const handleClickDelete = (id: string, onBlur: () => void): IGenre[] => {
-    const newListSelect = listSelect.filter((i) => i._id !== id);
-    setListSelect(newListSelect);
+    const newListSelect = selectedList.filter((i) => i._id !== id);
+    setSelectedList(newListSelect);
     if (newListSelect.length === 0) {
       onBlur();
     }
@@ -102,7 +102,7 @@ const Multiselect = <T extends FieldValues>({
               className={cx("select__top")}
             >
               <div className={cx("select__items")}>
-                {listSelect.map((i) => (
+                {selectedList.map((i) => (
                   <Genre
                     theme={theme}
                     className={cx("select__genre")}
@@ -129,14 +129,14 @@ const Multiselect = <T extends FieldValues>({
                             <button
                               type="button"
                               onClick={() =>
-                                listSelect.some((item) => item === i)
+                                selectedList.some((item) => item === i)
                                   ? onChange(handleClickDelete(i._id, onBlur))
                                   : onChange(handleAddListSelect(i))
                               }
                               className={cx("select__button")}
                             >
                               <Checkbox
-                                checked={listSelect.some(
+                                checked={selectedList.some(
                                   (item) => item._id === i._id
                                 )}
                                 name={i.name}

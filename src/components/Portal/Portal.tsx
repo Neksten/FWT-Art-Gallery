@@ -5,8 +5,7 @@ interface PortalProps extends PropsWithChildren {
   key?: any;
 }
 
-const Portal: FC<PortalProps> = ({ children, key }) => {
-  return createPortal(children, document.body, key);
-};
+const Portal: FC<PortalProps> = ({ children, key }) =>
+  createPortal(children, document.body, key);
 
 export default Portal;

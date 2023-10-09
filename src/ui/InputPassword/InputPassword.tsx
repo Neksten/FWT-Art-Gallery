@@ -34,23 +34,13 @@ const InputPassword: FC<InputPasswordProps> = ({
       theme={theme}
       error={error}
       renderAddon={
-        isShownPassword ? (
-          <button
-            type="button"
-            onClick={() => setIsShownPassword(false)}
-            className={cx("eye")}
-          >
-            <EyeChecked />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setIsShownPassword(true)}
-            className={cx("eye")}
-          >
-            <Eye />
-          </button>
-        )
+        <button
+          type="button"
+          onClick={() => setIsShownPassword(!isShownPassword)}
+          className={cx("eye")}
+        >
+          {isShownPassword ? <EyeChecked /> : <Eye />}
+        </button>
       }
       {...props}
     />

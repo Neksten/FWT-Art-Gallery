@@ -1,6 +1,3 @@
-import { authLocalStorage } from "@/utils/auth/authLocalStorage";
-import { isExpiredToken } from "@/store/auth/isExpiredToken";
-import { AuthResponse } from "@/models/Auth";
 import axios, {
   AxiosError,
   AxiosRequestConfig,
@@ -8,6 +5,9 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { getFingerprint } from "@/utils/auth/getFingerprint";
+import { authLocalStorage } from "@/utils/auth/authLocalStorage";
+import { isExpiredToken } from "@/store/auth/isExpiredToken";
+import { AuthResponse } from "@/models/Auth";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

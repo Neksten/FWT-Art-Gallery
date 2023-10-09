@@ -1,10 +1,10 @@
 import { IGenre } from "@/models/IGenre";
 import { IImage, IMainPainting } from "@/models/IImage";
 
-export interface IArtistProfile extends Omit<IArtist, "genres"> {
-  paintings: IMainPainting[];
-  genres: IGenre[];
-  avatar: IImage;
+export interface IArtistRoot {
+  name: string;
+  description: string;
+  yearsOfLife: string;
 }
 
 export interface IArtist extends IArtistRoot {
@@ -13,15 +13,15 @@ export interface IArtist extends IArtistRoot {
   mainPainting: IMainPainting;
 }
 
-export interface IArtistRoot {
-  name: string;
-  description: string;
-  yearsOfLife: string;
-}
-
 export interface IArtistModal extends IArtistRoot {
   genres: IGenre[];
   avatar: string;
+}
+
+export interface IArtistProfile extends Omit<IArtist, "genres"> {
+  paintings: IMainPainting[];
+  genres: IGenre[];
+  avatar: IImage;
 }
 
 export interface IArtistResponse {

@@ -96,26 +96,34 @@ const ArtistModal: FC<EditModalProps> = ({
     formData.append("name", data.name);
     formData.append("yearsOfLife", data.yearsOfLife);
     formData.append("description", data.description);
+
     if (data.avatar !== initialData?.avatar) {
       formData.append("avatar", data.avatar);
     }
+
     data.genres.forEach((i, idx) => {
       formData.append(`genres[${idx}]`, i._id);
     });
+
     return formData;
   };
 
   const onSubmitHandler = async (data: any) => {
+    if (isEqual(initialData, data)) {
+      return;
+    }
+
     dispatch(resetError());
-    if (!isEqual(initialData, data)) {
-      if (variant === "add") {
-        await addRequest(generationRequestBody(data));
-      } else {
-        await editRequest({
-          artistId: artistId || "",
-          data: generationRequestBody(data),
-        });
-      }
+
+    if (variant === "add") {
+      await addRequest(generationRequestBody(data));
+    }
+
+    if (variant === "edit") {
+      await editRequest({
+        artistId: artistId || "",
+        data: generationRequestBody(data),
+      });
     }
   };
 

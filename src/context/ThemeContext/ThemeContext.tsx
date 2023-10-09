@@ -56,6 +56,7 @@ export const ThemeProvider: FC<TThemeProvider> = ({ children }) => {
   useEffect(() => {
     setTheme(getTheme());
   }, []);
+
   return (
     <ThemeContext.Provider value={contextValue}>
       {children}

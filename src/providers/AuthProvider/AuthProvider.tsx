@@ -13,11 +13,12 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     if (!isExpiredToken(refreshToken)) {
       dispatch(setIsAuth(true));
-    } else if (isExpiredToken(refreshToken)) {
+    }
+    if (isExpiredToken(refreshToken)) {
       dispatch(logout());
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
+
   return <div>{children}</div>;
 };
 

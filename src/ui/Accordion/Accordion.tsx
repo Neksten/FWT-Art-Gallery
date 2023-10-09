@@ -17,12 +17,13 @@ interface AccordionProps {
 }
 
 const MAX_HEIGHT_TEXT = 90;
+const MAX_LENGTH_TEXT = 150;
 
 const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
   const { theme } = useTheme();
   const [heightText, setHeightText] = useState(MAX_HEIGHT_TEXT);
   const textRef = useRef<null | HTMLDivElement>(null);
-  const textAutoOpen = text.length < 150;
+  const textAutoOpen = text.length < MAX_LENGTH_TEXT;
 
   useEffect(() => {
     setIsOpen(textAutoOpen);

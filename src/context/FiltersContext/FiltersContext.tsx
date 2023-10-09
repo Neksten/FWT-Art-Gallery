@@ -17,7 +17,7 @@ interface IContext {
 
 const defaultValueFilters: TFilterType[] = [
   { type: "genres", values: [] },
-  { type: "sortBy", value: "A-Z" },
+  { type: "orderBy", value: "A-Z" },
 ];
 
 const initialFiltersValue: IContext = {

@@ -8,7 +8,8 @@ import { useFilters } from "@/context/FiltersContext";
 import { IFilterValue } from "@/models/Filter";
 
 import { Modal } from "@/components/Modal";
-import { Filter } from "@/ui/Filter";
+import { FilterGenres } from "@/components/FilterGenres";
+import { FilterOrderBy } from "@/components/FilterOrderBy";
 
 import styles from "./styles.module.scss";
 
@@ -25,7 +26,7 @@ const sortByList: IFilterValue[] = [
 
 const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
   const { theme } = useTheme();
-  const { changeFilters, clearFilters, filters } = useFilters();
+  const { clearFilters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const { data: genresData } = useGetGenresQuery(
     { isAuth },
@@ -40,20 +41,8 @@ const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
       closeModal={() => setIsOpen(false)}
     >
       <div className={cx("modal__filters")}>
-        <Filter
-          theme={theme}
-          title="Genres"
-          list={genresData || []}
-          filter={filters[0]}
-          onChange={(value) => changeFilters(0, value)}
-        />
-        <Filter
-          theme={theme}
-          title="Sort by"
-          list={sortByList}
-          filter={filters[1]}
-          onChange={(value) => changeFilters(1, value)}
-        />
+        <FilterGenres list={genresData || []} />
+        <FilterOrderBy list={sortByList} />
       </div>
       <div className={cx("modal__management")}>
         <button type="button" className={cx("modal__button")}>

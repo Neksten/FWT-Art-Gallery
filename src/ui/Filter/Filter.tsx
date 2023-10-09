@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 
-import { IFilterValue, TFilterType } from "@/models/Filter";
+import { IFilterValue } from "@/models/Filter";
 
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
 import { ReactComponent as Minus } from "@/assets/icons/minus.svg";
@@ -10,36 +10,26 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-export interface FilterButtonProps<T> {
+export interface FilterProps {
   title: string;
+  length?: number;
   list: IFilterValue[];
-  filter: T;
   theme: "light" | "dark";
-  onChange: (value: T) => void;
+  onChange: (value: IFilterValue) => void;
+  trackSelect: (value: IFilterValue) => boolean;
 }
 
-const Filter = ({
+const Filter: FC<FilterProps> = ({
   title,
   list,
-  filter,
+  length = 0,
   theme,
   onChange,
-}: FilterButtonProps<TFilterType>) => {
+  trackSelect,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [heightBody, setHeightBody] = useState(0);
   const listRef = useRef<null | HTMLUListElement>(null);
-
-  const handleChange = (item: IFilterValue) => {
-    if (filter.type === "genres") {
-      const values = filter.values.some((i) => i === item._id)
-        ? filter.values.filter((i) => i !== item._id)
-        : [...filter.values, item._id];
-      onChange({ ...filter, values });
-    }
-    if (filter.type === "sortBy") {
-      onChange({ ...filter, value: item.name });
-    }
-  };
 
   useEffect(() => {
     if (isOpen && listRef !== null && listRef.current != null) {
@@ -58,9 +48,7 @@ const Filter = ({
       >
         <h6 className={cx("filter__title")}>
           {title}
-          {"values" in filter &&
-            filter.values.length > 0 &&
-            `(${filter.values.length})`}
+          {length > 0 && ` (${length})`}
         </h6>
         <div className={cx("filter__icon")}>
           {isOpen ? <Minus /> : <Plus />}
@@ -75,12 +63,9 @@ const Filter = ({
             <li key={item._id} className={cx("filter__item")}>
               <button
                 type="button"
-                onClick={() => handleChange(item)}
+                onClick={() => onChange(item)}
                 className={cx("filter__button", {
-                  select:
-                    ("values" in filter &&
-                      filter.values.some((i) => i === item._id)) ||
-                    ("value" in filter && filter.value === item.name),
+                  select: trackSelect(item),
                 })}
               >
                 {item.name}

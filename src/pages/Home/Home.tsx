@@ -36,7 +36,7 @@ const Home: FC = () => {
         sortBy: "name",
         genres: filters[0].type === "genres" ? filters[0].values : [],
         orderBy:
-          filters[1].type === "sortBy" && filters[1].value === "A-Z"
+          filters[1].type === "orderBy" && filters[1].value === "A-Z"
             ? "asc"
             : "desc",
       },

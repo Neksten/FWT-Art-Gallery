@@ -3,17 +3,17 @@ export interface IFilterValue {
   name: string;
 }
 
-interface GenreFilter {
+export interface IGenreFilter {
   type: "genres";
   values: string[];
 }
 
-interface OrderByFilter {
-  type: "sortBy";
+export interface IOrderByFilter {
+  type: "orderBy";
   value: string;
 }
 
-export type TFilterType = GenreFilter | OrderByFilter;
+export type TFilterType = IGenreFilter | IOrderByFilter;
 
 export interface IFiltersRequest {
   sortBy?: "name";

@@ -5,10 +5,10 @@ import classNames from "classnames/bind";
 import { apiService } from "@/api";
 import { logout } from "@/store/auth/authSlice";
 import { useTheme } from "@/context/ThemeContext";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useAppDispatch } from "@/hooks/redux";
 
+import { HeaderAuth } from "@/components/Header/HeaderAuth";
 import { BurgerButton } from "@/components/BurgerButton";
-import { HeaderButton } from "@/components/Header/HeaderButton";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
 import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
@@ -21,7 +21,6 @@ const cx = classNames.bind(styles);
 const Header: FC = () => {
   const dispatch = useAppDispatch();
   const { theme, changeTheme } = useTheme();
-  const { isAuth } = useAppSelector((state) => state.authSlice);
 
   const handleClickLogout = () => {
     dispatch(apiService.util.resetApiState());
@@ -36,36 +35,10 @@ const Header: FC = () => {
         </Link>
         <nav className={cx("header__menu")}>
           <ul className={cx("header__list")}>
-            {isAuth ? (
-              <li>
-                <button
-                  onClick={handleClickLogout}
-                  type="button"
-                  className={cx("header__link")}
-                >
-                  Log out
-                </button>
-              </li>
-            ) : (
-              <>
-                <li>
-                  {!isAuth && (
-                    <HeaderButton
-                      variant="login"
-                      className={cx("header__link")}
-                    />
-                  )}
-                </li>
-                <li>
-                  {!isAuth && (
-                    <HeaderButton
-                      variant="signup"
-                      className={cx("header__link")}
-                    />
-                  )}
-                </li>
-              </>
-            )}
+            <HeaderAuth
+              handleClickLogout={handleClickLogout}
+              className={cx("header__link")}
+            />
           </ul>
           <IconButton
             onClick={() => changeTheme(theme === "light" ? "dark" : "light")}

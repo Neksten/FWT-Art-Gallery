@@ -2,10 +2,9 @@ import { FC, PropsWithChildren } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
-import { useAppSelector } from "@/hooks/redux";
 
-import { HeaderButton } from "@/components/Header/HeaderButton";
 import { ThemeButton } from "@/components/Header/ThemeButton";
+import { HeaderAuth } from "@/components/Header/HeaderAuth";
 import { Modal } from "@/components/Modal";
 
 import styles from "./styles.module.scss";
@@ -22,7 +21,6 @@ const HeaderModal: FC<HeaderModalProps> = ({
   setIsOpen,
 }) => {
   const { theme, changeTheme } = useTheme();
-  const { isAuth } = useAppSelector((state) => state.authSlice);
 
   return (
     <Modal
@@ -32,26 +30,10 @@ const HeaderModal: FC<HeaderModalProps> = ({
     >
       <ThemeButton theme={theme} changeTheme={changeTheme} />
       <ul className={cx("modal__list")}>
-        {isAuth ? (
-          <li>
-            <button
-              onClick={handleClickLogout}
-              type="button"
-              className={cx("modal__link")}
-            >
-              Log out
-            </button>
-          </li>
-        ) : (
-          <>
-            <li>
-              <HeaderButton variant="login" className={cx("modal__link")} />
-            </li>
-            <li>
-              <HeaderButton variant="signup" className={cx("modal__link")} />
-            </li>
-          </>
-        )}
+        <HeaderAuth
+          handleClickLogout={handleClickLogout}
+          className={cx("modal__link")}
+        />
       </ul>
     </Modal>
   );

@@ -9,15 +9,15 @@
   &__link {
     font-size: 32px;
     font-weight: 600;
-    margin: 0 0 30px 0;
     font-family: $font-cormorant-sc;
     color: $color-primary-dark-gray;
     background: none;
-    text-transform: uppercase;
+    text-transform: none;
+    margin: 0 0 30px 0;
   }
   &-dark {
     background-color: $color-primary-black;
-    &__link {
+    .modal__link {
       color: $color-primary-light-gray;
     }
   }

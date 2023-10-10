@@ -4,6 +4,7 @@ import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
+import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
 import { IconButton } from "@/ui/IconButton";
 import { Error } from "@/ui/Error";
@@ -86,7 +87,7 @@ const InputPainting = <T extends FieldValues>({
                 <div className={cx("input-painting__photo")}>
                   <img
                     src={
-                      value.toString().includes(process.env.REACT_APP_BASE_URL)
+                      checkingBaseUrl(value)
                         ? value
                         : URL.createObjectURL(value)
                     }

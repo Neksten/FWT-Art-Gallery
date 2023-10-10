@@ -3,6 +3,7 @@ import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
 import { Error } from "@/ui/Error";
 import { IconButton } from "@/ui/IconButton";
@@ -97,9 +98,7 @@ const InputAvatar = <T extends FieldValues>({
                   <div className={cx("input-avatar__image-avatar")}>
                     <img
                       src={
-                        value
-                          .toString()
-                          .includes(process.env.REACT_APP_BASE_URL)
+                        checkingBaseUrl(value)
                           ? value
                           : URL.createObjectURL(value)
                       }

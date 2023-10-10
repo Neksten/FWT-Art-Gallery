@@ -7,24 +7,24 @@ import {
   useDeleteArtistByIdMutation,
   useGetArtistByIdQuery,
 } from "@/store/artists/artist.api";
-import { useGetGenresQuery } from "@/store/genre/genre.api";
-import { useTheme } from "@/context/ThemeContext";
 import { IArtistModal } from "@/models/IArtist";
+import { useTheme } from "@/context/ThemeContext";
+import { useGetGenresQuery } from "@/store/genre/genre.api";
 
+import { Avatar } from "@/pages/Artist/components/Avatar";
+import { DeleteButton } from "@/components/DeleteButton";
 import { CardPainting } from "@/components/CardPainting";
 import { SliderPaintings } from "@/components/SliderPaintings";
+import { AddPaintingCard } from "@/components/AddPaintingCard";
 import { EditArtistButton } from "@/components/EditArtistButton";
+import { AddPaintingButton } from "@/components/AddPaintingButton";
 import { Card } from "@/ui/Card";
-import { Button } from "@/ui/Button";
-import { GridLayout } from "@/ui/GridLayout";
-import { Accordion } from "@/ui/Accordion";
 import { Genre } from "@/ui/Genre";
 import { Loader } from "@/ui/Loader";
-import { NoImage } from "@/ui/NoImage";
+import { Button } from "@/ui/Button";
+import { Accordion } from "@/ui/Accordion";
+import { GridLayout } from "@/ui/GridLayout";
 import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
-import { DeleteButton } from "@/components/DeleteButton";
-import { AddPaintingButton } from "@/components/AddPaintingButton";
-import { AddPaintingCard } from "@/components/AddPaintingCard";
 
 import styles from "./styles.module.scss";
 
@@ -87,19 +87,14 @@ const Artist: FC = () => {
         <div className={cx("artist__content", "container")}>
           <nav className={cx("artist__menu", "artist-menu")}>
             <Link to="/">
-              <div className={cx("artist__back")}>
-                <div className={cx("artist__arrow")}>
-                  <ArrowBack />
-                </div>
-                <Button
-                  variant="outlined"
-                  startIcon={<ArrowBack />}
-                  theme={theme}
-                  className={cx("artist__back-button")}
-                >
-                  Back
-                </Button>
-              </div>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBack />}
+                theme={theme}
+                className={cx("artist__back-button")}
+              >
+                Back
+              </Button>
             </Link>
             {isAuth && (
               <div className={cx("artist-menu__right")}>
@@ -143,21 +138,7 @@ const Artist: FC = () => {
                 </div>
               </div>
             </div>
-            <div
-              className={cx("artist-hero__image-container", {
-                empty: !data?.avatar?.src,
-              })}
-            >
-              {data.avatar ? (
-                <img
-                  src={`${process.env.REACT_APP_BASE_URL}${data.avatar.src}`}
-                  alt="artist"
-                  className={cx("artist-hero__image")}
-                />
-              ) : (
-                <NoImage variant="big" theme={theme} />
-              )}
-            </div>
+            <Avatar avatar={data.avatar.src} />
           </section>
           <section className={cx("artist__artworks", "artist-artworks")}>
             <h3 className={cx("artist-artworks__title")}>Artworks</h3>

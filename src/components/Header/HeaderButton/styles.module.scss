@@ -1,0 +1,11 @@
+@import "../../../_variables";
+
+.link {
+  font-family: $font-cormorant-sc;
+  color: $color-primary-dark-gray;
+  background: none;
+  text-transform: uppercase;
+  &-dark {
+    color: $color-primary-light-gray;
+  }
+}

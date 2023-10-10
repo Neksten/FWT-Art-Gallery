@@ -1,16 +1,18 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import classNames from "classnames/bind";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useTheme } from "@/context/ThemeContext";
 import { IAuthInputs } from "@/models/Auth";
-import { useLoginMutation, useRegisterMutation } from "@/store/auth/auth.api";
 import { useAppDispatch } from "@/hooks/redux";
+import { useTheme } from "@/context/ThemeContext";
 import { setIsAuth } from "@/store/auth/authSlice";
-import { getFingerprint } from "@/utils/auth/getFingerprint";
 import { resetError } from "@/store/error/errorSlice";
+import { getFingerprint } from "@/utils/auth/getFingerprint";
+import { passwordSchema } from "@/utils/Schems/passwordSchema";
+import { usernameSchema } from "@/utils/Schems/usernameSchema";
+import { useLoginMutation, useRegisterMutation } from "@/store/auth/auth.api";
 
 import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
@@ -24,29 +26,22 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 interface AuthorizationProps {
+  initialVariant?: "login" | "signup";
   setIsOpen: (value: boolean) => void;
-  setIsRedirect: () => void;
-  variant?: "login" | "signup";
 }
 
 const validationSchema = yup.object({
-  username: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Required field"),
-  password: yup
-    .string()
-    .min(8, "The password must contain at least 8 characters")
-    .required("Required field"),
+  username: usernameSchema(),
+  password: passwordSchema(),
 });
 
 const AuthModal: FC<AuthorizationProps> = ({
+  initialVariant = "login",
   setIsOpen,
-  setIsRedirect,
-  variant = "login",
 }) => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
+  const [variant, setVariant] = useState(initialVariant);
   const [registerRequest, { isSuccess: isSuccessRegister }] =
     useRegisterMutation();
   const [loginRequest, { isSuccess: isSuccessLogin }] = useLoginMutation();
@@ -75,11 +70,6 @@ const AuthModal: FC<AuthorizationProps> = ({
     if (variant === "signup") {
       await registerRequest({ ...data, fingerprint });
     }
-  };
-
-  const handleClickRedirect = () => {
-    setIsOpen(false);
-    setIsRedirect();
   };
 
   useEffect(() => {
@@ -136,7 +126,9 @@ const AuthModal: FC<AuthorizationProps> = ({
           <button
             type="button"
             className={cx("modal__link")}
-            onClick={handleClickRedirect}
+            onClick={() =>
+              setVariant(variant === "signup" ? "login" : "signup")
+            }
           >
             {variant === "login" ? "sign up" : "log in"}
           </button>

@@ -1,39 +1,40 @@
-import { FC, useEffect } from "react";
-import classNames from "classnames/bind";
-import { useForm } from "react-hook-form";
+import { FC, PropsWithChildren, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import classNames from "classnames/bind";
 import isEqual from "lodash.isequal";
+import * as yup from "yup";
 
-import { IArtistModal } from "@/models/IArtist";
-import { IGenre } from "@/models/IGenre";
 import {
   useAddArtistMutation,
   useEditArtistMutation,
 } from "@/store/artists/artist.api";
-import { imageSchema } from "@/utils/Schems/imageSchema";
-import { useDragAndDrop } from "@/hooks/useDragAndDrop";
-import { useTheme } from "@/context/ThemeContext";
+import { IGenre } from "@/models/IGenre";
 import { useAppDispatch } from "@/hooks/redux";
+import { IArtistModal } from "@/models/IArtist";
+import { useTheme } from "@/context/ThemeContext";
 import { resetError } from "@/store/error/errorSlice";
+import { useDragAndDrop } from "@/hooks/useDragAndDrop";
+import { imageSchema } from "@/utils/Schems/imageSchema";
+import { genresSchema } from "@/utils/Schems/genresSchema";
 
-import { Modal } from "@/components/Modal";
 import { InputAvatar } from "@/components/InputAvatar";
+import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
-import { Textarea } from "@/ui/Textarea";
 import { Button } from "@/ui/Button";
+import { Textarea } from "@/ui/Textarea";
 import { Multiselect } from "@/ui/Multiselect";
 
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface EditModalProps {
-  setIsOpen: (value: boolean) => void;
+interface EditModalProps extends PropsWithChildren {
   artistId?: string;
   variant?: "add" | "edit";
   genresList: IGenre[];
   initialData?: IArtistModal;
+  setIsOpen: (value: boolean) => void;
 }
 
 const defaultValues: IArtistModal = {
@@ -49,23 +50,14 @@ const validationSchema = yup.object({
   yearsOfLife: yup.string().required("Required field"),
   description: yup.string().required("Required field"),
   avatar: imageSchema(),
-  genres: yup
-    .array()
-    .min(1, "Сhoose at least one genre")
-    .of(
-      yup.object().shape({
-        _id: yup.string().required(),
-        name: yup.string().required(),
-      })
-    )
-    .required(),
+  genres: genresSchema(),
 });
 
 const ArtistModal: FC<EditModalProps> = ({
   artistId,
-  setIsOpen,
   initialData,
   genresList,
+  setIsOpen,
   variant = "edit",
 }) => {
   type ArtistFormData = yup.InferType<typeof validationSchema>;
@@ -118,7 +110,6 @@ const ArtistModal: FC<EditModalProps> = ({
     if (variant === "add") {
       await addRequest(generationRequestBody(data));
     }
-
     if (variant === "edit") {
       await editRequest({
         artistId: artistId || "",

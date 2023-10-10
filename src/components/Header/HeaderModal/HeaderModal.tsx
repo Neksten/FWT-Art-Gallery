@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks/redux";
 
+import { HeaderButton } from "@/components/Header/HeaderButton";
 import { ThemeButton } from "@/components/Header/ThemeButton";
 import { Modal } from "@/components/Modal";
 
@@ -11,18 +12,14 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface HeaderModalProps {
-  handleClickClose: () => void;
+interface HeaderModalProps extends PropsWithChildren {
   handleClickLogout: () => void;
-  handleClickLogin: () => void;
-  handleClickSignup: () => void;
+  setIsOpen: (value: boolean) => void;
 }
 
 const HeaderModal: FC<HeaderModalProps> = ({
-  handleClickClose,
   handleClickLogout,
-  handleClickLogin,
-  handleClickSignup,
+  setIsOpen,
 }) => {
   const { theme, changeTheme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
@@ -31,7 +28,7 @@ const HeaderModal: FC<HeaderModalProps> = ({
     <Modal
       className={cx("modal", `modal-${theme}`)}
       variant="menu"
-      closeModal={handleClickClose}
+      closeModal={() => setIsOpen(false)}
     >
       <ThemeButton theme={theme} changeTheme={changeTheme} />
       <ul className={cx("modal__list")}>
@@ -48,22 +45,10 @@ const HeaderModal: FC<HeaderModalProps> = ({
         ) : (
           <>
             <li>
-              <button
-                type="button"
-                onClick={handleClickLogin}
-                className={cx("modal__link")}
-              >
-                Log In
-              </button>
+              <HeaderButton variant="login" className={cx("modal__link")} />
             </li>
             <li>
-              <button
-                type="button"
-                onClick={handleClickSignup}
-                className={cx("modal__link")}
-              >
-                Sign up
-              </button>
+              <HeaderButton variant="signup" className={cx("modal__link")} />
             </li>
           </>
         )}

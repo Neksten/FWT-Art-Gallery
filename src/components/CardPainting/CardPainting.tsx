@@ -8,8 +8,8 @@ import {
 } from "@/store/artists/artist.api";
 
 import { OutsideClickHandler } from "@/components/OutsideClickHandler";
-import { PaintingModal } from "@/components/PaintingModal";
-import { DeleteModal } from "@/components/DeleteModal";
+import { EditPaintingButton } from "@/components/EditPaintingButton";
+import { DeleteButton } from "@/components/DeleteButton";
 import { Card } from "@/ui/Card";
 import { ReactComponent as Settings } from "@/assets/icons/settings.svg";
 
@@ -38,40 +38,12 @@ const CardPainting: FC<CardArtistProps> = ({
 }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
-  const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [editMainPainting] = useEditArtistMainPaintingMutation();
   const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
     useDeleteArtistPaintingMutation();
 
   return (
     <div className={cx("card-artist", `card-artist-${theme}`)}>
-      {isOpenModalDelete && (
-        <DeleteModal
-          handleDelete={() =>
-            deleteArtistPainting({
-              artistId,
-              paintingId,
-            })
-          }
-          isSuccess={isSuccessDelete}
-          title="Do you want to delete this picture?"
-          setIsOpen={setIsOpenModalDelete}
-        />
-      )}
-      {isOpenModalPainting && (
-        <PaintingModal
-          initialData={{
-            name: title,
-            yearOfCreation: years,
-            image: imgUrl || "",
-          }}
-          paintingId={paintingId}
-          variant="edit"
-          artistId={artistId}
-          setIsOpen={setIsOpenModalPainting}
-        />
-      )}
       <div className={cx("card-artist__settings")}>
         <OutsideClickHandler onOutsideClick={() => setIsOpen(false)}>
           <button
@@ -81,46 +53,56 @@ const CardPainting: FC<CardArtistProps> = ({
           >
             <Settings />
           </button>
-          {isOpen && (
-            <div className={cx("card-artist__body")}>
-              <ul className={cx("card-artist__list")}>
-                <li className={cx("card-artist__item")}>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      editMainPainting({
-                        artistId,
-                        paintingId:
-                          paintingId === mainPaintingId ? "" : paintingId,
-                      })
-                    }
-                    className={cx("card-artist__button")}
-                  >
-                    {paintingId === mainPaintingId ? "remove" : "make"} the
-                    cover
-                  </button>
-                </li>
-                <li className={cx("card-artist__item")}>
-                  <button
-                    type="button"
-                    onClick={() => setIsOpenModalPainting(true)}
-                    className={cx("card-artist__button")}
-                  >
-                    Edit
-                  </button>
-                </li>
-                <li className={cx("card-artist__item")}>
-                  <button
-                    type="button"
-                    onClick={() => setIsOpenModalDelete(true)}
-                    className={cx("card-artist__button")}
-                  >
-                    Delete
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
+          <div
+            className={cx("card-artist__body", {
+              open: isOpen,
+            })}
+          >
+            <ul className={cx("card-artist__list")}>
+              <li className={cx("card-artist__item")}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    editMainPainting({
+                      artistId,
+                      paintingId:
+                        paintingId === mainPaintingId ? "" : paintingId,
+                    })
+                  }
+                  className={cx("card-artist__button")}
+                >
+                  {paintingId === mainPaintingId ? "remove" : "make"} the cover
+                </button>
+              </li>
+              <li className={cx("card-artist__item")}>
+                <EditPaintingButton
+                  initialData={{
+                    name: title,
+                    yearOfCreation: years,
+                    image: imgUrl || "",
+                  }}
+                  paintingId={paintingId}
+                  artistId={artistId}
+                  variant="text"
+                  className={cx("card-artist__button")}
+                />
+              </li>
+              <li className={cx("card-artist__item")}>
+                <DeleteButton
+                  isSuccess={isSuccessDelete}
+                  handleDelete={() =>
+                    deleteArtistPainting({
+                      artistId,
+                      paintingId,
+                    })
+                  }
+                  variant="text"
+                  variantTitle="painting"
+                  className={cx("card-artist__button")}
+                />
+              </li>
+            </ul>
+          </div>
         </OutsideClickHandler>
       </div>
       <Card

@@ -1,22 +1,22 @@
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import classNames from "classnames/bind";
 import isEqual from "lodash.isequal";
+import * as yup from "yup";
 
-import { useTheme } from "@/context/ThemeContext";
-import { IPainting } from "@/models/IPainting";
-import { imageSchema } from "@/utils/Schems/imageSchema";
-import { useAppDispatch } from "@/hooks/redux";
-import { resetError } from "@/store/error/errorSlice";
 import {
   useAddArtistPaintingMutation,
   useEditArtistPaintingMutation,
 } from "@/store/artists/artist.api";
+import { useAppDispatch } from "@/hooks/redux";
+import { IPainting } from "@/models/IPainting";
+import { useTheme } from "@/context/ThemeContext";
+import { resetError } from "@/store/error/errorSlice";
+import { imageSchema } from "@/utils/Schems/imageSchema";
 
-import { Modal } from "@/components/Modal";
 import { InputPainting } from "@/components/InputPainting";
+import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
 
@@ -25,11 +25,11 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export interface PaintingModalProps {
-  setIsOpen: (value: boolean) => void;
   artistId: string;
   paintingId?: string;
   variant?: "add" | "edit";
   initialData?: IPainting;
+  setIsOpen: (value: boolean) => void;
 }
 
 const defaultValues: IPainting = {
@@ -45,11 +45,11 @@ const validationSchema = yup.object({
 });
 
 const PaintingModal: FC<PaintingModalProps> = ({
-  setIsOpen,
   variant = "add",
   paintingId,
   artistId,
   initialData,
+  setIsOpen,
 }) => {
   type PaintingFormData = yup.InferType<typeof validationSchema>;
   const { theme } = useTheme();
@@ -81,19 +81,22 @@ const PaintingModal: FC<PaintingModalProps> = ({
 
   const onSubmitHandler = async (data: any) => {
     dispatch(resetError());
-    if (!isEqual(initialData, data)) {
-      if (variant === "add") {
-        await addRequest({ artistId, data: generationRequestBody(data) });
-      } else if (variant === "edit" && paintingId) {
-        await editRequest({
-          artistId,
-          paintingId,
-          data: generationRequestBody(data),
-        });
-      }
-    } else {
-      setIsOpen(false);
+    if (isEqual(initialData, data)) {
+      return;
     }
+
+    if (variant === "add") {
+      await addRequest({ artistId, data: generationRequestBody(data) });
+    }
+    if (variant === "edit" && paintingId) {
+      await editRequest({
+        artistId,
+        paintingId,
+        data: generationRequestBody(data),
+      });
+    }
+
+    setIsOpen(false);
   };
 
   useEffect(() => {

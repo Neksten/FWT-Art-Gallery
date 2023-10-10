@@ -11,13 +11,10 @@ import { useGetGenresQuery } from "@/store/genre/genre.api";
 import { useTheme } from "@/context/ThemeContext";
 import { IArtistModal } from "@/models/IArtist";
 
-import { ArtistModal } from "@/components/ArtistModal";
-import { DeleteModal } from "@/components/DeleteModal";
-import { PaintingModal } from "@/components/PaintingModal";
 import { CardPainting } from "@/components/CardPainting";
 import { SliderPaintings } from "@/components/SliderPaintings";
+import { EditArtistButton } from "@/components/EditArtistButton";
 import { Card } from "@/ui/Card";
-import { IconButton } from "@/ui/IconButton";
 import { Button } from "@/ui/Button";
 import { GridLayout } from "@/ui/GridLayout";
 import { Accordion } from "@/ui/Accordion";
@@ -25,10 +22,9 @@ import { Genre } from "@/ui/Genre";
 import { Loader } from "@/ui/Loader";
 import { NoImage } from "@/ui/NoImage";
 import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
-import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
-import { ReactComponent as Edit } from "@/assets/icons/edit.svg";
-import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
-import { ReactComponent as Photo } from "@/assets/icons/photo.svg";
+import { DeleteButton } from "@/components/DeleteButton";
+import { AddPaintingButton } from "@/components/AddPaintingButton";
+import { AddPaintingCard } from "@/components/AddPaintingCard";
 
 import styles from "./styles.module.scss";
 
@@ -39,9 +35,6 @@ const Artist: FC = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
-  const [isOpenModalArtist, setIsOpenModalArtist] = useState(false);
-  const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [isOpenDescription, setIsOpenDescriptions] = useState(false);
   const [isOpenSlider, setIsOpenSlider] = useState(false);
   const [initialActiveSlide, setInitialActiveSlide] = useState(0);
@@ -90,25 +83,6 @@ const Artist: FC = () => {
           mainPaintingId={data?.mainPainting?._id || ""}
         />
       )}
-      {isAuth && isOpenModalDelete && (
-        <DeleteModal
-          isSuccess={isSuccessDelete}
-          handleDelete={() => handleDeleteArtist(id || "")}
-          title="Do you want to delete this artist profile?"
-          setIsOpen={setIsOpenModalDelete}
-        />
-      )}
-      {isAuth && genresData && isOpenModalArtist && (
-        <ArtistModal
-          initialData={initialData}
-          artistId={id}
-          genresList={genresData}
-          setIsOpen={setIsOpenModalArtist}
-        />
-      )}
-      {isAuth && isOpenModalPainting && (
-        <PaintingModal artistId={id || ""} setIsOpen={setIsOpenModalPainting} />
-      )}
       {data ? (
         <div className={cx("artist__content", "container")}>
           <nav className={cx("artist__menu", "artist-menu")}>
@@ -129,18 +103,20 @@ const Artist: FC = () => {
             </Link>
             {isAuth && (
               <div className={cx("artist-menu__right")}>
-                <IconButton
-                  onClick={() => setIsOpenModalArtist(true)}
-                  theme={theme}
-                >
-                  <Edit />
-                </IconButton>
-                <IconButton
-                  onClick={() => setIsOpenModalDelete(true)}
-                  theme={theme}
-                >
-                  <Delete />
-                </IconButton>
+                {isAuth && genresData && (
+                  <EditArtistButton
+                    initialData={initialData}
+                    artistId={id || ""}
+                    genresList={genresData}
+                  />
+                )}
+                {isAuth && (
+                  <DeleteButton
+                    isSuccess={isSuccessDelete}
+                    handleDelete={() => handleDeleteArtist(id || "")}
+                    title="Do you want to delete this artist profile?"
+                  />
+                )}
               </div>
             )}
           </nav>
@@ -186,17 +162,7 @@ const Artist: FC = () => {
           <section className={cx("artist__artworks", "artist-artworks")}>
             <h3 className={cx("artist-artworks__title")}>Artworks</h3>
             <nav className={cx("artist-artworks__menu")}>
-              {isAuth && (
-                <Button
-                  onClick={() => setIsOpenModalPainting(true)}
-                  variant="outlined"
-                  theme={theme}
-                  startIcon={<Plus />}
-                  className={cx("artist-artworks__button")}
-                >
-                  Add picture
-                </Button>
-              )}
+              {isAuth && <AddPaintingButton artistId={id || ""} />}
             </nav>
             {data.paintings.length > 0 ? (
               <div className={cx("artist-artworks__paintings")}>
@@ -226,26 +192,14 @@ const Artist: FC = () => {
                 </GridLayout>
               </div>
             ) : (
-              <>
-                <button
-                  type="button"
-                  className={cx(
-                    "artist-artworks__empty",
-                    "artist-artworks-empty"
-                  )}
-                  onClick={() => setIsOpenModalPainting(true)}
-                >
-                  <div className={cx("artist-artworks-empty__icon")}>
-                    <Photo />
-                  </div>
-                  <div className={cx("artist-artworks-empty__add")}>
-                    <Plus />
-                  </div>
-                </button>
-                <h4 className={cx("artist-artworks__explanation", "md")}>
-                  The paintings of this artist have not been uploaded yet.
-                </h4>
-              </>
+              isAuth && (
+                <>
+                  <AddPaintingCard artistId={id || ""} />
+                  <h4 className={cx("artist-artworks__explanation", "md")}>
+                    The paintings of this artist have not been uploaded yet.
+                  </h4>
+                </>
+              )
             )}
           </section>
         </div>

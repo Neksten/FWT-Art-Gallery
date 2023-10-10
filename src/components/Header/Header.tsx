@@ -1,42 +1,28 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { apiService } from "@/api";
-import { useTheme } from "@/context/ThemeContext";
 import { logout } from "@/store/auth/authSlice";
+import { useTheme } from "@/context/ThemeContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
-import { HeaderModal } from "@/components/Header/HeaderModal";
-import { AuthModal } from "@/components/AuthModal";
+import { BurgerButton } from "@/components/BurgerButton";
+import { HeaderButton } from "@/components/Header/HeaderButton";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
 import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
-import { ReactComponent as Burger } from "@/assets/icons/burger.svg";
 import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
 
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-const SCREEN_WIDTH = window.screen.width < 1440;
-
 const Header: FC = () => {
-  const { theme, changeTheme } = useTheme();
   const dispatch = useAppDispatch();
+  const { theme, changeTheme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [isOpenSignup, setIsOpenSignup] = useState(false);
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
-  const handleClickLogin = () => {
-    setIsOpenLogin(true);
-    setIsOpenMenu(false);
-  };
-  const handleClickSignup = () => {
-    setIsOpenSignup(true);
-    setIsOpenMenu(false);
-  };
   const handleClickLogout = () => {
     dispatch(apiService.util.resetApiState());
     dispatch(logout());
@@ -44,27 +30,6 @@ const Header: FC = () => {
 
   return (
     <header className={cx("header", `header-${theme}`)}>
-      {!isAuth && isOpenLogin && (
-        <AuthModal
-          setIsOpen={setIsOpenLogin}
-          setIsRedirect={() => setIsOpenSignup(true)}
-        />
-      )}
-      {!isAuth && isOpenSignup && (
-        <AuthModal
-          setIsOpen={setIsOpenSignup}
-          setIsRedirect={() => setIsOpenLogin(true)}
-          variant="signup"
-        />
-      )}
-      {SCREEN_WIDTH && (!isOpenLogin || !isOpenSignup) && isOpenMenu && (
-        <HeaderModal
-          handleClickClose={() => setIsOpenMenu(false)}
-          handleClickLogout={handleClickLogout}
-          handleClickLogin={handleClickLogin}
-          handleClickSignup={handleClickSignup}
-        />
-      )}
       <div className={cx("header__content", "container")}>
         <Link to="/" className={cx("header__logo")}>
           <Logo />
@@ -84,22 +49,20 @@ const Header: FC = () => {
             ) : (
               <>
                 <li>
-                  <button
-                    type="button"
-                    onClick={handleClickLogin}
-                    className={cx("header__link")}
-                  >
-                    Log In
-                  </button>
+                  {!isAuth && (
+                    <HeaderButton
+                      variant="login"
+                      className={cx("header__link")}
+                    />
+                  )}
                 </li>
                 <li>
-                  <button
-                    type="button"
-                    onClick={handleClickSignup}
-                    className={cx("header__link")}
-                  >
-                    Sign up
-                  </button>
+                  {!isAuth && (
+                    <HeaderButton
+                      variant="signup"
+                      className={cx("header__link")}
+                    />
+                  )}
                 </li>
               </>
             )}
@@ -112,13 +75,10 @@ const Header: FC = () => {
             {theme === "light" ? <Moon /> : <Sun />}
           </IconButton>
         </nav>
-        <button
-          type="button"
-          onClick={() => setIsOpenMenu(true)}
+        <BurgerButton
+          handleClickLogout={handleClickLogout}
           className={cx("header__burger")}
-        >
-          <Burger />
-        </button>
+        />
       </div>
     </header>
   );

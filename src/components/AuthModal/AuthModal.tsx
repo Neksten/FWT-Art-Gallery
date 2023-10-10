@@ -73,9 +73,11 @@ const AuthModal: FC<AuthorizationProps> = ({
   };
 
   useEffect(() => {
-    if (isSuccessRegister || isSuccessLogin) {
-      fulfilledRequest();
+    if (!isSuccessRegister && !isSuccessLogin) {
+      return;
     }
+
+    fulfilledRequest();
   }, [fulfilledRequest, isSuccessRegister, isSuccessLogin]);
 
   return (

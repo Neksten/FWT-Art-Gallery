@@ -73,15 +73,18 @@ const Artist: FC = () => {
 
   return (
     <main className={cx("artist", `artist-${theme}`)}>
-      {isAuth && isOpenSlider && (
-        <SliderPaintings
-          artistId={id || ""}
-          initialActiveSlide={initialActiveSlide}
-          setIsOpen={setIsOpenSlider}
-          data={data?.paintings || []}
-          mainPaintingId={data?.mainPainting?._id || ""}
-        />
-      )}
+      {isAuth &&
+        isOpenSlider &&
+        data?.paintings &&
+        data.paintings.length > 0 && (
+          <SliderPaintings
+            artistId={id || ""}
+            initialActiveSlide={initialActiveSlide}
+            setIsOpen={setIsOpenSlider}
+            data={data.paintings}
+            mainPaintingId={data?.mainPainting?._id || ""}
+          />
+        )}
       {data ? (
         <div className={cx("artist__content", "container")}>
           <nav className={cx("artist__menu", "artist-menu")}>

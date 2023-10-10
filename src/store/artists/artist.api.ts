@@ -1,6 +1,11 @@
 import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
 import { apiService } from "@/api";
 
+interface IGetArtistById {
+  isAuth: boolean | null;
+  artistId: string;
+}
+
 export const artistApi = apiService
   .enhanceEndpoints({
     addTagTypes: ["Artists", "ArtistsDetail"],
@@ -16,13 +21,7 @@ export const artistApi = apiService
         },
         providesTags: ["Artists", "ArtistsDetail"],
       }),
-      getArtistById: build.query<
-        IArtistProfile,
-        {
-          isAuth: boolean | null;
-          artistId: string;
-        }
-      >({
+      getArtistById: build.query<IArtistProfile, IGetArtistById>({
         query: ({ isAuth, artistId }) => ({
           url: isAuth ? `/artists/${artistId}` : `/artists/static/${artistId}`,
         }),

@@ -1,17 +1,17 @@
 import { FC, useCallback, useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { RemoveScrollBar } from "react-remove-scroll-bar";
 import { Navigation, Keyboard } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@/context/ThemeContext";
-import { IMainPainting } from "@/models/IImage";
 import {
   useDeleteArtistPaintingMutation,
   useEditArtistMainPaintingMutation,
 } from "@/store/painting/painting.api";
-import { handleEscapeKey } from "@/utils/handleEscapeKey";
+import { IMainPainting } from "@/models/IImage";
+import { useTheme } from "@/context/ThemeContext";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
+import { handleEscapeKey } from "@/utils/handleEscapeKey";
 
 import { EditPaintingButton } from "@/components/EditPaintingButton";
 import { DeleteButton } from "@/components/DeleteButton";

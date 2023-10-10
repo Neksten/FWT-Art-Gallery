@@ -9,6 +9,7 @@ import {
 } from "@/store/artists/artist.api";
 import { IArtistModal } from "@/models/IArtist";
 import { useTheme } from "@/context/ThemeContext";
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import { useGetGenresQuery } from "@/store/genre/genre.api";
 
 import { Avatar } from "@/pages/Artist/components/Avatar";
@@ -54,9 +55,7 @@ const Artist: FC = () => {
     yearsOfLife: data?.yearsOfLife || "",
     description: data?.description || "",
     genres: data?.genres || [],
-    avatar: data?.avatar
-      ? `${process.env.REACT_APP_BASE_URL}${data.avatar.src}`
-      : "",
+    avatar: prefixBaseUrl(data?.avatar?.src),
   };
 
   const handleClickCard = (index: number) => {
@@ -154,7 +153,7 @@ const Artist: FC = () => {
                         key={painting._id}
                         title={painting.name}
                         years={painting.yearOfCreation}
-                        imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
+                        imgUrl={prefixBaseUrl(painting?.image?.src)}
                         artistId={id || ""}
                         paintingId={painting._id}
                         mainPaintingId={data.mainPainting?._id || ""}
@@ -165,7 +164,7 @@ const Artist: FC = () => {
                         key={painting._id}
                         title={painting.name}
                         years={painting.yearOfCreation}
-                        imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
+                        imgUrl={prefixBaseUrl(painting?.image?.src)}
                         theme={theme}
                       />
                     )

@@ -1,18 +1,16 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@/context/ThemeContext";
-import { useAppSelector } from "@/hooks/redux";
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
 import { useGetGenresQuery } from "@/store/genre/genre.api";
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
+import { useTheme } from "@/context/ThemeContext";
+import { useAppSelector } from "@/hooks/redux";
 
-// import { ArtistModal } from "@/components/ArtistModal";
+import { AddArtistButton } from "@/components/AddArtistButton";
 import { CardLink } from "@/components/CardLink";
 import { GridLayout } from "@/ui/GridLayout";
-import { AddArtistButton } from "@/components/AddArtistButton";
 import { Loader } from "@/ui/Loader";
-// import { Button } from "@/ui/Button";
-// import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
 
 import styles from "./styles.module.scss";
 
@@ -48,11 +46,7 @@ const Home: FC = () => {
                 key={item._id}
                 title={item.name}
                 years={item.yearsOfLife}
-                imgUrl={
-                  item.mainPainting
-                    ? `${process.env.REACT_APP_BASE_URL}${item.mainPainting.image.src}`
-                    : ""
-                }
+                imgUrl={prefixBaseUrl(item?.mainPainting?.image?.src)}
               />
             ))}
           </GridLayout>

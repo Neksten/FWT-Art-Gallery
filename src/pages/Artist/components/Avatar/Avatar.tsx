@@ -2,6 +2,7 @@ import { FC } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 
 import { NoImage } from "@/ui/NoImage";
 
@@ -24,7 +25,7 @@ const Avatar: FC<AvatarProps> = ({ avatar }) => {
     >
       {avatar ? (
         <img
-          src={`${process.env.REACT_APP_BASE_URL}${avatar}`}
+          src={prefixBaseUrl(avatar)}
           alt="artist"
           className={cx("avatar__image")}
         />

@@ -11,9 +11,11 @@ import {
   useEditArtistMainPaintingMutation,
 } from "@/store/artists/artist.api";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 
-import { Portal } from "@/components/Portal";
+import { EditPaintingButton } from "@/components/EditPaintingButton";
 import { DeleteButton } from "@/components/DeleteButton";
+import { Portal } from "@/components/Portal";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Close } from "@/assets/icons/close.svg";
 import { ReactComponent as ChangePic } from "@/assets/icons/change-pic.svg";
@@ -22,7 +24,6 @@ import { ReactComponent as ArrowLeft } from "@/assets/icons/arrow-left.svg";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import { EditPaintingButton } from "@/components/EditPaintingButton";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -80,7 +81,7 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
         {data.map((item) => (
           <SwiperSlide key={item._id} className={cx("slider__item")}>
             <img
-              src={`${process.env.REACT_APP_BASE_URL}${item.image.src2x}`}
+              src={prefixBaseUrl(item.image.src2x)}
               alt="artist"
               className={cx("slider__image")}
             />
@@ -107,9 +108,7 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
                   initialData={{
                     name: data[activeIndex].name,
                     yearOfCreation: String(data[activeIndex].yearOfCreation),
-                    image: data[activeIndex].image
-                      ? `${process.env.REACT_APP_BASE_URL}${data[activeIndex].image.src}`
-                      : "",
+                    image: prefixBaseUrl(data[activeIndex]?.image?.src),
                   }}
                   paintingId={data[activeIndex]._id}
                   artistId={artistId}
@@ -140,9 +139,7 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
             initialData={{
               name: data[activeIndex].name,
               yearOfCreation: String(data[activeIndex].yearOfCreation),
-              image: data[activeIndex].image
-                ? `${process.env.REACT_APP_BASE_URL}${data[activeIndex].image.src}`
-                : "",
+              image: prefixBaseUrl(data[activeIndex]?.image?.src),
             }}
             paintingId={data[activeIndex]._id}
             artistId={artistId}

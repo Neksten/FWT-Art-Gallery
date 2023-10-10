@@ -9,7 +9,7 @@ import { IMainPainting } from "@/models/IImage";
 import {
   useDeleteArtistPaintingMutation,
   useEditArtistMainPaintingMutation,
-} from "@/store/artists/artist.api";
+} from "@/store/painting/painting.api";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 

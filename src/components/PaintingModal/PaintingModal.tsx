@@ -8,7 +8,7 @@ import * as yup from "yup";
 import {
   useAddArtistPaintingMutation,
   useEditArtistPaintingMutation,
-} from "@/store/artists/artist.api";
+} from "@/store/painting/painting.api";
 import { useAppDispatch } from "@/hooks/redux";
 import { IPainting } from "@/models/IPainting";
 import { useTheme } from "@/context/ThemeContext";

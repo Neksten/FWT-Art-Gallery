@@ -30,7 +30,7 @@ const Accordion: FC<AccordionProps> = ({ text, isOpen, setIsOpen }) => {
   }, [setIsOpen, textAutoOpen]);
 
   useEffect(() => {
-    if (isOpen && textRef !== null && textRef.current != null) {
+    if (isOpen && textRef?.current != null) {
       setHeightText(textRef.current.clientHeight);
     } else {
       setHeightText(MAX_HEIGHT_TEXT);

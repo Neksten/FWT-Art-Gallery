@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import {
   useDeleteArtistPaintingMutation,
   useEditArtistMainPaintingMutation,
-} from "@/store/artists/artist.api";
+} from "@/store/painting/painting.api";
 
 import { OutsideClickHandler } from "@/components/OutsideClickHandler";
 import { EditPaintingButton } from "@/components/EditPaintingButton";

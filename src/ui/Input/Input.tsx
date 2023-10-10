@@ -1,18 +1,13 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
+import { forwardRef } from "react";
 import classNames from "classnames/bind";
+
+import { InputProps } from "@/models/IInput";
 
 import { Error } from "@/ui/Error";
 
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
-
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-  theme?: "light" | "dark";
-  renderAddon?: ReactNode;
-}
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (

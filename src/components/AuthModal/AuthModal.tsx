@@ -109,7 +109,7 @@ const AuthModal: FC<AuthorizationProps> = ({
               error={errors?.username?.message}
             />
             <InputPassword
-              register={register("password")}
+              {...register("password")}
               label="password"
               theme={theme}
               error={errors?.password?.message}

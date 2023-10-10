@@ -38,6 +38,21 @@ const defaultValues: IPainting = {
   image: "",
 };
 
+const generationRequestBody = (
+  data: IPainting,
+  initialData?: IPainting
+): FormData => {
+  const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("yearOfCreation", data.yearOfCreation);
+
+  if (data.image !== initialData?.image) {
+    formData.append("image", data.image);
+  }
+
+  return formData;
+};
+
 const validationSchema = yup.object({
   name: yup.string().required("Required field"),
   yearOfCreation: yup.string().required("Required field"),
@@ -69,21 +84,12 @@ const PaintingModal: FC<PaintingModalProps> = ({
     defaultValues: initialData || defaultValues,
   });
 
-  const generationRequestBody = (data: IPainting): FormData => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("yearOfCreation", data.yearOfCreation);
-    if (data.image !== initialData?.image) {
-      formData.append("image", data.image);
-    }
-    return formData;
-  };
-
   const onSubmitHandler = async (data: any) => {
-    dispatch(resetError());
     if (isEqual(initialData, data)) {
       return;
     }
+
+    dispatch(resetError());
 
     if (variant === "add") {
       await addRequest({ artistId, data: generationRequestBody(data) });
@@ -92,7 +98,7 @@ const PaintingModal: FC<PaintingModalProps> = ({
       await editRequest({
         artistId,
         paintingId,
-        data: generationRequestBody(data),
+        data: generationRequestBody(data, initialData),
       });
     }
 

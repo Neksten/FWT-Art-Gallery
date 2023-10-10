@@ -27,6 +27,10 @@
   &__link {
     font-size: 16px;
     font-weight: 700;
+    font-family: $font-cormorant-sc;
+    color: $color-primary-dark-gray;
+    background: none;
+    text-transform: uppercase;
     display: none;
   }
   &__menu {
@@ -47,6 +51,9 @@
       }
       &__menu {
         background-color: rgba(0, 0,0 ,0);
+      }
+      &__link {
+        color: $color-primary-light-gray;
       }
     }
   }

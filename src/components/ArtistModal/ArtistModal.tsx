@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import classNames from "classnames/bind";
@@ -29,7 +29,7 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface EditModalProps extends PropsWithChildren {
+interface EditModalProps {
   artistId?: string;
   variant?: "add" | "edit";
   genresList: IGenre[];
@@ -43,6 +43,26 @@ const defaultValues: IArtistModal = {
   description: "",
   genres: [],
   avatar: "",
+};
+
+const generationRequestBody = (
+  data: IArtistModal,
+  initialData?: IArtistModal
+): FormData => {
+  const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("yearsOfLife", data.yearsOfLife);
+  formData.append("description", data.description);
+
+  if (data.avatar !== initialData?.avatar) {
+    formData.append("avatar", data.avatar);
+  }
+
+  data.genres.forEach((i, idx) => {
+    formData.append(`genres[${idx}]`, i._id);
+  });
+
+  return formData;
 };
 
 const validationSchema = yup.object({
@@ -83,23 +103,6 @@ const ArtistModal: FC<EditModalProps> = ({
     defaultValues: initialData || defaultValues,
   });
 
-  const generationRequestBody = (data: IArtistModal): FormData => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("yearsOfLife", data.yearsOfLife);
-    formData.append("description", data.description);
-
-    if (data.avatar !== initialData?.avatar) {
-      formData.append("avatar", data.avatar);
-    }
-
-    data.genres.forEach((i, idx) => {
-      formData.append(`genres[${idx}]`, i._id);
-    });
-
-    return formData;
-  };
-
   const onSubmitHandler = async (data: any) => {
     if (isEqual(initialData, data)) {
       return;
@@ -113,7 +116,7 @@ const ArtistModal: FC<EditModalProps> = ({
     if (variant === "edit") {
       await editRequest({
         artistId: artistId || "",
-        data: generationRequestBody(data),
+        data: generationRequestBody(data, initialData),
       });
     }
   };

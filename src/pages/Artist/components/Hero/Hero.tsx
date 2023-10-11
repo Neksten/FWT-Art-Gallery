@@ -42,7 +42,7 @@ const Hero: FC<HeroProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <Avatar avatar={data.avatar.src} />
+      <Avatar avatar={data.avatar?.src} />
     </section>
   );
 };

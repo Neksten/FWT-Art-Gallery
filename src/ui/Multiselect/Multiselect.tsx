@@ -28,7 +28,7 @@ interface MultiselectProps<T extends FieldValues> {
 const Multiselect = <T extends FieldValues>({
   title,
   list,
-  initialListSelect,
+  initialListSelect = [],
   className,
   control,
   name,
@@ -42,22 +42,35 @@ const Multiselect = <T extends FieldValues>({
   const topRef = useRef<HTMLDivElement>(null);
 
   const handleAddListSelect = (item: IGenre): IGenre[] => {
-    if (!selectedList.find((i) => i.name === item.name)) {
-      const newListSelect = [...selectedList, item];
-      setSelectedList(newListSelect);
-      return newListSelect;
+    if (selectedList.some((i) => i.name === item.name)) {
+      return selectedList;
     }
-    return selectedList;
+
+    const newListSelect = [...selectedList, item];
+    setSelectedList(newListSelect);
+    return newListSelect;
   };
 
   const handleClickDelete = (id: string, onBlur: () => void): IGenre[] => {
     const newListSelect = selectedList.filter((i) => i._id !== id);
     setSelectedList(newListSelect);
+
     if (newListSelect.length === 0) {
       onBlur();
     }
+
     return newListSelect;
   };
+
+  const handleClose = (onBlur: () => void) => {
+    if (!isOpen) {
+      return;
+    }
+
+    setIsOpen(false);
+    onBlur();
+  };
+
   const handleChangeOpen = (
     e: MouseEvent<HTMLDivElement>,
     onBlur: () => void
@@ -75,10 +88,15 @@ const Multiselect = <T extends FieldValues>({
     }
   };
 
-  const handleClose = (onBlur: () => void) => {
-    if (isOpen) {
-      setIsOpen(false);
-      onBlur();
+  const performActionIsSelected = (
+    onChange: (...event: any[]) => void,
+    onBlur: () => void,
+    i: IGenre
+  ) => {
+    if (selectedList.some((item) => item === i)) {
+      onChange(handleClickDelete(i._id, onBlur));
+    } else {
+      onChange(handleAddListSelect(i));
     }
   };
 
@@ -129,9 +147,7 @@ const Multiselect = <T extends FieldValues>({
                             <button
                               type="button"
                               onClick={() =>
-                                selectedList.some((item) => item === i)
-                                  ? onChange(handleClickDelete(i._id, onBlur))
-                                  : onChange(handleAddListSelect(i))
+                                performActionIsSelected(onChange, onBlur, i)
                               }
                               className={cx("select__button")}
                             >

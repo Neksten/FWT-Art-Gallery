@@ -10,9 +10,9 @@
     "project": "tsconfig.json"
   },
   "rules": {
-    "import/extensions": "off",
     // import
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
     // react
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",

@@ -18,6 +18,9 @@
     height: 100%;
     object-fit: cover;
   }
+  &-dark {
+    background-color: $color-secondary-black;
+  }
   @media (min-width: $md3) {
     height: 500px;
   }

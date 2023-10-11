@@ -1,0 +1,42 @@
+@import "../../../../_variables";
+
+.menu {
+  padding: 16px 0 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__right {
+    display: flex;
+    column-gap: 20px;
+  }
+  &__back {
+    display: none;
+  }
+  &__arrow {
+    color: $color-primary-dark-gray;
+    width: 24px;
+    height: 24px;
+    & > svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &-dark .menu {
+    &__arrow {
+      color: $color-primary-light-gray;
+    }
+  }
+  @media (min-width: $md3) {
+    padding: 36px 0 20px 0;
+    &__back {
+      display: flex;
+    }
+    &__arrow {
+      display: none;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    padding: 52px 0 24px 0;
+  }
+}

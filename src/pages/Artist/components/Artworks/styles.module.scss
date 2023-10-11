@@ -1,0 +1,60 @@
+@import "../../../../_variables";
+
+.artworks {
+  padding: 60px 0 80px 0;
+  &__title {
+    margin: 0 0 15px 0;
+    font-family: $font-cormorant-sc;
+    color: $color-accent-red;
+  }
+  &__menu {
+    padding: 15px 0 0 0;
+    margin: 0 0 20px 0;
+    display: flex;
+    justify-content: end;
+  }
+  &__explanation {
+    position: relative;
+    font-family: $font-cormorant-sc;
+    line-height: 20px;
+    color: $color-primary-dark-gray;
+    padding-top: 22px;
+    text-align: center;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 2px;
+      width: 160px;
+      background-color: $color-accent-red;
+    }
+  }
+  &-dark .artworks {
+    &__title {
+      color: $color-accent-gold;
+    }
+    &__explanation {
+      color: $color-primary-light-gray;
+      &::before {
+        background-color: $color-accent-gold;
+      }
+    }
+  }
+  @media (min-width: $md3) {
+    padding: 100px 0;
+    &__title {
+      font-size: 60px;
+    }
+    &__empty {
+      margin: 0 0 110px 0;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    padding: 160px 0 100px 0;
+    &__title {
+      padding: 0 0 0 80px;
+    }
+  }
+}

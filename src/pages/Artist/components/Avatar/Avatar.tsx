@@ -19,7 +19,7 @@ const Avatar: FC<AvatarProps> = ({ avatar }) => {
 
   return (
     <div
-      className={cx("avatar", {
+      className={cx("avatar", `avatar-${theme}`, {
         empty: !avatar,
       })}
     >

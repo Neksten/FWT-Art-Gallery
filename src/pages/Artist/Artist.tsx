@@ -1,31 +1,16 @@
 import { FC, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { useAppSelector } from "@/hooks/redux";
-import {
-  useDeleteArtistByIdMutation,
-  useGetArtistByIdQuery,
-} from "@/store/artists/artist.api";
-import { IArtistModal } from "@/models/IArtist";
+import { useGetArtistByIdQuery } from "@/store/artists/artist.api";
 import { useTheme } from "@/context/ThemeContext";
-import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
-import { useGetGenresQuery } from "@/store/genre/genre.api";
 
-import { Avatar } from "@/pages/Artist/components/Avatar";
+import { Artworks } from "@/pages/Artist/components/Artworks";
+import { Menu } from "@/pages/Artist/components/Menu";
+import { Hero } from "@/pages/Artist/components/Hero";
 import { LoaderLayout } from "@/layouts/LoaderLayout";
-import { DeleteButton } from "@/components/DeleteButton";
-import { CardPainting } from "@/components/CardPainting";
 import { SliderPaintings } from "@/components/SliderPaintings";
-import { AddPaintingCard } from "@/components/AddPaintingCard";
-import { EditArtistButton } from "@/components/EditArtistButton";
-import { AddPaintingButton } from "@/components/AddPaintingButton";
-import { Card } from "@/ui/Card";
-import { Genre } from "@/ui/Genre";
-import { Button } from "@/ui/Button";
-import { Accordion } from "@/ui/Accordion";
-import { GridLayout } from "@/layouts/GridLayout";
-import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
 
 import styles from "./styles.module.scss";
 
@@ -33,42 +18,19 @@ const cx = classNames.bind(styles);
 
 const Artist: FC = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const artistId = id || "";
   const { theme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenDescription, setIsOpenDescriptions] = useState(false);
   const [isOpenSlider, setIsOpenSlider] = useState(false);
   const [initialActiveSlide, setInitialActiveSlide] = useState(0);
-  const [deleteArtist, { isSuccess: isSuccessDelete }] =
-    useDeleteArtistByIdMutation();
   const { data } = useGetArtistByIdQuery(
-    { isAuth, artistId: id || "" },
+    { isAuth, artistId },
     { skip: isAuth === null }
   );
-  const { data: genresData } = useGetGenresQuery(
-    { isAuth },
-    { skip: isAuth === null }
-  );
-
-  const initialData: IArtistModal = {
-    name: data?.name || "",
-    yearsOfLife: data?.yearsOfLife || "",
-    description: data?.description || "",
-    genres: data?.genres || [],
-    avatar: prefixBaseUrl(data?.avatar?.src),
-  };
 
   const handleClickCard = (index: number) => {
     setIsOpenSlider(true);
     setInitialActiveSlide(index);
-  };
-
-  const handleDeleteArtist = (artistId: string) => {
-    deleteArtist(artistId).then((e) => {
-      if ("data" in e) {
-        navigate("/");
-      }
-    });
   };
 
   return (
@@ -78,7 +40,7 @@ const Artist: FC = () => {
         data?.paintings &&
         data.paintings.length > 0 && (
           <SliderPaintings
-            artistId={id || ""}
+            artistId={artistId}
             initialActiveSlide={initialActiveSlide}
             setIsOpen={setIsOpenSlider}
             data={data.paintings}
@@ -88,104 +50,13 @@ const Artist: FC = () => {
       <LoaderLayout data={data}>
         {data && (
           <div className={cx("artist__content", "container")}>
-            <nav className={cx("artist__menu", "artist-menu")}>
-              <Link to="/">
-                <Button
-                  variant="outlined"
-                  startIcon={<ArrowBack />}
-                  theme={theme}
-                  className={cx("artist__back-button")}
-                >
-                  Back
-                </Button>
-              </Link>
-              {isAuth && (
-                <div className={cx("artist-menu__right")}>
-                  {isAuth && genresData && (
-                    <EditArtistButton
-                      initialData={initialData}
-                      artistId={id || ""}
-                      genresList={genresData}
-                    />
-                  )}
-                  {isAuth && (
-                    <DeleteButton
-                      isSuccess={isSuccessDelete}
-                      handleDelete={() => handleDeleteArtist(id || "")}
-                      title="Do you want to delete this artist profile?"
-                    />
-                  )}
-                </div>
-              )}
-            </nav>
-            <section className={cx("artist__hero", "artist-hero")}>
-              <div className={cx("artist-hero__info", "artist-hero-info")}>
-                <div className={cx("artist-hero-info__intelligence")}>
-                  <span className={cx("artist-hero-info__date", "medium")}>
-                    {data.yearsOfLife}
-                  </span>
-                  <h3 className={cx("artist-hero-info__title")}>{data.name}</h3>
-                </div>
-                <div className={cx("artist-hero-info__data")}>
-                  <Accordion
-                    text={data.description}
-                    isOpen={isOpenDescription}
-                    setIsOpen={setIsOpenDescriptions}
-                  />
-                  <div className={cx("artist-hero-info__genres")}>
-                    {data.genres.map((genre) => (
-                      <Genre key={genre._id} theme={theme}>
-                        {genre.name}
-                      </Genre>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <Avatar avatar={data.avatar.src} />
-            </section>
-            <section className={cx("artist__artworks", "artist-artworks")}>
-              <h3 className={cx("artist-artworks__title")}>Artworks</h3>
-              <nav className={cx("artist-artworks__menu")}>
-                {isAuth && <AddPaintingButton artistId={id || ""} />}
-              </nav>
-              {data.paintings.length > 0 ? (
-                <div className={cx("artist-artworks__paintings")}>
-                  <GridLayout>
-                    {data.paintings.map((painting, index) =>
-                      isAuth ? (
-                        <CardPainting
-                          key={painting._id}
-                          title={painting.name}
-                          years={painting.yearOfCreation}
-                          imgUrl={prefixBaseUrl(painting?.image?.src)}
-                          artistId={id || ""}
-                          paintingId={painting._id}
-                          mainPaintingId={data.mainPainting?._id || ""}
-                          onClick={() => handleClickCard(index)}
-                        />
-                      ) : (
-                        <Card
-                          key={painting._id}
-                          title={painting.name}
-                          years={painting.yearOfCreation}
-                          imgUrl={prefixBaseUrl(painting?.image?.src)}
-                          theme={theme}
-                        />
-                      )
-                    )}
-                  </GridLayout>
-                </div>
-              ) : (
-                isAuth && (
-                  <>
-                    <AddPaintingCard artistId={id || ""} />
-                    <h4 className={cx("artist-artworks__explanation", "md")}>
-                      The paintings of this artist have not been uploaded yet.
-                    </h4>
-                  </>
-                )
-              )}
-            </section>
+            <Menu data={data} artistId={artistId} />
+            <Hero data={data} />
+            <Artworks
+              data={data}
+              artistId={artistId}
+              handleClickCard={handleClickCard}
+            />
           </div>
         )}
       </LoaderLayout>

@@ -63,12 +63,13 @@ const AuthModal: FC<AuthorizationProps> = ({
   const onSubmitHandler = async (data: any) => {
     dispatch(resetError());
     const fingerprint = await getFingerprint();
+    const bodyRequest = { ...data, fingerprint };
 
     if (variant === "login") {
-      await loginRequest({ ...data, fingerprint });
+      await loginRequest(bodyRequest);
     }
     if (variant === "signup") {
-      await registerRequest({ ...data, fingerprint });
+      await registerRequest(bodyRequest);
     }
   };
 

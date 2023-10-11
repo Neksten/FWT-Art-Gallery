@@ -16,21 +16,14 @@ const IconButton: FC<IconButtonProps> = ({
   children,
   className,
   ...props
-}) => {
-  return (
-    <button
-      type="button"
-      className={cx(
-        "button",
-        `button-${theme}`,
-        `button-${variant}`,
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cx("button", `button-${theme}`, `button-${variant}`, className)}
+    {...props}
+  >
+    {children}
+  </button>
+);
 
 export default IconButton;

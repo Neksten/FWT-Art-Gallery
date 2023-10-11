@@ -12,15 +12,13 @@ interface NoImageProps {
   theme?: "light" | "dark";
 }
 
-const NoImage: FC<NoImageProps> = ({ variant = "small", theme = "light" }) => {
-  return (
-    <div className={cx("none", `none-${variant}`, `none-${theme}`)}>
-      <div className={cx("none__icon")}>
-        <Photo />
-      </div>
-      <span className={cx("none__text")}>No Image uploaded</span>
+const NoImage: FC<NoImageProps> = ({ variant = "small", theme = "light" }) => (
+  <div className={cx("none", `none-${variant}`, `none-${theme}`)}>
+    <div className={cx("none__icon")}>
+      <Photo />
     </div>
-  );
-};
+    <span className={cx("none__text")}>No Image uploaded</span>
+  </div>
+);
 
 export default NoImage;

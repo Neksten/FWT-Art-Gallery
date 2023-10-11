@@ -1,9 +1,9 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-import { authApi } from "@/store/auth/auth.api";
-import { genreApi } from "@/store/genre/genre.api";
 import { artistApi } from "@/store/artists/artist.api";
+import { genreApi } from "@/store/genre/genre.api";
+import { authApi } from "@/store/auth/auth.api";
 import { apiService } from "@/api";
 
 interface IErrorSliceState {

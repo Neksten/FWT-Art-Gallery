@@ -1,9 +1,9 @@
 import { FC, PropsWithChildren, useEffect } from "react";
 
-import { useAppDispatch } from "@/hooks/redux";
 import { authLocalStorage } from "@/utils/auth/authLocalStorage";
 import { isExpiredToken } from "@/store/auth/isExpiredToken";
 import { logout, setIsAuth } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/hooks/redux";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();

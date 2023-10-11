@@ -14,21 +14,19 @@ interface IconButtonProps {
   changeTheme: (value: "light" | "dark") => void;
 }
 
-const ThemeButton: FC<IconButtonProps> = ({ theme = "light", changeTheme }) => {
-  return (
-    <button
-      onClick={() => changeTheme(theme)}
-      type="button"
-      className={cx("button", `button-${theme}`)}
-    >
-      <div className={cx("button__icon")}>
-        {theme === "light" ? <Moon /> : <Sun />}
-      </div>
-      <MyLink to="#" theme={theme} className={cx("button__link")}>
-        Dark mode
-      </MyLink>
-    </button>
-  );
-};
+const ThemeButton: FC<IconButtonProps> = ({ theme = "light", changeTheme }) => (
+  <button
+    onClick={() => changeTheme(theme)}
+    type="button"
+    className={cx("button", `button-${theme}`)}
+  >
+    <div className={cx("button__icon")}>
+      {theme === "light" ? <Moon /> : <Sun />}
+    </div>
+    <MyLink to="#" theme={theme} className={cx("button__link")}>
+      Dark mode
+    </MyLink>
+  </button>
+);
 
 export default ThemeButton;

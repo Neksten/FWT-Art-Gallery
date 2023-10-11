@@ -14,6 +14,7 @@ import { IPainting } from "@/models/IPainting";
 import { useTheme } from "@/context/ThemeContext";
 import { resetError } from "@/store/error/errorSlice";
 import { imageSchema } from "@/utils/Schems/imageSchema";
+import { requiredSchema } from "@/utils/Schems/requiredSchema";
 
 import { InputPainting } from "@/components/InputPainting";
 import { Modal } from "@/components/Modal";
@@ -54,8 +55,8 @@ const generationRequestBody = (
 };
 
 const validationSchema = yup.object({
-  name: yup.string().required("Required field"),
-  yearOfCreation: yup.string().required("Required field"),
+  name: requiredSchema(),
+  yearOfCreation: requiredSchema(),
   image: imageSchema(),
 });
 

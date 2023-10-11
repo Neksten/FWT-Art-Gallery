@@ -10,8 +10,8 @@ interface MyLinkProps extends LinkProps {
   theme?: "light" | "dark";
 }
 
-const MyLink: FC<MyLinkProps> = ({ theme = "light", className, ...props }) => {
-  return <Link {...props} className={cx("link", `link-${theme}`, className)} />;
-};
+const MyLink: FC<MyLinkProps> = ({ theme = "light", className, ...props }) => (
+  <Link {...props} className={cx("link", `link-${theme}`, className)} />
+);
 
 export default MyLink;

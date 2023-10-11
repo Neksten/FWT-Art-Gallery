@@ -18,22 +18,20 @@ const Button: FC<ButtonProps> = ({
   children,
   className,
   ...props
-}) => {
-  return (
-    <button
-      type="button"
-      className={cx(
-        "button",
-        `button__${variant}`,
-        `button__${variant}-${theme}`,
-        className
-      )}
-      {...props}
-    >
-      {startIcon && startIcon}
-      <span className={cx("button__text")}>{children}</span>
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cx(
+      "button",
+      `button__${variant}`,
+      `button__${variant}-${theme}`,
+      className
+    )}
+    {...props}
+  >
+    {startIcon && startIcon}
+    <span className={cx("button__text")}>{children}</span>
+  </button>
+);
 
 export default Button;

@@ -5,8 +5,8 @@ import { IArtistProfile } from "@/models/IArtist";
 import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks/redux";
 
-import { GridLayout } from "@/layouts/GridLayout";
 import { CardPainting } from "@/components/CardPainting";
+import { GridLayout } from "@/layouts/GridLayout";
 import { Card } from "@/ui/Card";
 
 interface PaintingsProps {

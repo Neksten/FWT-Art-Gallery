@@ -1,16 +1,16 @@
 import { FC, useState } from "react";
-import { useParams } from "react-router-dom";
 import classNames from "classnames/bind";
+import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "@/hooks/redux";
-import { useGetArtistByIdQuery } from "@/store/artists/artist.api";
 import { useTheme } from "@/context/ThemeContext";
+import { useGetArtistByIdQuery } from "@/store/artists/artist.api";
 
+import { SliderPaintings } from "@/components/SliderPaintings";
 import { Artworks } from "@/pages/Artist/components/Artworks";
 import { Menu } from "@/pages/Artist/components/Menu";
 import { Hero } from "@/pages/Artist/components/Hero";
 import { LoaderLayout } from "@/layouts/LoaderLayout";
-import { SliderPaintings } from "@/components/SliderPaintings";
 
 import styles from "./styles.module.scss";
 

@@ -8,9 +8,9 @@ import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks/redux";
 
 import { AddArtistButton } from "@/components/AddArtistButton";
-import { CardLink } from "@/components/CardLink";
 import { LoaderLayout } from "@/layouts/LoaderLayout";
 import { GridLayout } from "@/layouts/GridLayout";
+import { CardLink } from "@/components/CardLink";
 
 import styles from "./styles.module.scss";
 

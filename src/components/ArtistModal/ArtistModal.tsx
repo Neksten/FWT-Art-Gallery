@@ -17,6 +17,7 @@ import { resetError } from "@/store/error/errorSlice";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { imageSchema } from "@/utils/Schems/imageSchema";
 import { genresSchema } from "@/utils/Schems/genresSchema";
+import { requiredSchema } from "@/utils/Schems/requiredSchema";
 
 import { InputAvatar } from "@/components/InputAvatar";
 import { Modal } from "@/components/Modal";
@@ -66,9 +67,9 @@ const generationRequestBody = (
 };
 
 const validationSchema = yup.object({
-  name: yup.string().required("Required field"),
-  yearsOfLife: yup.string().required("Required field"),
-  description: yup.string().required("Required field"),
+  name: requiredSchema(),
+  yearsOfLife: requiredSchema(),
+  description: requiredSchema(),
   avatar: imageSchema(),
   genres: genresSchema(),
 });

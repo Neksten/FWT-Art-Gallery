@@ -4,8 +4,8 @@ import classNames from "classnames/bind";
 import { useTheme } from "@/context/ThemeContext";
 
 import { PaintingModal } from "@/components/PaintingModal";
-import { ReactComponent as Photo } from "@/assets/icons/photo.svg";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
+import { ReactComponent as Photo } from "@/assets/icons/photo.svg";
 
 import styles from "./styles.module.scss";
 

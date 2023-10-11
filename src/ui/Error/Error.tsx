@@ -12,13 +12,11 @@ interface ErrorProps {
   className?: string;
 }
 
-const Error: FC<ErrorProps> = ({ error, className }) => {
-  return (
-    <p className={cx("error", className)}>
-      <ErrorIcon />
-      {error}
-    </p>
-  );
-};
+const Error: FC<ErrorProps> = ({ error, className }) => (
+  <p className={cx("error", className)}>
+    <ErrorIcon />
+    {error}
+  </p>
+);
 
 export default Error;

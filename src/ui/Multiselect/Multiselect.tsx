@@ -42,12 +42,9 @@ const Multiselect = <T extends FieldValues>({
   const topRef = useRef<HTMLDivElement>(null);
 
   const handleAddListSelect = (item: IGenre): IGenre[] => {
-    if (selectedList.some((i) => i.name === item.name)) {
-      return selectedList;
-    }
-
     const newListSelect = [...selectedList, item];
     setSelectedList(newListSelect);
+
     return newListSelect;
   };
 

@@ -1,8 +1,9 @@
 import { ButtonHTMLAttributes, FC, useState } from "react";
 
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+
 import { HeaderModal } from "@/components/Header/HeaderModal";
 import { ReactComponent as Burger } from "@/assets/icons/burger.svg";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface HeaderModalProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   handleClickLogout: () => void;

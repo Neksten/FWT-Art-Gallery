@@ -17,8 +17,8 @@ import { imageSchema } from "@/utils/Schems/imageSchema";
 
 import { InputPainting } from "@/components/InputPainting";
 import { Modal } from "@/components/Modal";
-import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
+import { Input } from "@/ui/Input";
 
 import styles from "./styles.module.scss";
 

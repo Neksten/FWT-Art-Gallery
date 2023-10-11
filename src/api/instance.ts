@@ -4,8 +4,9 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import { getFingerprint } from "@/utils/auth/getFingerprint";
+
 import { authLocalStorage } from "@/utils/auth/authLocalStorage";
+import { getFingerprint } from "@/utils/auth/getFingerprint";
 import { isExpiredToken } from "@/store/auth/isExpiredToken";
 import { AuthResponse } from "@/models/Auth";
 

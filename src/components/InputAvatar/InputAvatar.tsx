@@ -48,6 +48,7 @@ const InputAvatar = <T extends FieldValues>({
     if (ref.current) {
       ref.current.value = "";
     }
+
     return null;
   };
 

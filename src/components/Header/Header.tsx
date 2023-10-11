@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { apiService } from "@/api";
+import { useAppDispatch } from "@/hooks/redux";
 import { logout } from "@/store/auth/authSlice";
 import { useTheme } from "@/context/ThemeContext";
-import { useAppDispatch } from "@/hooks/redux";
 
 import { HeaderAuth } from "@/components/Header/HeaderAuth";
 import { BurgerButton } from "@/components/BurgerButton";
 import { IconButton } from "@/ui/IconButton";
+import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
 import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
 import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
-import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
 
 import styles from "./styles.module.scss";
 

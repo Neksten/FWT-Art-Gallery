@@ -9,8 +9,8 @@ import { useAppSelector } from "@/hooks/redux";
 
 import { AddArtistButton } from "@/components/AddArtistButton";
 import { CardLink } from "@/components/CardLink";
-import { GridLayout } from "@/ui/GridLayout";
-import { Loader } from "@/ui/Loader";
+import { LoaderLayout } from "@/layouts/LoaderLayout";
+import { GridLayout } from "@/layouts/GridLayout";
 
 import styles from "./styles.module.scss";
 
@@ -32,7 +32,7 @@ const Home: FC = () => {
 
   return (
     <main className={cx("home", `home-${theme}`)}>
-      {!isLoading && artists ? (
+      <LoaderLayout data={!isLoading && artists}>
         <section className={cx("home__content", "container")}>
           <nav className={cx("home__menu")}>
             {isAuth && genresData && (
@@ -40,7 +40,7 @@ const Home: FC = () => {
             )}
           </nav>
           <GridLayout>
-            {artists.map((item) => (
+            {artists?.map((item) => (
               <CardLink
                 to={`/artist/${item._id}`}
                 key={item._id}
@@ -51,9 +51,7 @@ const Home: FC = () => {
             ))}
           </GridLayout>
         </section>
-      ) : (
-        <Loader />
-      )}
+      </LoaderLayout>
     </main>
   );
 };

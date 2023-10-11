@@ -1,8 +1,9 @@
-import React, { FC, PropsWithChildren, useEffect } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 
 import { useAppSelector } from "@/hooks/redux";
 
+import { Portal } from "@/components/Portal";
 import { Toast } from "@/ui/Toast";
 
 const ErrorProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -23,10 +24,12 @@ const ErrorProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [error]);
 
   return (
-    <div>
-      <Toaster />
+    <>
+      <Portal>
+        <Toaster />
+      </Portal>
       {children}
-    </div>
+    </>
   );
 };
 

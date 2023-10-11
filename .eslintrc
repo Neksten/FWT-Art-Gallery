@@ -7,17 +7,10 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [["@", "./src"]],
-        "extensions": [".ts", ".tsx", ".js", ".json"]
-      }
-    }
+    "project": "tsconfig.json"
   },
   "rules": {
+    "import/extensions": "off",
     // import
     "import/prefer-default-export": "off",
     // react

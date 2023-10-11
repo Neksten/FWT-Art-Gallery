@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
+
 export const imageSchema = () => {
   return yup
     .mixed()
@@ -8,19 +10,15 @@ export const imageSchema = () => {
         const fileName = value.name.toLowerCase().split(".").pop();
         return ["jpg", "jpeg", "png"].includes(fileName || "");
       }
-      if (value?.toString().includes(process.env.REACT_APP_BASE_URL || "")) {
-        return true;
-      }
-      return false;
+
+      return checkingBaseUrl(value);
     })
     .test("fileSize", "The file is to large", (value) => {
       if (value instanceof File) {
         return value.size <= 3000000;
       }
-      if (value?.toString().includes(process.env.REACT_APP_BASE_URL || "")) {
-        return true;
-      }
-      return false;
+
+      return checkingBaseUrl(value);
     })
     .required("Required");
 };

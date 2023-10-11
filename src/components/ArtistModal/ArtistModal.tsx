@@ -91,6 +91,7 @@ const ArtistModal: FC<EditModalProps> = ({
     dragLeaveHandler,
     onDropHandler,
     onImageChange,
+    handleDeleteClick,
   } = useDragAndDrop();
   const {
     register,
@@ -145,6 +146,7 @@ const ArtistModal: FC<EditModalProps> = ({
             onDropHandler={onDropHandler}
             drag={drag}
             onImageChange={onImageChange}
+            handleDeleteClick={handleDeleteClick}
             control={control}
           />
         </div>

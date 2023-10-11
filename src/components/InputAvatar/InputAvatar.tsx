@@ -1,4 +1,10 @@
-import { ChangeEvent, DragEvent, InputHTMLAttributes, useRef } from "react";
+import {
+  ChangeEvent,
+  DragEvent,
+  InputHTMLAttributes,
+  RefObject,
+  useRef,
+} from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import classNames from "classnames/bind";
 
@@ -7,8 +13,8 @@ import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
 import { Error } from "@/ui/Error";
 import { IconButton } from "@/ui/IconButton";
-import { ReactComponent as Profile } from "@/assets/icons/profile.svg";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+import { ReactComponent as Profile } from "@/assets/icons/profile.svg";
 
 import styles from "./styles.module.scss";
 
@@ -26,6 +32,11 @@ interface InputAvatarProps<T extends FieldValues>
     e: ChangeEvent<HTMLInputElement>,
     onBlur: () => void
   ) => File | null;
+  handleDeleteClick: (
+    ref: RefObject<HTMLInputElement>,
+    onBlur: () => void,
+    onChange: (...event: any[]) => void
+  ) => void;
   control: Control<T, unknown>;
 }
 
@@ -37,20 +48,12 @@ const InputAvatar = <T extends FieldValues>({
   dragLeaveHandler,
   onDropHandler,
   onImageChange,
+  handleDeleteClick,
   control,
   ...props
 }: InputAvatarProps<T>) => {
   const { theme } = useTheme();
   const ref = useRef<HTMLInputElement | null>(null);
-
-  const handleDeleteClick = (onBlur: () => void) => {
-    onBlur();
-    if (ref.current) {
-      ref.current.value = "";
-    }
-
-    return null;
-  };
 
   return (
     <Controller
@@ -79,7 +82,7 @@ const InputAvatar = <T extends FieldValues>({
             <div className={cx("input-avatar__file")}>
               {value && !error && (
                 <IconButton
-                  onClick={() => onChange(handleDeleteClick(onBlur))}
+                  onClick={() => handleDeleteClick(ref, onBlur, onChange)}
                   theme={theme}
                   className={cx("input-avatar__delete")}
                 >

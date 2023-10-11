@@ -6,10 +6,10 @@ import { useTheme } from "@/context/ThemeContext";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
-import { IconButton } from "@/ui/IconButton";
 import { Error } from "@/ui/Error";
-import { ReactComponent as PreviewImage } from "@/assets/icons/preview-image.svg";
+import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+import { ReactComponent as PreviewImage } from "@/assets/icons/preview-image.svg";
 
 import styles from "./styles.module.scss";
 
@@ -29,23 +29,15 @@ const InputPainting = <T extends FieldValues>({
   ...props
 }: InputPaintingProps<T>) => {
   const { theme } = useTheme();
+  const ref = useRef<HTMLInputElement | null>(null);
   const {
     drag,
     dragOverHandler,
     dragLeaveHandler,
     onDropHandler,
     onImageChange,
+    handleDeleteClick,
   } = useDragAndDrop();
-
-  const ref = useRef<HTMLInputElement | null>(null);
-
-  const handleDeleteClick = (onBlur: () => void) => {
-    onBlur();
-    if (ref.current) {
-      ref.current.value = "";
-    }
-    return null;
-  };
 
   return (
     <Controller
@@ -62,7 +54,7 @@ const InputPainting = <T extends FieldValues>({
         >
           {value && !error && (
             <IconButton
-              onClick={() => onChange(handleDeleteClick(onBlur))}
+              onClick={() => handleDeleteClick(ref, onBlur, onChange)}
               theme={theme}
               className={cx("input-painting__delete")}
             >
@@ -71,6 +63,7 @@ const InputPainting = <T extends FieldValues>({
           )}
           <label htmlFor="drop" className={cx("input-painting__label")}>
             <input
+              ref={ref}
               type="file"
               id="drop"
               onChange={(e) => onChange(onImageChange(e, onBlur))}

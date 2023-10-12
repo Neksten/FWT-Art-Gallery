@@ -161,6 +161,7 @@ const ArtistModal: FC<EditModalProps> = ({
             error={errors?.name?.message}
           />
           <Input
+            type="number"
             {...register("yearsOfLife")}
             label="years of life"
             theme={theme}
@@ -180,7 +181,7 @@ const ArtistModal: FC<EditModalProps> = ({
                 title="Genres"
                 onBlur={onBlur}
                 onChange={onChange}
-                selected={value}
+                selectedList={value}
                 list={genresList}
                 theme={theme}
                 error={errors?.genres?.message}

@@ -4,12 +4,11 @@ import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
-import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
+import { InputPaintingArea } from "@/components/InputPainting/InputPaintingArea";
 import { Error } from "@/ui/Error";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
-import { ReactComponent as PreviewImage } from "@/assets/icons/preview-image.svg";
 
 import styles from "./styles.module.scss";
 
@@ -70,39 +69,7 @@ const InputPainting = <T extends FieldValues>({
               className={cx("input-painting__input")}
               {...props}
             />
-            <div
-              className={cx("input-painting__area", {
-                uploaded: value && !error,
-                error,
-              })}
-            >
-              {value && !error && (
-                <div className={cx("input-painting__photo")}>
-                  <img
-                    src={
-                      checkingBaseUrl(value)
-                        ? value
-                        : URL.createObjectURL(value)
-                    }
-                    alt=""
-                  />
-                </div>
-              )}
-              <div className={cx("input-painting__image")}>
-                <PreviewImage />
-              </div>
-              <div className={cx("input-painting__info")}>
-                <p className={cx("input-painting__title", "base", "lh")}>
-                  Drop your image here, or
-                </p>
-                <p className={cx("input-painting__browse", "base", "md")}>
-                  browse image
-                </p>
-                <p className={cx("input-painting__text", "small", "lh")}>
-                  Upload only .jpg or .png format less than 3 MB
-                </p>
-              </div>
-            </div>
+            <InputPaintingArea drag={drag} value={value} error={error} />
           </label>
           {error && (
             <Error error={error} className={cx("input-painting__error")} />

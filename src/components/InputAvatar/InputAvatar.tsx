@@ -9,12 +9,12 @@ import classNames from "classnames/bind";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 import { useTheme } from "@/context/ThemeContext";
-import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
+import InputAvatarArea from "@/components/InputAvatar/InputAvatarArea/InputAvatarArea";
+import InputAvatarImage from "@/components/InputAvatar/InputAvatarImage/InputAvatarImage";
 import { Error } from "@/ui/Error";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
-import { ReactComponent as Profile } from "@/assets/icons/profile.svg";
 
 import styles from "./styles.module.scss";
 
@@ -67,17 +67,7 @@ const InputAvatar = <T extends FieldValues>({
           onDragLeave={(e) => dragLeaveHandler(e)}
         >
           {drag ? (
-            <div className={cx("input-avatar__area")}>
-              <div className={cx("input-avatar__image")}>
-                <Profile />
-              </div>
-              <p className={cx("input-avatar__title", "base", "lh")}>
-                Drop your image here
-              </p>
-              <p className={cx("input-avatar__text", "small", "lh")}>
-                Upload only .jpg or .png format less than 3 MB
-              </p>
-            </div>
+            <InputAvatarArea />
           ) : (
             <div className={cx("input-avatar__file")}>
               {value && !error && (
@@ -98,34 +88,9 @@ const InputAvatar = <T extends FieldValues>({
                   className={cx("input-avatar__input")}
                   {...props}
                 />
-                {value && !error ? (
-                  <div className={cx("input-avatar__image-avatar")}>
-                    <img
-                      src={
-                        checkingBaseUrl(value)
-                          ? value
-                          : URL.createObjectURL(value)
-                      }
-                      alt=""
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className={cx("input-avatar__drag", { error })}>
-                      <div className={cx("input-avatar__image")}>
-                        <Profile />
-                      </div>
-                      <p className={cx("input-avatar__title", "base", "lh")}>
-                        You can drop your image here
-                      </p>
-                    </div>
-                    {error && (
-                      <Error
-                        error={error}
-                        className={cx("input-avatar__error")}
-                      />
-                    )}
-                  </>
+                <InputAvatarImage value={value} error={error} />
+                {error && (
+                  <Error error={error} className={cx("input-avatar__error")} />
                 )}
                 <p className={cx("input-avatar__browse", "small")}>
                   Browse profile photo

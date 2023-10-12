@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 interface MultiselectProps {
   title: string;
   list: IGenre[];
-  selected: IGenre[];
+  selectedList: IGenre[];
   className: string;
   theme?: "light" | "dark";
   error?: string;
@@ -27,7 +27,7 @@ interface MultiselectProps {
 const Multiselect: FC<MultiselectProps> = ({
   title,
   list,
-  selected,
+  selectedList,
   className,
   onBlur,
   onChange,
@@ -38,9 +38,9 @@ const Multiselect: FC<MultiselectProps> = ({
   const topRef = useRef<HTMLDivElement>(null);
 
   const handleAddOrDelete = (item: IGenre) => {
-    const updatedSelected = selected.some((i) => i._id === item._id)
-      ? selected.filter((i) => i._id !== item._id)
-      : [...selected, item];
+    const updatedSelected = selectedList.some((i) => i._id === item._id)
+      ? selectedList.filter((i) => i._id !== item._id)
+      : [...selectedList, item];
 
     onChange(updatedSelected);
   };
@@ -84,7 +84,7 @@ const Multiselect: FC<MultiselectProps> = ({
           className={cx("select__top")}
         >
           <div className={cx("select__items")}>
-            {selected.map((i) => (
+            {selectedList.map((i) => (
               <Genre
                 theme={theme}
                 className={cx("select__genre")}
@@ -114,7 +114,7 @@ const Multiselect: FC<MultiselectProps> = ({
                           className={cx("select__button")}
                         >
                           <Checkbox
-                            checked={selected.some(
+                            checked={selectedList.some(
                               (item) => item._id === i._id
                             )}
                             name={i.name}

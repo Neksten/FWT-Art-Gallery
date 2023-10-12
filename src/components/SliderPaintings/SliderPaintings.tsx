@@ -4,21 +4,17 @@ import { Navigation, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import classNames from "classnames/bind";
 
-import {
-  useDeleteArtistPaintingMutation,
-  useEditArtistMainPaintingMutation,
-} from "@/store/painting/painting.api";
+import { useDeleteArtistPaintingMutation } from "@/store/painting/painting.api";
 import { IMainPainting } from "@/models/IImage";
 import { useTheme } from "@/context/ThemeContext";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";
 
 import { EditPaintingButton } from "@/components/EditPaintingButton";
+import { Slide } from "@/components/SliderPaintings/Slide";
 import { DeleteButton } from "@/components/DeleteButton";
 import { Portal } from "@/components/Portal";
-import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Close } from "@/assets/icons/close.svg";
-import { ReactComponent as ChangePic } from "@/assets/icons/change-pic.svg";
 import { ReactComponent as ArrowRight } from "@/assets/icons/arrow-right.svg";
 import { ReactComponent as ArrowLeft } from "@/assets/icons/arrow-left.svg";
 
@@ -45,7 +41,6 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
 }) => {
   const { theme } = useTheme();
   const [activeIndex, setActiveIndex] = useState(initialActiveSlide);
-  const [editMainPainting] = useEditArtistMainPaintingMutation();
   const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
     useDeleteArtistPaintingMutation();
 
@@ -79,59 +74,14 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
         onSlideChange={(swiper: any) => setActiveIndex(swiper.realIndex)}
       >
         {data.map((item) => (
-          <SwiperSlide key={item._id} className={cx("slider__item")}>
-            <img
-              src={prefixBaseUrl(item.image.src2x)}
-              alt="artist"
-              className={cx("slider__image")}
+          <SwiperSlide key={item._id}>
+            <Slide
+              item={item}
+              data={data}
+              artistId={artistId}
+              mainPaintingId={mainPaintingId}
+              activeIndex={activeIndex}
             />
-            <div
-              role="presentation"
-              onClick={() =>
-                editMainPainting({
-                  artistId,
-                  paintingId: item._id === mainPaintingId ? "" : item._id,
-                })
-              }
-              className={cx("slider__cover", "slider-cover")}
-            >
-              <IconButton theme="dark" className={cx("slider-cover__icon")}>
-                <ChangePic />
-              </IconButton>
-              <span className={cx("slider-cover__text")}>
-                {mainPaintingId === item._id ? "remove" : "make"} the cover
-              </span>
-            </div>
-            <div className={cx("slider__description", "slider-description")}>
-              <div className={cx("slider-description__management")}>
-                <EditPaintingButton
-                  initialData={{
-                    name: data[activeIndex].name,
-                    yearOfCreation: String(data[activeIndex].yearOfCreation),
-                    image: prefixBaseUrl(data[activeIndex]?.image?.src),
-                  }}
-                  paintingId={data[activeIndex]._id}
-                  artistId={artistId}
-                />
-                <DeleteButton
-                  className={cx('"slider-description__icon"')}
-                  isSuccess={isSuccessDelete}
-                  handleDelete={() =>
-                    deleteArtistPainting({
-                      artistId,
-                      paintingId: data[activeIndex]._id,
-                    })
-                  }
-                  variantTitle="painting"
-                />
-              </div>
-              <div className={cx("slider-description__info")}>
-                <span className={cx("slider-description__year")}>
-                  {item.yearOfCreation}
-                </span>
-                <h6 className={cx("slider-description__name")}>{item.name}</h6>
-              </div>
-            </div>
           </SwiperSlide>
         ))}
         <div className={cx("slider__management", "slider-management")}>

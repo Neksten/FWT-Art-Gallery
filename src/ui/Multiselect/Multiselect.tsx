@@ -1,5 +1,4 @@
-import { MouseEvent, useRef, useState } from "react";
-import { Control, FieldValues, Path, Controller } from "react-hook-form";
+import { FC, MouseEvent, useRef, useState } from "react";
 import classNames from "classnames/bind";
 
 import { IGenre } from "@/models/IGenre";
@@ -14,52 +13,39 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface MultiselectProps<T extends FieldValues> {
+interface MultiselectProps {
   title: string;
   list: IGenre[];
-  initialListSelect?: IGenre[];
+  selected: IGenre[];
   className: string;
   theme?: "light" | "dark";
-  name: Path<T>;
   error?: string;
-  control: Control<T, unknown>;
+  onChange: (value: any) => void;
+  onBlur: () => void;
 }
 
-const Multiselect = <T extends FieldValues>({
+const Multiselect: FC<MultiselectProps> = ({
   title,
   list,
-  initialListSelect = [],
+  selected,
   className,
-  control,
-  name,
+  onBlur,
+  onChange,
   error,
   theme = "light",
-}: MultiselectProps<T>) => {
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedList, setSelectedList] = useState<IGenre[]>(
-    initialListSelect || []
-  );
   const topRef = useRef<HTMLDivElement>(null);
 
-  const handleAddListSelect = (item: IGenre): IGenre[] => {
-    const newListSelect = [...selectedList, item];
-    setSelectedList(newListSelect);
+  const handleAddOrDelete = (item: IGenre) => {
+    const updatedSelected = selected.some((i) => i._id === item._id)
+      ? selected.filter((i) => i._id !== item._id)
+      : [...selected, item];
 
-    return newListSelect;
+    onChange(updatedSelected);
   };
 
-  const handleClickDelete = (id: string, onBlur: () => void): IGenre[] => {
-    const newListSelect = selectedList.filter((i) => i._id !== id);
-    setSelectedList(newListSelect);
-
-    if (newListSelect.length === 0) {
-      onBlur();
-    }
-
-    return newListSelect;
-  };
-
-  const handleClose = (onBlur: () => void) => {
+  const handleClose = () => {
     if (!isOpen) {
       return;
     }
@@ -68,10 +54,7 @@ const Multiselect = <T extends FieldValues>({
     onBlur();
   };
 
-  const handleChangeOpen = (
-    e: MouseEvent<HTMLDivElement>,
-    onBlur: () => void
-  ) => {
+  const handleChangeOpen = (e: MouseEvent<HTMLDivElement>) => {
     if (topRef.current && e.target instanceof HTMLElement) {
       if (
         e.target.className === cx("select__top") ||
@@ -85,92 +68,72 @@ const Multiselect = <T extends FieldValues>({
     }
   };
 
-  const performActionIsSelected = (
-    onChange: (...event: any[]) => void,
-    onBlur: () => void,
-    i: IGenre
-  ) => {
-    if (selectedList.some((item) => item === i)) {
-      onChange(handleClickDelete(i._id, onBlur));
-    } else {
-      onChange(handleAddListSelect(i));
-    }
-  };
-
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { onChange, onBlur } }) => (
+    <div
+      className={cx("select", `select-${theme}`, className, {
+        open: isOpen,
+        error,
+      })}
+    >
+      <p className={cx("select__title", "small")}>{title}</p>
+      <OutsideClickHandler onOutsideClick={() => handleClose()}>
         <div
-          className={cx("select", `select-${theme}`, className, {
-            open: isOpen,
-            error,
-          })}
+          role="presentation"
+          ref={topRef}
+          onClick={(e) => handleChangeOpen(e)}
+          className={cx("select__top")}
         >
-          <p className={cx("select__title", "small")}>{title}</p>
-          <OutsideClickHandler onOutsideClick={() => handleClose(onBlur)}>
-            <div
-              role="presentation"
-              ref={topRef}
-              onClick={(e) => handleChangeOpen(e, onBlur)}
-              className={cx("select__top")}
-            >
-              <div className={cx("select__items")}>
-                {selectedList.map((i) => (
-                  <Genre
-                    theme={theme}
-                    className={cx("select__genre")}
-                    key={i._id}
-                    onClick={() => onChange(handleClickDelete(i._id, onBlur))}
-                    close
-                  >
-                    {i.name}
-                  </Genre>
-                ))}
-              </div>
-              <button type="button" className={cx("select__icon")}>
-                <Expand />
-              </button>
-            </div>
-            <div className={cx("select__content")}>
-              <div className={cx("select__wrapper")}>
-                <div className={cx("select__body", "scroll")}>
-                  <ul className={cx("select__list")}>
-                    {list.map(
-                      (i) =>
-                        i?.name && (
-                          <li key={i._id} className={cx("select__item")}>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                performActionIsSelected(onChange, onBlur, i)
-                              }
-                              className={cx("select__button")}
-                            >
-                              <Checkbox
-                                checked={selectedList.some(
-                                  (item) => item._id === i._id
-                                )}
-                                name={i.name}
-                                theme={theme}
-                              />
-                              <p className={cx("select__text", "base", "lh")}>
-                                {i.name}
-                              </p>
-                            </button>
-                          </li>
-                        )
-                    )}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </OutsideClickHandler>
-          {error && !isOpen && <Error error={error} />}
+          <div className={cx("select__items")}>
+            {selected.map((i) => (
+              <Genre
+                theme={theme}
+                className={cx("select__genre")}
+                key={i._id}
+                onClick={() => handleAddOrDelete(i)}
+                close
+              >
+                {i.name}
+              </Genre>
+            ))}
+          </div>
+          <button type="button" className={cx("select__icon")}>
+            <Expand />
+          </button>
         </div>
-      )}
-    />
+        <div className={cx("select__content")}>
+          <div className={cx("select__wrapper")}>
+            <div className={cx("select__body", "scroll")}>
+              <ul className={cx("select__list")}>
+                {list.map(
+                  (i) =>
+                    i?.name && (
+                      <li key={i._id} className={cx("select__item")}>
+                        <button
+                          type="button"
+                          onClick={() => handleAddOrDelete(i)}
+                          className={cx("select__button")}
+                        >
+                          <Checkbox
+                            checked={selected.some(
+                              (item) => item._id === i._id
+                            )}
+                            name={i.name}
+                            theme={theme}
+                          />
+                          <p className={cx("select__text", "base", "lh")}>
+                            {i.name}
+                          </p>
+                        </button>
+                      </li>
+                    )
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </OutsideClickHandler>
+      {error && !isOpen && <Error error={error} />}
+    </div>
   );
 };
 export default Multiselect;

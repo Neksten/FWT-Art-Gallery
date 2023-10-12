@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import classNames from "classnames/bind";
 import isEqual from "lodash.isequal";
 import * as yup from "yup";
@@ -170,15 +170,21 @@ const ArtistModal: FC<EditModalProps> = ({
             label="description"
             theme={theme}
           />
-          <Multiselect
-            control={control}
+          <Controller
             name="genres"
-            title="Genres"
-            initialListSelect={initialData?.genres}
-            list={genresList}
-            theme={theme}
-            error={errors?.genres?.message}
-            className={cx("modal__select")}
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Multiselect
+                title="Genres"
+                onBlur={onBlur}
+                onChange={onChange}
+                selected={value}
+                list={genresList}
+                theme={theme}
+                error={errors?.genres?.message}
+                className={cx("modal__select")}
+              />
+            )}
           />
           <Button type="submit" className={cx("modal__button")} theme={theme}>
             Save

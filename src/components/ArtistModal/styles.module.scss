@@ -1,5 +1,13 @@
 @import "../../_variables";
 
+.drop-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
 .modal {
   padding: 80px 30px;
   background-color: $color-secondary-white;

@@ -20,6 +20,7 @@ import { genresSchema } from "@/utils/Schems/genresSchema";
 import { requiredSchema } from "@/utils/Schems/requiredSchema";
 
 import { InputAvatar } from "@/components/InputAvatar";
+import { DropZone } from "@/components/DropZone";
 import { Modal } from "@/components/Modal";
 import { Input } from "@/ui/Input";
 import { Button } from "@/ui/Button";
@@ -134,6 +135,7 @@ const ArtistModal: FC<EditModalProps> = ({
       className={cx("modal", `modal-${theme}`, { drag })}
       closeModal={() => setIsOpen(false)}
     >
+      <DropZone dragOverHandler={dragOverHandler} className={cx("drop-zone")} />
       <form
         onSubmit={handleSubmit(onSubmitHandler)}
         className={cx("modal__content")}
@@ -142,11 +144,11 @@ const ArtistModal: FC<EditModalProps> = ({
           <InputAvatar
             error={errors?.avatar?.message}
             name="avatar"
-            dragOverHandler={dragOverHandler}
-            dragLeaveHandler={dragLeaveHandler}
             onDropHandler={onDropHandler}
             drag={drag}
+            dragOverHandler={dragOverHandler}
             onImageChange={onImageChange}
+            dragLeaveHandler={dragLeaveHandler}
             handleDeleteClick={handleDeleteClick}
             control={control}
           />

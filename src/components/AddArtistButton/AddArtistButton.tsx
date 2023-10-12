@@ -13,7 +13,7 @@ interface AddButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const AddArtistButton: FC<AddButtonProps> = ({ genresList, ...props }) => {
   const { theme } = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>

@@ -44,11 +44,11 @@ const InputAvatar = <T extends FieldValues>({
   error,
   name,
   drag,
-  dragOverHandler,
-  dragLeaveHandler,
   onDropHandler,
   onImageChange,
   handleDeleteClick,
+  dragLeaveHandler,
+  dragOverHandler,
   control,
   ...props
 }: InputAvatarProps<T>) => {
@@ -62,9 +62,9 @@ const InputAvatar = <T extends FieldValues>({
       render={({ field: { onChange, onBlur, value } }) => (
         <div
           className={cx("input-avatar", `input-avatar-${theme}`)}
-          onDragLeave={(e) => dragLeaveHandler(e)}
-          onDragOver={(e) => dragOverHandler(e)}
           onDrop={(e) => onChange(onDropHandler(e, onBlur))}
+          onDragOver={(e) => dragOverHandler(e)}
+          onDragLeave={(e) => dragLeaveHandler(e)}
         >
           {drag ? (
             <div className={cx("input-avatar__area")}>

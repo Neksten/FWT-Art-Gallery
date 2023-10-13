@@ -1,6 +1,13 @@
-import { ChangeEvent, FC, InputHTMLAttributes, useRef } from "react";
+import {
+  ChangeEvent,
+  FC,
+  InputHTMLAttributes,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames/bind";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 import { Error } from "@/ui/Error";
 import { ReactComponent as Search } from "@/assets/icons/search.svg";
@@ -12,7 +19,6 @@ const cx = classNames.bind(styles);
 
 export interface InputSearchProps
   extends InputHTMLAttributes<HTMLInputElement> {
-  value: string;
   setValue: (value: string) => void;
   theme?: "light" | "dark";
   error?: string;
@@ -21,33 +27,28 @@ export interface InputSearchProps
 const InputSearch: FC<InputSearchProps> = ({
   name,
   theme = "light",
-  value,
   setValue,
   error,
   ...props
 }) => {
   const ref = useRef<HTMLInputElement | null>(null);
+  const [search, setSearch] = useState("");
 
-  // const debounceFn = useCallback(debounce(handleSearchDebounce, 1000), []);
-
-  // const handleSearchDebounce = debounce(() => {
-  //   console.log("request");
-  // }, 300);
-
-  const handleDebounceFn = () => {
-    // console.log("debounce");
-  };
-  const handleDebounceChange = debounce(handleDebounceFn, 300);
-
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    handleDebounceChange();
-  };
   const handleOnClickClear = () => {
     setValue("");
+    setSearch("");
     if (ref.current) {
       ref.current?.focus();
     }
+  };
+  const debouncedOnChange = useMemo(
+    () => debounce((value: string) => setValue(value), 500),
+    [setValue]
+  );
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e?.target?.value);
+    debouncedOnChange(e?.target?.value);
   };
 
   return (
@@ -62,11 +63,11 @@ const InputSearch: FC<InputSearchProps> = ({
           {...props}
           ref={ref}
           name={name}
-          onChange={handleOnChange}
-          value={value}
+          onChange={handleChange}
+          value={search}
           className={cx("search__input")}
         />
-        {value && (
+        {search && (
           <button
             type="button"
             onClick={handleOnClickClear}

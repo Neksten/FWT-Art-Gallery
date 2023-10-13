@@ -27,13 +27,14 @@ const Home: FC = () => {
   const { filters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
-  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(true);
+  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const [search, setSearch] = useState("");
   const { data: artistsData, isLoading } = useGetArtistsQuery(
     {
       isAuth,
       filters: {
         sortBy: "name",
+        name: search,
         genres: filters[0].type === "genres" ? filters[0].values : [],
         orderBy:
           filters[1].type === "orderBy" && filters[1].value === "A-Z"

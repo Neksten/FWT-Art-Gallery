@@ -161,7 +161,6 @@ const ArtistModal: FC<EditModalProps> = ({
               error={errors?.name?.message}
             />
             <Input
-              type="number"
               {...register("yearsOfLife")}
               label="years of life"
               theme={theme}

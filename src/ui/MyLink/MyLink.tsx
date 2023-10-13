@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Link, LinkProps } from "react-router-dom";
 import classNames from "classnames/bind";
+import { Link, LinkProps } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 

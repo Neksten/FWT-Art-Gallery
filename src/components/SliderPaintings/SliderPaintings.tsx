@@ -41,10 +41,9 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
 }) => {
   const { theme } = useTheme();
   const [activeIndex, setActiveIndex] = useState(initialActiveSlide);
+  const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
   const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
     useDeleteArtistPaintingMutation();
-
-  const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
   const closeSlider = useCallback(() => {
     setMenuClass("delete");

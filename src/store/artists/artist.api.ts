@@ -1,9 +1,18 @@
 import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
 import { apiService } from "@/api";
 
-interface IGetArtistById {
+interface IGetArtist {
   isAuth: boolean | null;
+}
+
+interface IDeleteArtistById {
   artistId: string;
+}
+
+type IGetArtistById = IGetArtist & IDeleteArtistById;
+
+interface IEditArtist extends IDeleteArtistById {
+  data: FormData;
 }
 
 export const artistApi = apiService
@@ -12,7 +21,7 @@ export const artistApi = apiService
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getArtists: build.query<IArtistResponse, { isAuth: boolean | null }>({
+      getArtists: build.query<IArtistResponse, IGetArtist>({
         query: ({ isAuth }) => ({
           url: isAuth ? "/artists" : "/artists/static",
         }),
@@ -27,7 +36,7 @@ export const artistApi = apiService
         }),
         providesTags: ["ArtistsDetail"],
       }),
-      deleteArtistById: build.mutation<{ artistId: string }, string>({
+      deleteArtistById: build.mutation<IDeleteArtistById, string>({
         query: (artistId) => ({
           url: `/artists/${artistId}`,
           method: "DELETE",
@@ -43,7 +52,7 @@ export const artistApi = apiService
         }),
         invalidatesTags: ["Artists"],
       }),
-      editArtist: build.mutation<void, { artistId: string; data: FormData }>({
+      editArtist: build.mutation<void, IEditArtist>({
         query: ({ artistId, data }) => ({
           url: `/artists/${artistId}`,
           method: "PUT",

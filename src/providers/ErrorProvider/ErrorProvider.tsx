@@ -12,20 +12,22 @@ const ErrorProvider: FC<PropsWithChildren> = ({ children }) => {
   const { error } = useAppSelector((state) => state.errorSlice);
 
   useEffect(() => {
-    if (error) {
-      const toastId = String(Date.now());
-
-      toast.custom(
-        <Toast closeToast={() => toast.remove(toastId)} theme={theme}>
-          {error}
-        </Toast>,
-        {
-          id: toastId,
-          duration: 4000,
-          position: "bottom-right",
-        }
-      );
+    if (!error) {
+      return;
     }
+
+    const toastId = String(Date.now());
+
+    toast.custom(
+      <Toast closeToast={() => toast.remove(toastId)} theme={theme}>
+        {error}
+      </Toast>,
+      {
+        id: toastId,
+        duration: 4000,
+        position: "bottom-right",
+      }
+    );
   }, [error, theme]);
 
   return (

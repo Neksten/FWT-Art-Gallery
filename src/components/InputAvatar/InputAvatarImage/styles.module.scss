@@ -18,8 +18,9 @@
     padding: 0;
   }
   &.error {
-    border-color: $color-accent-error;
+    border: 1px dashed $color-accent-error;
     margin: 0 0 10px 0;
+    padding: 40px 30px;
     .drag {
       &__title, &__image {
         color: $color-accent-error;

@@ -41,6 +41,7 @@ export const useDragAndDrop = () => {
   ) => {
     onBlur();
     onChange(null);
+
     if (ref.current) {
       ref.current.value = "";
     }

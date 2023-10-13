@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { ThemeProvider } from "@/context/ThemeContext";
 import { store } from "@/store";
+import { ThemeProvider } from "@/context/ThemeContext";
 
+import { App } from "@/components/App";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ErrorProvider } from "@/providers/ErrorProvider";
-import { App } from "@/components/App";
 
 import "@/index.scss";
 

@@ -1,12 +1,11 @@
-import { DragEvent, FC } from "react";
+import { DragEvent, FC, PropsWithChildren } from "react";
 
-interface DropZoneProps {
+interface DropZoneProps extends PropsWithChildren {
   dragOverHandler: (e: DragEvent<HTMLDivElement>) => void;
-  className: string;
 }
 
-const DropZone: FC<DropZoneProps> = ({ dragOverHandler, className }) => (
-  <div className={className} onDragOver={(e) => dragOverHandler(e)} />
+const DropZone: FC<DropZoneProps> = ({ dragOverHandler, children }) => (
+  <div onDragOver={(e) => dragOverHandler(e)}>{children}</div>
 );
 
 export default DropZone;

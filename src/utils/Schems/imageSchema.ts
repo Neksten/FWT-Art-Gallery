@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 import { checkingBaseUrl } from "@/utils/checkingBaseUrl";
 
-export const imageSchema = () => {
-  return yup
+export const imageSchema = () =>
+  yup
     .mixed()
     .test("fileType", "This file type is not supported", (value) => {
       if (value instanceof File) {
@@ -21,4 +21,3 @@ export const imageSchema = () => {
       return checkingBaseUrl(value);
     })
     .required("Required");
-};

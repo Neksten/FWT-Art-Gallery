@@ -5,10 +5,8 @@ interface IAddArtistPainting {
   data: FormData;
 }
 
-interface IEditArtistPainting {
-  artistId: string;
+interface IEditArtistPainting extends IAddArtistPainting {
   paintingId: string;
-  data: FormData;
 }
 
 interface IDeleteOrEditArtistPainting {

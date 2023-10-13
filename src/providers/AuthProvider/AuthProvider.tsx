@@ -11,12 +11,12 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const { refreshToken } = authLocalStorage.get();
 
-    if (!isExpiredToken(refreshToken)) {
-      dispatch(setIsAuth(true));
-    }
     if (isExpiredToken(refreshToken)) {
       dispatch(logout());
+      return;
     }
+
+    dispatch(setIsAuth(true));
   }, [dispatch]);
 
   return <div>{children}</div>;

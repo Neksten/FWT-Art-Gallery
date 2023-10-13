@@ -20,7 +20,7 @@ const InputAvatarImage: FC<InputAvatarImageProps> = ({ value, error }) => {
 
   return (
     <div className={cx("drag", `drag-${theme}`, { error, value })}>
-      {value ? (
+      {value && !error ? (
         <div className={cx("drag__avatar")}>
           <img
             src={checkingBaseUrl(value) ? value : URL.createObjectURL(value)}

@@ -135,65 +135,66 @@ const ArtistModal: FC<EditModalProps> = ({
       className={cx("modal", `modal-${theme}`, { drag })}
       closeModal={() => setIsOpen(false)}
     >
-      <DropZone dragOverHandler={dragOverHandler} className={cx("drop-zone")} />
-      <form
-        onSubmit={handleSubmit(onSubmitHandler)}
-        className={cx("modal__content")}
-      >
-        <div className={cx("modal__left")}>
-          <InputAvatar
-            error={errors?.avatar?.message}
-            name="avatar"
-            onDropHandler={onDropHandler}
-            drag={drag}
-            dragOverHandler={dragOverHandler}
-            onImageChange={onImageChange}
-            dragLeaveHandler={dragLeaveHandler}
-            handleDeleteClick={handleDeleteClick}
-            control={control}
-          />
-        </div>
-        <div className={cx("modal__right")}>
-          <Input
-            {...register("name")}
-            label="name"
-            theme={theme}
-            error={errors?.name?.message}
-          />
-          <Input
-            type="number"
-            {...register("yearsOfLife")}
-            label="years of life"
-            theme={theme}
-            error={errors?.yearsOfLife?.message}
-          />
-          <Textarea
-            {...register("description")}
-            error={errors?.description?.message}
-            label="description"
-            theme={theme}
-          />
-          <Controller
-            name="genres"
-            control={control}
-            render={({ field: { value, onChange, onBlur } }) => (
-              <Multiselect
-                title="Genres"
-                onBlur={onBlur}
-                onChange={onChange}
-                selectedList={value}
-                list={genresList}
-                theme={theme}
-                error={errors?.genres?.message}
-                className={cx("modal__select")}
-              />
-            )}
-          />
-          <Button type="submit" className={cx("modal__button")} theme={theme}>
-            Save
-          </Button>
-        </div>
-      </form>
+      <DropZone dragOverHandler={dragOverHandler}>
+        <form
+          onSubmit={handleSubmit(onSubmitHandler)}
+          className={cx("modal__content")}
+        >
+          <div className={cx("modal__left")}>
+            <InputAvatar
+              error={errors?.avatar?.message}
+              name="avatar"
+              onDropHandler={onDropHandler}
+              drag={drag}
+              dragOverHandler={dragOverHandler}
+              onImageChange={onImageChange}
+              dragLeaveHandler={dragLeaveHandler}
+              handleDeleteClick={handleDeleteClick}
+              control={control}
+            />
+          </div>
+          <div className={cx("modal__right")}>
+            <Input
+              {...register("name")}
+              label="name"
+              theme={theme}
+              error={errors?.name?.message}
+            />
+            <Input
+              type="number"
+              {...register("yearsOfLife")}
+              label="years of life"
+              theme={theme}
+              error={errors?.yearsOfLife?.message}
+            />
+            <Textarea
+              {...register("description")}
+              error={errors?.description?.message}
+              label="description"
+              theme={theme}
+            />
+            <Controller
+              name="genres"
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <Multiselect
+                  title="Genres"
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  selectedList={value}
+                  list={genresList}
+                  theme={theme}
+                  error={errors?.genres?.message}
+                  className={cx("modal__select")}
+                />
+              )}
+            />
+            <Button type="submit" className={cx("modal__button")} theme={theme}>
+              Save
+            </Button>
+          </div>
+        </form>
+      </DropZone>
     </Modal>
   );
 };

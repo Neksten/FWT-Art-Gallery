@@ -1,5 +1,3 @@
 import * as yup from "yup";
 
-export const requiredSchema = () => {
-  return yup.string().required("Required field");
-};
+export const requiredSchema = () => yup.string().required("Required field");

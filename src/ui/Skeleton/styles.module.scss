@@ -1,0 +1,72 @@
+@import "../../_variables";
+
+.skeleton {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  position: relative;
+  background-color: #eeeded;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(to right, rgb(243, 242, 241) 0%, rgb(237, 235, 233) 50%, rgb(243, 242, 241) 100%) 0 0 / 90% 100% no-repeat rgb(243, 242, 241);
+    transform: translateX(-100%);
+
+    animation-name: skeleton-animation;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+  }
+  &__body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    padding: 8px 12px;
+    width: 260px;
+  }
+  &__title {
+    width: 160px;
+    height: 15px;
+    background-color: #eeeded;
+    margin: 0 0 4px 0;
+  }
+  &__subtitle {
+    width: 47px;
+    height: 10px;
+    background-color: #eeeded;
+  }
+  @media (min-width: $md3) {
+    &__body {
+      padding: 12px;
+      width: 324px;
+    }
+    &__title {
+      width: 214px;
+      height: 19px;
+    }
+    &__subtitle {
+      width: 70px;
+      height: 15px;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    &__body {
+      width: 300px;
+    }
+  }
+}
+
+@keyframes skeleton-animation {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

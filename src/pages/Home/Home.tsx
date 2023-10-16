@@ -1,24 +1,26 @@
 import { FC, useCallback, useState } from "react";
 import classNames from "classnames/bind";
+import { uid } from "uid";
 
-import { useTheme } from "@/context/ThemeContext";
-import { useAppSelector } from "@/hooks/redux";
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
 import { useGetGenresQuery } from "@/store/genre/genre.api";
+import { useFilters } from "@/context/FiltersContext";
+import { useTheme } from "@/context/ThemeContext";
+import { useAppSelector } from "@/hooks/redux";
 
+import { FiltersModal } from "@/components/FiltersModal";
 import { ArtistModal } from "@/components/ArtistModal";
+import { CardLink } from "@/components/CardLink";
+import { InputSearch } from "@/ui/InputSearch";
+import { GridLayout } from "@/ui/GridLayout";
+import { IconButton } from "@/ui/IconButton";
+import { Skeleton } from "@/ui/Skeleton";
 import { Loader } from "@/ui/Loader";
 import { Button } from "@/ui/Button";
-import { InputSearch } from "@/ui/InputSearch";
-import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
 import { ReactComponent as Filters } from "@/assets/icons/filter.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { GridLayout } from "@/ui/GridLayout";
-import { CardLink } from "@/components/CardLink";
 
-import { FiltersModal } from "@/components/FiltersModal";
-import { useFilters } from "@/context/FiltersContext";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -106,7 +108,21 @@ const Home: FC = () => {
             dataLength={artists?.length || 0}
             next={onNextPage}
             hasMore={artists ? dataLength - artists.length >= 1 : false}
-            loader={isFetching && <Loader />}
+            loader={
+              isFetching && (
+                <GridLayout>
+                  {[
+                    ...Array(
+                      artists && dataLength - artists.length < 6
+                        ? dataLength - artists.length
+                        : 6
+                    ),
+                  ].map(() => (
+                    <Skeleton key={uid()} />
+                  ))}
+                </GridLayout>
+              )
+            }
           >
             {artists && artists.length >= 1 && (
               <GridLayout>

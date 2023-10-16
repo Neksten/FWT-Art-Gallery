@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import classNames from "classnames/bind";
 
 import { useTheme } from "@/context/ThemeContext";
@@ -7,14 +7,15 @@ import { useGetArtistsQuery } from "@/store/artists/artist.api";
 import { useGetGenresQuery } from "@/store/genre/genre.api";
 
 import { ArtistModal } from "@/components/ArtistModal";
-import { CardLink } from "@/components/CardLink";
-import { GridLayout } from "@/ui/GridLayout";
 import { Loader } from "@/ui/Loader";
 import { Button } from "@/ui/Button";
 import { InputSearch } from "@/ui/InputSearch";
 import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
 import { ReactComponent as Filters } from "@/assets/icons/filter.svg";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { GridLayout } from "@/ui/GridLayout";
+import { CardLink } from "@/components/CardLink";
 
 import { FiltersModal } from "@/components/FiltersModal";
 import { useFilters } from "@/context/FiltersContext";
@@ -24,22 +25,25 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
-  const { filters } = useFilters();
+  const { filters, changeFilters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const [search, setSearch] = useState("");
-  const { data: artistsData, isLoading } = useGetArtistsQuery(
+  const {
+    data: artistsData,
+    isLoading,
+    isFetching,
+  } = useGetArtistsQuery(
     {
       isAuth,
       filters: {
         sortBy: "name",
         name: search,
-        genres: filters[0].type === "genres" ? filters[0].values : [],
-        orderBy:
-          filters[1].type === "orderBy" && filters[1].value === "A-Z"
-            ? "asc"
-            : "desc",
+        genres: filters.genres,
+        orderBy: filters.orderBy === "A-Z" ? "asc" : "desc",
+        perPage: filters.perPage,
+        pageNumber: filters.pageNumber,
       },
     },
     { skip: isAuth === null }
@@ -50,6 +54,11 @@ const Home: FC = () => {
   );
 
   const artists = artistsData?.data;
+  const dataLength = artistsData?.meta?.count ?? 9;
+
+  const onNextPage = useCallback(() => {
+    changeFilters({ ...filters, perPage: filters.perPage + 6 });
+  }, [filters, changeFilters]);
 
   return (
     <main className={cx("home", `home-${theme}`)}>
@@ -63,7 +72,7 @@ const Home: FC = () => {
           setIsOpen={setIsOpenAddModal}
         />
       )}
-      {!isLoading && artists ? (
+      {!isLoading ? (
         <section className={cx("home__content", "container")}>
           <nav className={cx("home__menu", "home-menu")}>
             {isAuth && (
@@ -93,21 +102,30 @@ const Home: FC = () => {
               </>
             )}
           </nav>
-          <GridLayout>
-            {artists.map((item) => (
-              <CardLink
-                to={`/artist/${item._id}`}
-                key={item._id}
-                title={item.name}
-                years={item.yearsOfLife}
-                imgUrl={
-                  item.mainPainting
-                    ? `${process.env.REACT_APP_BASE_URL}${item.mainPainting.image.src}`
-                    : ""
-                }
-              />
-            ))}
-          </GridLayout>
+          <InfiniteScroll
+            dataLength={artists?.length || 0}
+            next={onNextPage}
+            hasMore={artists ? dataLength - artists.length >= 1 : false}
+            loader={isFetching && <Loader />}
+          >
+            {artists && artists.length >= 1 && (
+              <GridLayout>
+                {artists.map((item) => (
+                  <CardLink
+                    to={`/artist/${item._id}`}
+                    key={item._id}
+                    title={item.name}
+                    years={item.yearsOfLife}
+                    imgUrl={
+                      item.mainPainting
+                        ? `${process.env.REACT_APP_BASE_URL}${item.mainPainting.image.src}`
+                        : ""
+                    }
+                  />
+                ))}
+              </GridLayout>
+            )}
+          </InfiniteScroll>
         </section>
       ) : (
         <Loader />

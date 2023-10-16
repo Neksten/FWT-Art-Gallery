@@ -7,18 +7,22 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TFilterType } from "@/models/Filter";
+import { IFilters } from "@/models/Filter";
 
 interface IContext {
-  filters: TFilterType[];
-  changeFilters: (index: number, value: TFilterType) => void;
+  filters: IFilters;
+  changeFilters: (filters: IFilters) => void;
   clearFilters: () => void;
 }
 
-const defaultValueFilters: TFilterType[] = [
-  { type: "genres", values: [] },
-  { type: "orderBy", value: "A-Z" },
-];
+const defaultValueFilters: IFilters = {
+  sortBy: "name",
+  name: "",
+  orderBy: "A-Z",
+  genres: [],
+  perPage: 6,
+  pageNumber: 1,
+};
 
 const initialFiltersValue: IContext = {
   filters: defaultValueFilters,
@@ -33,16 +37,9 @@ export const FiltersProvider: FC<HTMLAttributes<HTMLDivElement>> = ({
 }) => {
   const [filters, setFilters] = useState(defaultValueFilters);
 
-  const changeFilters = useCallback(
-    (index: number, value: TFilterType): void => {
-      setFilters((prev: TFilterType[]) => {
-        const updatedFilters = [...prev];
-        updatedFilters[index] = value;
-        return updatedFilters;
-      });
-    },
-    []
-  );
+  const changeFilters = useCallback((value: IFilters): void => {
+    setFilters(value);
+  }, []);
 
   const clearFilters = () => {
     setFilters(defaultValueFilters);

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IFilterValue, IGenreFilter } from "@/models/Filter";
+import { IFilterValue } from "@/models/Filter";
 import { Filter } from "@/ui/Filter";
 import { useFilters } from "@/context/FiltersContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -11,14 +11,14 @@ export interface FilterGenresProps {
 const FilterGenres: FC<FilterGenresProps> = ({ list }) => {
   const { theme } = useTheme();
   const { changeFilters, filters } = useFilters();
-  const genres = filters[0] as IGenreFilter;
+  const { genres } = filters;
 
   const handleChange = (item: IFilterValue) => {
-    const values = genres.values.some((i) => i === item._id)
-      ? genres.values.filter((i) => i !== item._id)
-      : [...genres.values, item._id];
+    const values = genres.some((i) => i === item._id)
+      ? genres.filter((i) => i !== item._id)
+      : [...genres, item._id];
 
-    changeFilters(0, { ...genres, values });
+    changeFilters({ ...filters, genres: values });
   };
 
   return (
@@ -28,7 +28,7 @@ const FilterGenres: FC<FilterGenresProps> = ({ list }) => {
       length={genres.values.length}
       theme={theme}
       onChange={handleChange}
-      trackSelect={(item) => genres.values.some((i) => i === item._id)}
+      trackSelect={(item) => genres.some((i) => i === item._id)}
     />
   );
 };

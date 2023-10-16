@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Filter } from "@/ui/Filter";
 import { useTheme } from "@/context/ThemeContext";
 import { useFilters } from "@/context/FiltersContext";
-import { IFilterValue, IOrderByFilter } from "@/models/Filter";
+import { IFilterValue } from "@/models/Filter";
 
 export interface FilterSortByProps {
   list: IFilterValue[];
@@ -11,10 +11,10 @@ export interface FilterSortByProps {
 const FilterOrderBy: FC<FilterSortByProps> = ({ list }) => {
   const { theme } = useTheme();
   const { changeFilters, filters } = useFilters();
-  const sortBy = filters[1] as IOrderByFilter;
+  const { orderBy } = filters;
 
   const handleChange = (item: IFilterValue) => {
-    changeFilters(1, { ...sortBy, value: item.name });
+    changeFilters({ ...filters, orderBy: item.name });
   };
 
   return (
@@ -23,7 +23,7 @@ const FilterOrderBy: FC<FilterSortByProps> = ({ list }) => {
       list={list}
       theme={theme}
       onChange={handleChange}
-      trackSelect={(item) => sortBy.value === item.name}
+      trackSelect={(item) => orderBy === item.name}
     />
   );
 };

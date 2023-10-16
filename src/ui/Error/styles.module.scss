@@ -1,0 +1,11 @@
+@import "../../_variables";
+
+.error {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    font-weight: 300;
+    color: $color-accent-error;
+}

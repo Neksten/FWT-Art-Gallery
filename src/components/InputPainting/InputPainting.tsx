@@ -1,0 +1,83 @@
+import { InputHTMLAttributes, useRef } from "react";
+import { Control, FieldValues, Path, Controller } from "react-hook-form";
+import classNames from "classnames/bind";
+
+import { useTheme } from "@/context/ThemeContext";
+import { useDragAndDrop } from "@/hooks/useDragAndDrop";
+
+import { InputPaintingArea } from "@/components/InputPainting/InputPaintingArea";
+import { Error } from "@/ui/Error";
+import { IconButton } from "@/ui/IconButton";
+import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+
+import styles from "./styles.module.scss";
+
+const cx = classNames.bind(styles);
+
+interface InputPaintingProps<T extends FieldValues>
+  extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+  name: Path<T>;
+  control: Control<T, unknown>;
+}
+
+const InputPainting = <T extends FieldValues>({
+  error,
+  name,
+  control,
+  ...props
+}: InputPaintingProps<T>) => {
+  const { theme } = useTheme();
+  const ref = useRef<HTMLInputElement | null>(null);
+  const {
+    drag,
+    dragOverHandler,
+    dragLeaveHandler,
+    onDropHandler,
+    onImageChange,
+    handleDeleteClick,
+  } = useDragAndDrop();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, onBlur, value } }) => (
+        <div
+          onDragLeave={(e) => dragLeaveHandler(e)}
+          onDragOver={(e) => dragOverHandler(e)}
+          onDrop={(e) => onChange(onDropHandler(e, onBlur))}
+          className={cx("input-painting", `input-painting-${theme}`, {
+            drag,
+          })}
+        >
+          {value && !error && (
+            <IconButton
+              onClick={() => handleDeleteClick(ref, onBlur, onChange)}
+              theme={theme}
+              className={cx("input-painting__delete")}
+            >
+              <Delete />
+            </IconButton>
+          )}
+          <label htmlFor="drop" className={cx("input-painting__label")}>
+            <input
+              ref={ref}
+              type="file"
+              id="drop"
+              onChange={(e) => onChange(onImageChange(e, onBlur))}
+              className={cx("input-painting__input")}
+              {...props}
+            />
+            <InputPaintingArea drag={drag} value={value} error={error} />
+          </label>
+          {error && (
+            <Error error={error} className={cx("input-painting__error")} />
+          )}
+        </div>
+      )}
+    />
+  );
+};
+
+export default InputPainting;

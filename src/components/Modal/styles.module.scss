@@ -1,0 +1,135 @@
+@import "../../_variables";
+
+.wrapper {
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &__overlay {
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+  &-dark .modal__close {
+    color: $color-primary-white;
+  }
+  &-small, &-big {
+    &.open {
+      animation-name: opacity-visible;
+    }
+    &.delete {
+      animation-name: opacity-hidden;
+    }
+  }
+  &-menu {
+    left: auto;
+    &.open {
+      .wrapper__overlay {
+        animation-name: opacity-visible;
+      }
+      .modal {
+        animation-name: right-menu-open;
+      }
+    }
+    &.delete {
+      .modal {
+        animation-name: right-menu-delete;
+      }
+      .wrapper__overlay {
+        animation-name: opacity-hidden;
+      }
+    }
+  }
+  &-small .modal {
+    top: auto;
+    &__close {
+      display: none;
+    }
+  }
+  @media (min-width: $md3) {
+    &-small .modal {
+      top: 50%;
+      left: 50%;
+      bottom: auto;
+      transform: translate(-50%, -50%);
+      &__close {
+        display: block;
+        top: 20px;
+        right: 20px;
+      }
+    }
+  }
+}
+.modal {
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  &__close {
+    position: absolute;
+    color: $color-primary-dark-gray;
+    background: none;
+    top: 20px;
+    right: 20px;
+    z-index: 500;
+  }
+  @media (min-width: $md3) {
+    &__close {
+      top: 32px;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    max-height: 90vh;
+    &__close {
+      right: 32px;
+    }
+  }
+}
+
+@keyframes opacity-visible {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity-hidden {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes right-menu-open {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+@keyframes right-menu-delete {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
+  }
+}

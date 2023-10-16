@@ -7,12 +7,12 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "tsconfig.json"
   },
   "rules": {
     // import
     "import/prefer-default-export": "off",
-
+    "import/extensions": "off",
     // react
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
@@ -20,9 +20,17 @@
     "react/jsx-props-no-spreading": "off",
     "react/function-component-definition": [
       "error",
-      { "namedComponents": "arrow-function", "unnamedComponents": "arrow-function" }
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
     ],
-
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     //ts
     "@typescript-eslint/no-misused-promises": [
       "error",
@@ -30,6 +38,15 @@
         "checksVoidReturn": false
       }
     ],
-    "@typescript-eslint/no-empty-interface": [0]
+    "@typescript-eslint/no-empty-interface": [
+      "off"
+    ],
+    "no-underscore-dangle": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ]
   }
 }

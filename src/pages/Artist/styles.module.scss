@@ -1,0 +1,14 @@
+@import "../../_variables";
+
+.artist {
+  background-color: $color-primary-white;
+  transition: background-color 0.2s ease-out;
+  &-dark {
+    background-color: $color-primary-black;
+  }
+  @media (min-width: $md3) {
+    &__arrow {
+      display: none;
+    }
+  }
+}

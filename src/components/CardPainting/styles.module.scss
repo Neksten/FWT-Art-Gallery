@@ -1,0 +1,78 @@
+@import "../../_variables";
+
+.card-artist {
+  position: relative;
+  &__settings {
+    position: absolute;
+    z-index: 5;
+    top: 12px;
+    left: 12px;
+    opacity: 1;
+  }
+  &__button-settings {
+    color: $color-primary-light-gray;
+    background: none;
+  }
+  &__body {
+    background: $color-secondary-white;
+    margin-top: 2px;
+    padding: 5px 0;
+    border-radius: 5px;
+    display: none;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 15px; top: 23px;
+      border: 5px solid transparent;
+      border-bottom-color: $color-secondary-white;
+    }
+    &.open {
+      display: block;
+    }
+  }
+  &__item {
+    color: $color-primary-dark-gray;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    background-color: $color-secondary-white;
+    text-transform: capitalize;
+    &:hover {
+      color: $color-primary-black;
+    }
+  }
+  &__button {
+    font-weight: 700;
+    font-size: 10px;
+    background: none;
+    text-transform: capitalize;
+    color: inherit;
+    width: 100%;
+    text-align: start;
+    padding: 4px 16px;
+  }
+  &-dark .card-artist {
+    &__body {
+      background-color: $color-secondary-black;
+      &::before {
+        border-bottom-color: $color-secondary-black;
+      }
+    }
+    &__item {
+      background-color: $color-secondary-black;
+      color: $color-primary-light-gray;
+      &:hover {
+        color: $color-accent-gold;
+        background-color: $color-primary-black;
+      }
+    }
+  }
+
+  @media (min-width: $md3) {
+    &__body {
+      padding: 16px 0;
+    }
+    &__button {
+      font-size: 12px;
+    }
+  }
+}

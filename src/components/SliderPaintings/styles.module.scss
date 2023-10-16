@@ -1,0 +1,133 @@
+@import "../../_variables";
+
+.slider .swiper-button-next {
+  display: none;
+}
+
+.slider {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  transition: background-color 0.2s ease-out;
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 600;
+    background: none;
+    display: none;
+    color: $color-secondary-gray;
+    width: 40px;
+    height: 40px;
+    &::after {
+      font-size: 40px;
+    }
+    & > svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &-prev {
+      left: 0;
+    }
+    &-next {
+      right: 0;
+    }
+    @media (min-width: $md3) {
+      display: flex;
+    }
+  }
+  &.open {
+    animation-name: opacity-visible;
+  }
+  &.delete {
+    animation-name: opacity-hidden;
+  }
+  &-management {
+    position: fixed;
+    z-index: 500;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+  }
+  &__length {
+    position: absolute;
+    z-index: 500;
+    bottom: 20px;
+    right: 20px;
+    font-family: $font-cormorant-sc;
+    color: $color-primary-light-gray;
+  }
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 600;
+    background: none;
+    color: $color-primary-light-gray;
+    width: 24px;
+    height: 24px;
+    & > svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &-management {
+    &__icon {
+      background-color: rgba($color-primary-white, 0.2);
+    }
+  }
+  @media (min-width: $md3) {
+    &__close {
+      top: 40px;
+      right: 40px;
+    }
+    &-management {
+      display: none;
+    }
+    &__length {
+      bottom: 60px;
+      right: 40px;
+      font-size: 32px;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    &-description {
+      bottom: 100px;
+      left: 120px;
+    }
+    &__length {
+      bottom: 100px;
+      right: 120px;
+    }
+    &__close {
+      top: 60px;
+      right: 120px;
+    }
+  }
+}
+
+@keyframes opacity-visible {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity-hidden {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

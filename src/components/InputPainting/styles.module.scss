@@ -1,0 +1,29 @@
+@import "../../_variables";
+
+.input-painting {
+  width: 100%;
+  transition: background-color 0.2s ease-out;
+  position: relative;
+  margin: 0 0 40px 0;
+  &__input {
+    display: none;
+  }
+  &__label {
+    cursor: pointer;
+  }
+  &__delete {
+    position: absolute;
+    z-index: 300;
+    bottom: 12px;
+    right: 12px;
+  }
+  &__error {
+    justify-content: center;
+  }
+  &-dark {
+    background-color: $color-primary-black;
+  }
+  @media (min-width: $md3) {
+    margin: 0 0 60px 0;
+  }
+}

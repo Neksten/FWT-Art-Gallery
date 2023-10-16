@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
+import classNames from "classnames/bind";
 
-import classNames from "classnames";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
@@ -16,22 +16,22 @@ const Button: FC<ButtonProps> = ({
   theme = "light",
   startIcon,
   children,
+  className,
   ...props
-}) => {
-  return (
-    <button
-      type="button"
-      className={cx(
-        styles.button,
-        styles[`button__${variant}`],
-        styles[`button__${variant}-${theme}`]
-      )}
-      {...props}
-    >
-      {startIcon && startIcon}
-      <span className={styles.button__text}>{children}</span>
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cx(
+      "button",
+      `button__${variant}`,
+      `button__${variant}-${theme}`,
+      className
+    )}
+    {...props}
+  >
+    {startIcon && startIcon}
+    <span className={cx("button__text")}>{children}</span>
+  </button>
+);
 
 export default Button;

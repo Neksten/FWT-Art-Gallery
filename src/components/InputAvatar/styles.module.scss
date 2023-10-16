@@ -1,0 +1,39 @@
+@import "../../_variables";
+
+.input-avatar {
+  &__file {
+    position: relative;
+  }
+  &__delete {
+    position: absolute;
+    top: 164px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    z-index: 300;
+  }
+  &__label {
+    cursor: pointer;
+  }
+  &__input {
+    display: none;
+  }
+  &__browse {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $color-primary-dark-gray;
+    border-bottom: 1px solid $color-primary-dark-gray;
+    width: max-content;
+    margin: 0 auto;
+  }
+  &__error {
+    margin: 4px 0 10px 0 !important;
+    justify-content: center;
+  }
+  &-dark .input-avatar {
+    &__browse {
+      color: $color-primary-light-gray;
+      border-color: $color-primary-light-gray;
+    }
+  }
+}

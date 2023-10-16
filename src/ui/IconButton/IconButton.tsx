@@ -1,38 +1,29 @@
 import { ButtonHTMLAttributes, FC } from "react";
 import classNames from "classnames/bind";
+
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: "light" | "dark";
-  fullBorderRadius?: boolean;
-  variant?: "delete" | "theme" | "arrow";
+  variant?: "theme" | "arrow";
 }
 
 const IconButton: FC<IconButtonProps> = ({
   theme = "light",
-  fullBorderRadius = false,
-  variant = "delete",
+  variant,
   children,
+  className,
   ...props
-}) => {
-  return (
-    <button
-      type="button"
-      className={cx(
-        styles.button,
-        styles[`button-${theme}`],
-        styles[`button-${variant}`],
-        {
-          fullBorderRadius: fullBorderRadius === true,
-        }
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cx("button", `button-${theme}`, `button-${variant}`, className)}
+    {...props}
+  >
+    {children}
+  </button>
+);
 
 export default IconButton;

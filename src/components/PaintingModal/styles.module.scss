@@ -1,0 +1,38 @@
+@import "../../_variables";
+
+.modal {
+  position: fixed;
+  z-index: 200;
+  padding: 80px 30px;
+  background-color: $color-secondary-white;
+  transition: background-color 0.2s ease-out;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__inputs {
+    width: 100%;
+    column-gap: 50px;
+    row-gap: 30px;
+    display: grid;
+    margin: 0 0 40px 0;
+  }
+  &-dark {
+    background-color: $color-primary-black;
+  }
+  @media (min-width: $md3) {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    max-height: 90vh;
+    max-width: 695px;
+    width: 100%;
+    padding: 80px 100px;
+    &__inputs {
+      grid-template-columns: 340px 1fr;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+@import "../../_variables";
+
+.modal.drag .modal__right {
+  display: none;
+}
+.modal {
+  background-color: $color-secondary-white;
+  &.drag {
+    height: 100%;
+    overflow: hidden;
+    .modal {
+      height: 100%;
+      &__right {
+        display: none;
+      }
+    }
+  }
+  &__left {
+    margin: 0 0 40px 0;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 30px;
+  }
+  &__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+  }
+  &__select {
+    margin: 0 0 20px 0;
+  }
+  &-dark {
+    background-color: $color-primary-black;
+  }
+  @media (min-width: $md3) {
+    &__left {
+      margin: 0 0 60px 0;
+    }
+    &__right {
+      row-gap: 40px;
+    }
+  }
+  @media (min-width: $maxWidthContainer) {
+    max-width: 800px;
+    &__right {
+      align-items: start;
+    }
+    &__content {
+      padding: 80px 100px;
+      display: grid;
+      column-gap: 60px;
+      grid-template-columns: 200px 340px;
+      align-items: start;
+    }
+  }
+}

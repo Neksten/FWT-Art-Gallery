@@ -17,7 +17,8 @@
   &__burger {
     cursor: pointer;
     position: absolute;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     right: 20px;
     width: 24px;
     height: 24px;
@@ -32,6 +33,7 @@
     background: none;
     text-transform: none;
     display: none;
+    white-space: nowrap;
   }
   &__menu {
     display: none;
@@ -39,6 +41,9 @@
   }
   &__list {
     column-gap: 20px;
+  }
+  &__search {
+    margin: 0 44px 0 0;
   }
   &-dark {
     background-color: $color-primary-black;
@@ -55,6 +60,11 @@
       &__menu {
         background-color: rgba(0, 0,0 ,0);
       }
+    }
+  }
+  @media (min-width: $md3) {
+    &__search {
+      display: none;
     }
   }
   @media (min-width: $maxWidthContainer) {

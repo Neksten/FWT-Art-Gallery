@@ -5,14 +5,27 @@
   &__field {
     width: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid $color-primary-light-gray;
+    background-color: $color-primary-white;
+    transition: all 0.2s ease-out;
+    height: 32px;
+    &:hover {
+      border-color: $color-secondary-gray;
+    }
+    &.focus {
+      border-color: $color-primary-dark-gray;
+    }
+    &.error {
+      border-color: $color-accent-error;
+    }
   }
   &__button {
-    position: absolute;
-    top: 50%;
-    left: 0;
     padding: 0 6px 0 16px;
-    transform: translateY(-50%);
     background: none;
+    height: 100%;
   }
   &__icon {
     height: 24px;
@@ -24,26 +37,14 @@
     }
   }
   &__input {
-    border-radius: 4px;
     width: 100%;
-    height: 32px;
-    padding: 4px 47px 4px 52px;
+    height: 100%;
+    background: none;
+    padding: 0 8px;
     font-size: 12px;
     font-weight: 300;
-    border: 1px solid $color-primary-light-gray;
-    background-color: $color-primary-white;
-    transition: all 0.2s ease-out;
     &::placeholder {
       color: $color-secondary-gray;
-    }
-    &:hover {
-      border-color: $color-secondary-gray;
-    }
-    &:focus {
-      border-color: $color-primary-dark-gray;
-    }
-    &-error {
-      border-color: $color-accent-error;
     }
   }
   &__reset {
@@ -64,14 +65,45 @@
   &__reset, &__input, &__icon {
     color: $color-primary-dark-gray;
   }
+  &-small {
+    width: max-content;
+    .search {
+      &__field {
+        transition: none;
+        border-width: 0;
+      }
+      &__button {
+        padding: 0;
+      }
+      &__input {
+        width: 0;
+        padding: 0;
+      }
+    }
+  }
+  &.open {
+    width: 100%;
+    .search {
+      &__field {
+        border-width: 1px;
+      }
+      &__button {
+        padding: 0 6px 0 16px;
+      }
+      &__input {
+        width: 100%;
+        padding: 0 8px;
+      }
+    }
+  }
   &-dark .search {
-    &__input {
+    &__field {
       background-color: $color-secondary-black;
       border: 1px solid $color-secondary-black;
       &:hover {
         border-color: $color-primary-dark-gray;
       }
-      &:focus {
+      &.focus {
         border-color: $color-primary-light-gray;
       }
     }

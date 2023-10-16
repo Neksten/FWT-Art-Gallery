@@ -1,4 +1,5 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import classNames from "classnames/bind";
 import { uid } from "uid";
 
@@ -27,11 +28,11 @@ const cx = classNames.bind(styles);
 
 const Home: FC = () => {
   const { theme } = useTheme();
+  const { pathname } = useLocation();
   const { filters, changeFilters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
-  const [search, setSearch] = useState("");
   const {
     data: artistsData,
     isLoading,
@@ -41,7 +42,7 @@ const Home: FC = () => {
       isAuth,
       filters: {
         sortBy: "name",
-        name: search,
+        name: filters.name,
         genres: filters.genres,
         orderBy: filters.orderBy === "A-Z" ? "asc" : "desc",
         perPage: filters.perPage,
@@ -61,6 +62,11 @@ const Home: FC = () => {
   const onNextPage = useCallback(() => {
     changeFilters({ ...filters, perPage: filters.perPage + 6 });
   }, [filters, changeFilters]);
+
+  useEffect(() => {
+    changeFilters({ ...filters, name: "" });
+    // eslint-disable-next-line
+  }, [changeFilters, pathname]);
 
   return (
     <main className={cx("home", `home-${theme}`)}>
@@ -89,10 +95,13 @@ const Home: FC = () => {
                 </Button>
                 <div className={cx("home-menu__right")}>
                   <InputSearch
-                    value={search}
-                    setValue={setSearch}
+                    value={filters.name}
+                    setValue={(value: string) =>
+                      changeFilters({ ...filters, name: value })
+                    }
                     placeholder="Search"
                     theme={theme}
+                    className={cx("home-menu__search")}
                   />
                   <IconButton
                     onClick={() => setIsOpenFiltersModal(true)}

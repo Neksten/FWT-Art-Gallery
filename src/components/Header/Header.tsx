@@ -5,11 +5,13 @@ import classNames from "classnames/bind";
 import { apiService } from "@/api";
 import { useTheme } from "@/context/ThemeContext";
 import { logout } from "@/store/auth/authSlice";
+import { useFilters } from "@/context/FiltersContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 import { HeaderModal } from "@/components/Header/HeaderModal";
 import { AuthModal } from "@/components/AuthModal";
 import { IconButton } from "@/ui/IconButton";
+import { InputSearch } from "@/ui/InputSearch";
 import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
 import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
 import { ReactComponent as Burger } from "@/assets/icons/burger.svg";
@@ -24,10 +26,12 @@ const SCREEN_WIDTH = window.screen.width < 1440;
 const Header: FC = () => {
   const { theme, changeTheme } = useTheme();
   const dispatch = useAppDispatch();
+  const { filters, changeFilters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
   const [isOpenLogin, setIsOpenLogin] = useState(false);
   const [isOpenSignup, setIsOpenSignup] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
 
   const handleClickLogin = () => {
     setIsOpenLogin(true);
@@ -66,9 +70,23 @@ const Header: FC = () => {
         />
       )}
       <div className={cx("header__content", "container")}>
-        <Link to="/" className={cx("header__logo")}>
-          <Logo />
-        </Link>
+        {!isOpenSearch && (
+          <Link to="/" className={cx("header__logo")}>
+            <Logo />
+          </Link>
+        )}
+        <InputSearch
+          value={filters.name}
+          isOpen={isOpenSearch}
+          setIsOpen={setIsOpenSearch}
+          setValue={(value: string) =>
+            changeFilters({ ...filters, name: value })
+          }
+          placeholder="Search"
+          theme={theme}
+          variant="small"
+          className={cx("header__search")}
+        />
         <nav className={cx("header__menu")}>
           <ul className={cx("header__list")}>
             {isAuth ? (

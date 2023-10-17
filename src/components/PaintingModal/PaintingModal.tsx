@@ -102,14 +102,14 @@ const PaintingModal: FC<PaintingModalProps> = ({
         data: generationRequestBody(data, initialData),
       });
     }
-
-    setIsOpen(false);
   };
 
   useEffect(() => {
-    if (isSuccessAdd || isSuccessEdit) {
-      setIsOpen(false);
+    if (!isSuccessAdd && !isSuccessEdit) {
+      return;
     }
+
+    setIsOpen(false);
   }, [setIsOpen, isSuccessAdd, isSuccessEdit]);
 
   return (

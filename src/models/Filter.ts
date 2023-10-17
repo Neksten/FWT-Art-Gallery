@@ -9,14 +9,5 @@ export interface IFilters {
   orderBy: string;
   genres: string[];
   perPage: number;
-  pageNumber?: number;
-}
-
-export interface IFiltersRequest {
-  sortBy?: "name";
-  name?: string;
-  orderBy?: "asc" | "desc";
-  genres?: string[];
-  perPage?: number;
-  pageNumber?: number;
+  pageNumber: number;
 }

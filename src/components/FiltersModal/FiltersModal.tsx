@@ -1,11 +1,11 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import classNames from "classnames/bind";
 
-import { useGetGenresQuery } from "@/store/genre/genre.api";
+import { IFilterValue } from "@/models/Filter";
 import { useAppSelector } from "@/hooks/redux";
 import { useTheme } from "@/context/ThemeContext";
 import { useFilters } from "@/context/FiltersContext";
-import { IFilterValue } from "@/models/Filter";
+import { useGetGenresQuery } from "@/store/genre/genre.api";
 
 import { Modal } from "@/components/Modal";
 import { FilterGenres } from "@/components/FilterGenres";
@@ -19,19 +19,43 @@ interface FiltersModalProps {
   setIsOpen: (value: boolean) => void;
 }
 
-const sortByList: IFilterValue[] = [
+interface IFiltersSelect {
+  genres: IFilterValue[];
+  orderBy: IFilterValue;
+}
+
+const orderByList: IFilterValue[] = [
   { _id: "1", name: "A-Z" },
   { _id: "2", name: "Z-A" },
 ];
 
+const defaultFilters: IFiltersSelect = {
+  genres: [],
+  orderBy: orderByList[0],
+};
+
 const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
   const { theme } = useTheme();
-  const { clearFilters } = useFilters();
+  const { clearFilters, changeFilters, filters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
+  const [filtersSelect, setFiltersSelect] = useState(defaultFilters);
   const { data: genresData } = useGetGenresQuery(
     { isAuth },
     { skip: isAuth === null }
   );
+
+  const handleSubmit = () => {
+    changeFilters({
+      ...filters,
+      genres: filtersSelect.genres.map((i) => i._id),
+      orderBy: filtersSelect.orderBy.name,
+    });
+  };
+
+  const handleClickClear = () => {
+    clearFilters();
+    setFiltersSelect(defaultFilters);
+  };
 
   return (
     <Modal
@@ -41,16 +65,32 @@ const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
       closeModal={() => setIsOpen(false)}
     >
       <div className={cx("modal__filters")}>
-        <FilterGenres list={genresData || []} />
-        <FilterOrderBy list={sortByList} />
+        <FilterGenres
+          list={genresData || []}
+          listSelect={filtersSelect.genres}
+          setListSelect={(genres) =>
+            setFiltersSelect((prev) => ({ ...prev, genres }))
+          }
+        />
+        <FilterOrderBy
+          list={orderByList}
+          valueSelect={filtersSelect.orderBy}
+          setValueSelect={(orderBy) =>
+            setFiltersSelect((prev) => ({ ...prev, orderBy }))
+          }
+        />
       </div>
       <div className={cx("modal__management")}>
-        <button type="button" className={cx("modal__button")}>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className={cx("modal__button")}
+        >
           show the results
         </button>
         <button
           type="button"
-          onClick={clearFilters}
+          onClick={handleClickClear}
           className={cx("modal__button", "hidden")}
         >
           clear

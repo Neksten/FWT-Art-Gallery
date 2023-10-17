@@ -1,34 +1,39 @@
 import { FC } from "react";
+
 import { IFilterValue } from "@/models/Filter";
-import { Filter } from "@/ui/Filter";
-import { useFilters } from "@/context/FiltersContext";
 import { useTheme } from "@/context/ThemeContext";
+
+import { Filter } from "@/ui/Filter";
 
 export interface FilterGenresProps {
   list: IFilterValue[];
+  listSelect: IFilterValue[];
+  setListSelect: (value: IFilterValue[]) => void;
 }
 
-const FilterGenres: FC<FilterGenresProps> = ({ list }) => {
+const FilterGenres: FC<FilterGenresProps> = ({
+  list,
+  listSelect,
+  setListSelect,
+}) => {
   const { theme } = useTheme();
-  const { changeFilters, filters } = useFilters();
-  const { genres } = filters;
 
   const handleChange = (item: IFilterValue) => {
-    const values = genres.some((i) => i === item._id)
-      ? genres.filter((i) => i !== item._id)
-      : [...genres, item._id];
+    const values = listSelect.some((i) => i._id === item._id)
+      ? listSelect.filter((i) => i._id !== item._id)
+      : [...listSelect, item];
 
-    changeFilters({ ...filters, genres: values });
+    setListSelect(values);
   };
 
   return (
     <Filter
       title="Genres"
       list={list}
-      length={genres.length}
+      length={listSelect.length}
       theme={theme}
       onChange={handleChange}
-      trackSelect={(item) => genres.some((i) => i === item._id)}
+      trackSelect={(item) => listSelect.some((i) => i._id === item._id)}
     />
   );
 };

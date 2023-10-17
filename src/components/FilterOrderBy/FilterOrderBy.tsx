@@ -1,20 +1,25 @@
-import React, { FC } from "react";
-import { Filter } from "@/ui/Filter";
+import { FC } from "react";
+
 import { useTheme } from "@/context/ThemeContext";
-import { useFilters } from "@/context/FiltersContext";
 import { IFilterValue } from "@/models/Filter";
+
+import { Filter } from "@/ui/Filter";
 
 export interface FilterSortByProps {
   list: IFilterValue[];
+  valueSelect: IFilterValue;
+  setValueSelect: (value: IFilterValue) => void;
 }
 
-const FilterOrderBy: FC<FilterSortByProps> = ({ list }) => {
+const FilterOrderBy: FC<FilterSortByProps> = ({
+  list,
+  valueSelect,
+  setValueSelect,
+}) => {
   const { theme } = useTheme();
-  const { changeFilters, filters } = useFilters();
-  const { orderBy } = filters;
 
   const handleChange = (item: IFilterValue) => {
-    changeFilters({ ...filters, orderBy: item.name });
+    setValueSelect(item);
   };
 
   return (
@@ -23,7 +28,7 @@ const FilterOrderBy: FC<FilterSortByProps> = ({ list }) => {
       list={list}
       theme={theme}
       onChange={handleChange}
-      trackSelect={(item) => orderBy === item.name}
+      trackSelect={(item) => valueSelect._id === item._id}
     />
   );
 };

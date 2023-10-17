@@ -15,7 +15,7 @@ interface IContext {
   clearFilters: () => void;
 }
 
-const defaultValueFilters: IFilters = {
+export const defaultValueFilters: IFilters = {
   sortBy: "name",
   name: "",
   orderBy: "A-Z",

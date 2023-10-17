@@ -19,12 +19,12 @@ const HomeCards: FC<HomeCardsProps> = ({ artistsData, isFetching }) => {
   const { theme } = useTheme();
   const { filters, changeFilters } = useFilters();
 
+  const artists = artistsData?.data;
+  const dataLength = artistsData?.meta?.count ?? 9;
+
   const onNextPage = useCallback(() => {
     changeFilters({ ...filters, perPage: filters.perPage + 6 });
   }, [filters, changeFilters]);
-
-  const artists = artistsData?.data;
-  const dataLength = artistsData?.meta?.count ?? 9;
 
   return (
     <InfiniteScroll

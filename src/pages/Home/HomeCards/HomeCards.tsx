@@ -1,11 +1,14 @@
 import { FC, useCallback } from "react";
-import { GridLayout } from "@/ui/GridLayout";
-import { Skeleton } from "@/ui/Skeleton";
-import { uid } from "uid";
-import { CardLink } from "@/components/CardLink";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { uid } from "uid";
+
 import { useFilters } from "@/context/FiltersContext";
 import { IArtistResponse } from "@/models/IArtist";
+import { useTheme } from "@/context/ThemeContext";
+
+import { CardLink } from "@/components/CardLink";
+import { GridLayout } from "@/ui/GridLayout";
+import { Skeleton } from "@/ui/Skeleton";
 
 interface HomeCardsProps {
   artistsData: IArtistResponse | null;
@@ -13,6 +16,7 @@ interface HomeCardsProps {
 }
 
 const HomeCards: FC<HomeCardsProps> = ({ artistsData, isFetching }) => {
+  const { theme } = useTheme();
   const { filters, changeFilters } = useFilters();
 
   const onNextPage = useCallback(() => {
@@ -37,7 +41,7 @@ const HomeCards: FC<HomeCardsProps> = ({ artistsData, isFetching }) => {
                   : 6
               ),
             ].map(() => (
-              <Skeleton key={uid()} />
+              <Skeleton key={uid()} theme={theme} />
             ))}
           </GridLayout>
         )

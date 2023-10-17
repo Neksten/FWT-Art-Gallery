@@ -5,9 +5,13 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
-const Skeleton: FC = () => {
+interface SkeletonProps {
+  theme?: "light" | "dark";
+}
+
+const Skeleton: FC<SkeletonProps> = ({ theme = "light" }) => {
   return (
-    <div className={cx("skeleton")}>
+    <div className={cx("skeleton", `skeleton-${theme}`)}>
       <div className={cx("skeleton__body")}>
         <div className={cx("skeleton__title")} />
         <div className={cx("skeleton__subtitle")} />

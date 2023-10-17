@@ -1,15 +1,17 @@
 import { FC, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames/bind";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useAppSelector } from "@/hooks/redux";
 import {
   useDeleteArtistByIdMutation,
   useGetArtistByIdQuery,
 } from "@/store/artists/artist.api";
-import { useGetGenresQuery } from "@/store/genre/genre.api";
-import { useTheme } from "@/context/ThemeContext";
+import { useAppSelector } from "@/hooks/redux";
 import { IArtistModal } from "@/models/IArtist";
+import { useTheme } from "@/context/ThemeContext";
+import { generateRange } from "@/utils/generateRange";
+import { rangePaintings } from "@/utils/getPaginatedImage";
+import { useGetGenresQuery } from "@/store/genre/genre.api";
 
 import { ArtistModal } from "@/components/ArtistModal";
 import { DeleteModal } from "@/components/DeleteModal";
@@ -17,18 +19,19 @@ import { PaintingModal } from "@/components/PaintingModal";
 import { CardPainting } from "@/components/CardPainting";
 import { SliderPaintings } from "@/components/SliderPaintings";
 import { Card } from "@/ui/Card";
-import { IconButton } from "@/ui/IconButton";
-import { Button } from "@/ui/Button";
-import { GridLayout } from "@/ui/GridLayout";
-import { Accordion } from "@/ui/Accordion";
 import { Genre } from "@/ui/Genre";
 import { Loader } from "@/ui/Loader";
+import { Button } from "@/ui/Button";
 import { NoImage } from "@/ui/NoImage";
-import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
-import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
-import { ReactComponent as Edit } from "@/assets/icons/edit.svg";
+import { Accordion } from "@/ui/Accordion";
+import { Pagination } from "@/ui/Pagination";
+import { IconButton } from "@/ui/IconButton";
+import { GridLayout } from "@/ui/GridLayout";
 import { ReactComponent as Plus } from "@/assets/icons/plus.svg";
+import { ReactComponent as Edit } from "@/assets/icons/edit.svg";
 import { ReactComponent as Photo } from "@/assets/icons/photo.svg";
+import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
+import { ReactComponent as ArrowBack } from "@/assets/icons/arrow-back.svg";
 
 import styles from "./styles.module.scss";
 
@@ -45,6 +48,8 @@ const Artist: FC = () => {
   const [isOpenDescription, setIsOpenDescriptions] = useState(false);
   const [isOpenSlider, setIsOpenSlider] = useState(false);
   const [initialActiveSlide, setInitialActiveSlide] = useState(0);
+  const [pages, setPages] = useState<number[]>([]);
+  const [activePage, setActivePage] = useState(1);
   const [deleteArtist, { isSuccess: isSuccessDelete }] =
     useDeleteArtistByIdMutation();
   const { data } = useGetArtistByIdQuery(
@@ -55,6 +60,10 @@ const Artist: FC = () => {
     { isAuth },
     { skip: isAuth === null }
   );
+
+  const dataPaintings = data ? data.paintings : [];
+
+  const dataPages = generateRange(dataPaintings.length / 6);
 
   const initialData: IArtistModal = {
     name: data?.name || "",
@@ -201,29 +210,40 @@ const Artist: FC = () => {
             {data.paintings.length > 0 ? (
               <div className={cx("artist-artworks__paintings")}>
                 <GridLayout>
-                  {data.paintings.map((painting, index) =>
-                    isAuth ? (
-                      <CardPainting
-                        key={painting._id}
-                        title={painting.name}
-                        years={painting.yearOfCreation}
-                        imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
-                        artistId={id || ""}
-                        paintingId={painting._id}
-                        mainPaintingId={data.mainPainting?._id || ""}
-                        onClick={() => handleClickCard(index)}
-                      />
-                    ) : (
-                      <Card
-                        key={painting._id}
-                        title={painting.name}
-                        years={painting.yearOfCreation}
-                        imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
-                        theme={theme}
-                      />
-                    )
+                  {rangePaintings(dataPaintings, activePage).map(
+                    (painting, index) =>
+                      isAuth ? (
+                        <CardPainting
+                          key={painting._id}
+                          title={painting.name}
+                          years={painting.yearOfCreation}
+                          imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
+                          artistId={id || ""}
+                          paintingId={painting._id}
+                          mainPaintingId={data.mainPainting?._id || ""}
+                          onClick={() => handleClickCard(index)}
+                        />
+                      ) : (
+                        <Card
+                          key={painting._id}
+                          title={painting.name}
+                          years={painting.yearOfCreation}
+                          imgUrl={`${process.env.REACT_APP_BASE_URL}${painting.image.src}`}
+                          theme={theme}
+                        />
+                      )
                   )}
                 </GridLayout>
+                {dataPaintings.length / 6 > 1 && (
+                  <Pagination
+                    pages={pages}
+                    setPages={setPages}
+                    initialPages={dataPages}
+                    activePage={activePage}
+                    setActivePage={setActivePage}
+                    theme={theme}
+                  />
+                )}
               </div>
             ) : (
               <>

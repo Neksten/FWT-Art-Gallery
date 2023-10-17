@@ -1,0 +1,71 @@
+@import "../../_variables";
+
+.pagination {
+  margin: 50px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__prev, &__next {
+    width: 24px;
+    height: 24px;
+    padding: 6px;
+    cursor: pointer;
+    color: $color-primary-dark-gray;
+    transition: all 0.2s ease-out;
+    background: none;
+    &:hover {
+      color: $color-primary-black;
+    }
+    & > svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__list {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 4px;
+  }
+  &__item {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    user-select: none;
+  }
+  &__button {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    font-weight: 300;
+    background: none;
+    transition: all 0.2s ease-out;
+    color: $color-primary-dark-gray;
+    &:hover {
+      font-weight: 500;
+    }
+    &.selected {
+      font-weight: 500;
+      background-color: rgba($color-primary-black, 5%);
+    }
+  }
+  &-dark .pagination {
+    &__prev, &__next {
+      color: $color-primary-light-gray;
+    }
+    &:hover {
+      color: $color-primary-light-gray;
+    }
+    &__button {
+      color: $color-primary-light-gray;
+      &.selected {
+        background-color: $color-secondary-black;
+      }
+    }
+  }
+}

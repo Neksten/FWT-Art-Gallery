@@ -125,9 +125,11 @@ const ArtistModal: FC<EditModalProps> = ({
   };
 
   useEffect(() => {
-    if (isSuccessAdd || isSuccessEdit) {
-      setIsOpen(false);
+    if (!isSuccessAdd && !isSuccessEdit) {
+      return;
     }
+
+    setIsOpen(false);
   }, [setIsOpen, isSuccessAdd, isSuccessEdit]);
 
   return (

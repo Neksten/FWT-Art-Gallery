@@ -4,11 +4,11 @@ import { Navigation, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import classNames from "classnames/bind";
 
-import { useDeleteArtistPaintingMutation } from "@/store/painting/painting.api";
 import { IMainPainting } from "@/models/IImage";
 import { useTheme } from "@/context/ThemeContext";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";
+import { useDeleteArtistPaintingMutation } from "@/store/painting/painting.api";
 
 import { EditPaintingButton } from "@/components/EditPaintingButton";
 import { Slide } from "@/components/SliderPaintings/Slide";

@@ -31,7 +31,7 @@
     font-family: $font-cormorant-sc;
     color: $color-primary-dark-gray;
     background: none;
-    text-transform: none;
+    text-transform: uppercase;
     display: none;
     white-space: nowrap;
   }
@@ -48,9 +48,6 @@
   &-dark {
     background-color: $color-primary-black;
     .header {
-      &__link {
-        color: $color-primary-light-gray;
-      }
       &__logo {
         color: $color-primary-white;
       }
@@ -59,6 +56,9 @@
       }
       &__menu {
         background-color: rgba(0, 0,0 ,0);
+      }
+      &__link {
+        color: $color-primary-light-gray;
       }
     }
   }

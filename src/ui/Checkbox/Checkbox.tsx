@@ -16,22 +16,20 @@ const Checkbox: FC<CheckboxProps> = ({
   theme = "light",
   name,
   ...props
-}) => {
-  return (
-    <label htmlFor={name} className={cx("checkbox", `checkbox-${theme}`)}>
-      <input
-        type="checkbox"
-        name={name}
-        className={cx("checkbox__input")}
-        {...props}
-      />
-      {checked && (
-        <div className={cx("checkbox__icon")}>
-          <Success />
-        </div>
-      )}
-    </label>
-  );
-};
+}) => (
+  <label htmlFor={name} className={cx("checkbox", `checkbox-${theme}`)}>
+    <input
+      type="checkbox"
+      name={name}
+      className={cx("checkbox__input")}
+      {...props}
+    />
+    {checked && (
+      <div className={cx("checkbox__icon")}>
+        <Success />
+      </div>
+    )}
+  </label>
+);
 
 export default Checkbox;

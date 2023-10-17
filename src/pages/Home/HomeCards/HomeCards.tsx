@@ -4,10 +4,10 @@ import { uid } from "uid";
 
 import { useFilters } from "@/context/FiltersContext";
 import { IArtistResponse } from "@/models/IArtist";
+import { GridLayout } from "@/layouts/GridLayout";
 import { useTheme } from "@/context/ThemeContext";
 
 import { CardLink } from "@/components/CardLink";
-import { GridLayout } from "@/ui/GridLayout";
 import { Skeleton } from "@/ui/Skeleton";
 
 interface HomeCardsProps {

@@ -5,9 +5,9 @@ import classNames from "classnames/bind";
 import { useTheme } from "@/context/ThemeContext";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 
-import { IconButton } from "@/ui/IconButton";
+import { InputPaintingArea } from "@/components/InputPainting/InputPaintingArea";
 import { Error } from "@/ui/Error";
-import { ReactComponent as PreviewImage } from "@/assets/icons/preview-image.svg";
+import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
 
 import styles from "./styles.module.scss";
@@ -28,23 +28,15 @@ const InputPainting = <T extends FieldValues>({
   ...props
 }: InputPaintingProps<T>) => {
   const { theme } = useTheme();
+  const ref = useRef<HTMLInputElement | null>(null);
   const {
     drag,
     dragOverHandler,
     dragLeaveHandler,
     onDropHandler,
     onImageChange,
+    handleDeleteClick,
   } = useDragAndDrop();
-
-  const ref = useRef<HTMLInputElement | null>(null);
-
-  const handleDeleteClick = (onBlur: () => void) => {
-    onBlur();
-    if (ref.current) {
-      ref.current.value = "";
-    }
-    return null;
-  };
 
   return (
     <Controller
@@ -61,7 +53,7 @@ const InputPainting = <T extends FieldValues>({
         >
           {value && !error && (
             <IconButton
-              onClick={() => onChange(handleDeleteClick(onBlur))}
+              onClick={() => handleDeleteClick(ref, onBlur, onChange)}
               theme={theme}
               className={cx("input-painting__delete")}
             >
@@ -70,45 +62,14 @@ const InputPainting = <T extends FieldValues>({
           )}
           <label htmlFor="drop" className={cx("input-painting__label")}>
             <input
+              ref={ref}
               type="file"
               id="drop"
               onChange={(e) => onChange(onImageChange(e, onBlur))}
               className={cx("input-painting__input")}
               {...props}
             />
-            <div
-              className={cx("input-painting__area", {
-                uploaded: value && !error,
-                error,
-              })}
-            >
-              {value && !error && (
-                <div className={cx("input-painting__photo")}>
-                  <img
-                    src={
-                      value.toString().includes(process.env.REACT_APP_BASE_URL)
-                        ? value
-                        : URL.createObjectURL(value)
-                    }
-                    alt=""
-                  />
-                </div>
-              )}
-              <div className={cx("input-painting__image")}>
-                <PreviewImage />
-              </div>
-              <div className={cx("input-painting__info")}>
-                <p className={cx("input-painting__title", "base", "lh")}>
-                  Drop your image here, or
-                </p>
-                <p className={cx("input-painting__browse", "base", "md")}>
-                  browse image
-                </p>
-                <p className={cx("input-painting__text", "small", "lh")}>
-                  Upload only .jpg or .png format less than 3 MB
-                </p>
-              </div>
-            </div>
+            <InputPaintingArea drag={drag} value={value} error={error} />
           </label>
           {error && (
             <Error error={error} className={cx("input-painting__error")} />

@@ -1,13 +1,15 @@
-import { authLocalStorage } from "@/utils/auth/authLocalStorage";
-import { isExpiredToken } from "@/store/auth/isExpiredToken";
-import { AuthResponse } from "@/models/Auth";
 import axios, {
   AxiosError,
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
+  HttpStatusCode,
 } from "axios";
+
+import { authLocalStorage } from "@/utils/auth/authLocalStorage";
 import { getFingerprint } from "@/utils/auth/getFingerprint";
+import { isExpiredToken } from "@/store/auth/isExpiredToken";
+import { AuthResponse } from "@/models/Auth";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -18,31 +20,28 @@ const instance = axios.create({
 let refreshTokenPromise: Promise<unknown> | null = null;
 
 const onRefreshToken = async () => {
-  if (refreshTokenPromise) {
-    await refreshTokenPromise;
-    refreshTokenPromise = null;
-
-    return Promise.resolve();
-  }
-
   const { refreshToken } = authLocalStorage.get();
   const fingerprint = await getFingerprint();
 
-  if (refreshToken && !isExpiredToken(refreshToken)) {
-    refreshTokenPromise = instance("/auth/refresh", {
-      method: "POST",
-      data: { refreshToken, fingerprint },
-    });
-
-    await refreshTokenPromise;
-    refreshTokenPromise = null;
-
-    return Promise.resolve();
+  if (!refreshToken || isExpiredToken(refreshToken)) {
+    authLocalStorage.remove();
+    return Promise.reject();
   }
 
-  authLocalStorage.remove();
+  if (refreshTokenPromise) {
+    await refreshTokenPromise;
+    refreshTokenPromise = null;
+  }
 
-  return Promise.reject();
+  refreshTokenPromise = instance("/auth/refresh", {
+    method: "POST",
+    data: { refreshToken, fingerprint },
+  });
+
+  await refreshTokenPromise;
+  refreshTokenPromise = null;
+
+  return Promise.resolve();
 };
 
 export const onRequest = async (config: InternalAxiosRequestConfig) => {
@@ -71,13 +70,14 @@ export const onResponse = (response: AxiosResponse): AxiosResponse => {
   if (response.config.url?.includes("auth")) {
     authLocalStorage.set(response.data as AuthResponse);
   }
+
   return response;
 };
 
 export const onResponseError = async (
   error: AxiosError
 ): Promise<AxiosError> => {
-  if (error?.response?.status !== 401) {
+  if (error?.response?.status !== HttpStatusCode.Unauthorized) {
     return Promise.reject(error);
   }
 
@@ -98,6 +98,7 @@ export const onResponseError = async (
         ...config.headers,
         Authorization: `Bearer ${accessToken}`,
       };
+
       return instance(config);
     }
   }

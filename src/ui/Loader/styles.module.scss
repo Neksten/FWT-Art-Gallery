@@ -3,12 +3,11 @@
 .loader-container  {
   animation: 2s linear infinite svg-animation;
   width: 50px;
-  height: 50px;
-  position: fixed;
-  z-index: 9999;
-  top: 50%;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 @keyframes svg-animation {

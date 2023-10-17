@@ -9,8 +9,8 @@ interface CardsLayoutProps {
   children: ReactNode | ReactNode[];
 }
 
-const GridLayout: FC<CardsLayoutProps> = ({ children }) => {
-  return <div className={cx("cards")}>{children}</div>;
-};
+const GridLayout: FC<CardsLayoutProps> = ({ children }) => (
+  <div className={cx("cards")}>{children}</div>
+);
 
 export default GridLayout;

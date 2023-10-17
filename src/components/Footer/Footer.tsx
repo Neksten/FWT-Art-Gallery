@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 
 const Footer: FC = () => {
   const { theme } = useTheme();
+
   return (
     <footer className={cx("footer", `footer-${theme}`)}>
       <div className={cx("footer__content", "container")}>

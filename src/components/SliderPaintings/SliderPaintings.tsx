@@ -1,25 +1,20 @@
 import { FC, useCallback, useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { RemoveScrollBar } from "react-remove-scroll-bar";
 import { Navigation, Keyboard } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@/context/ThemeContext";
+import { useDeleteArtistPaintingMutation } from "@/store/painting/painting.api";
 import { IMainPainting } from "@/models/IImage";
-import {
-  useDeleteArtistPaintingMutation,
-  useEditArtistMainPaintingMutation,
-} from "@/store/artists/artist.api";
+import { useTheme } from "@/context/ThemeContext";
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";
 
+import { EditPaintingButton } from "@/components/EditPaintingButton";
+import { Slide } from "@/components/SliderPaintings/Slide";
+import { DeleteButton } from "@/components/DeleteButton";
 import { Portal } from "@/components/Portal";
-import { DeleteModal } from "@/components/DeleteModal";
-import { PaintingModal } from "@/components/PaintingModal";
-import { IconButton } from "@/ui/IconButton";
 import { ReactComponent as Close } from "@/assets/icons/close.svg";
-import { ReactComponent as ChangePic } from "@/assets/icons/change-pic.svg";
-import { ReactComponent as Edit } from "@/assets/icons/edit.svg";
-import { ReactComponent as Delete } from "@/assets/icons/delete.svg";
 import { ReactComponent as ArrowRight } from "@/assets/icons/arrow-right.svg";
 import { ReactComponent as ArrowLeft } from "@/assets/icons/arrow-left.svg";
 
@@ -45,14 +40,10 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
   initialActiveSlide = 0,
 }) => {
   const { theme } = useTheme();
-  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
-  const [isOpenModalPainting, setIsOpenModalPainting] = useState(false);
   const [activeIndex, setActiveIndex] = useState(initialActiveSlide);
-  const [editMainPainting] = useEditArtistMainPaintingMutation();
+  const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
   const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
     useDeleteArtistPaintingMutation();
-
-  const [menuClass, setMenuClass] = useState<"open" | "delete">("open");
 
   const closeSlider = useCallback(() => {
     setMenuClass("delete");
@@ -68,34 +59,6 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
 
   return (
     <Portal>
-      {isOpenModalDelete && (
-        <DeleteModal
-          handleDelete={() =>
-            deleteArtistPainting({
-              artistId,
-              paintingId: data[activeIndex]._id,
-            })
-          }
-          isSuccess={isSuccessDelete}
-          title="Do you want to delete this picture?"
-          setIsOpen={setIsOpenModalDelete}
-        />
-      )}
-      {isOpenModalPainting && (
-        <PaintingModal
-          initialData={{
-            name: data[activeIndex].name,
-            yearOfCreation: String(data[activeIndex].yearOfCreation),
-            image: data[activeIndex].image
-              ? `${process.env.REACT_APP_BASE_URL}${data[activeIndex].image.src}`
-              : "",
-          }}
-          paintingId={data[activeIndex]._id}
-          variant="edit"
-          artistId={artistId}
-          setIsOpen={setIsOpenModalPainting}
-        />
-      )}
       <RemoveScrollBar gapMode="padding" />
       <Swiper
         initialSlide={activeIndex}
@@ -110,70 +73,37 @@ const SliderPaintings: FC<SliderPaintingsProps> = ({
         onSlideChange={(swiper: any) => setActiveIndex(swiper.realIndex)}
       >
         {data.map((item) => (
-          <SwiperSlide key={item._id} className={cx("slider__item")}>
-            <img
-              src={`${process.env.REACT_APP_BASE_URL}${item.image.src2x}`}
-              alt="artist"
-              className={cx("slider__image")}
+          <SwiperSlide key={item._id}>
+            <Slide
+              item={item}
+              data={data}
+              artistId={artistId}
+              mainPaintingId={mainPaintingId}
+              activeIndex={activeIndex}
             />
-            <div
-              role="presentation"
-              onClick={() =>
-                editMainPainting({
-                  artistId,
-                  paintingId: item._id === mainPaintingId ? "" : item._id,
-                })
-              }
-              className={cx("slider__cover", "slider-cover")}
-            >
-              <IconButton theme="dark" className={cx("slider-cover__icon")}>
-                <ChangePic />
-              </IconButton>
-              <span className={cx("slider-cover__text")}>
-                {mainPaintingId === item._id ? "remove" : "make"} the cover
-              </span>
-            </div>
-            <div className={cx("slider__description", "slider-description")}>
-              <div className={cx("slider-description__management")}>
-                <IconButton
-                  onClick={() => setIsOpenModalPainting(true)}
-                  theme={theme}
-                  className={cx("slider-description__icon")}
-                >
-                  <Edit />
-                </IconButton>
-                <IconButton
-                  onClick={() => setIsOpenModalDelete(true)}
-                  theme={theme}
-                  className={cx("slider-description__icon")}
-                >
-                  <Delete />
-                </IconButton>
-              </div>
-              <div className={cx("slider-description__info")}>
-                <span className={cx("slider-description__year")}>
-                  {item.yearOfCreation}
-                </span>
-                <h6 className={cx("slider-description__name")}>{item.name}</h6>
-              </div>
-            </div>
           </SwiperSlide>
         ))}
         <div className={cx("slider__management", "slider-management")}>
-          <IconButton
-            onClick={() => setIsOpenModalPainting(true)}
-            theme="dark"
-            className={cx("slider-management__icon")}
-          >
-            <Edit />
-          </IconButton>
-          <IconButton
-            onClick={() => setIsOpenModalDelete(true)}
-            theme="dark"
-            className={cx("slider-management__icon")}
-          >
-            <Delete />
-          </IconButton>
+          <EditPaintingButton
+            initialData={{
+              name: data[activeIndex].name,
+              yearOfCreation: String(data[activeIndex].yearOfCreation),
+              image: prefixBaseUrl(data[activeIndex]?.image?.src),
+            }}
+            paintingId={data[activeIndex]._id}
+            artistId={artistId}
+          />
+          <DeleteButton
+            className={cx('"slider-description__icon"')}
+            isSuccess={isSuccessDelete}
+            handleDelete={() =>
+              deleteArtistPainting({
+                artistId,
+                paintingId: data[activeIndex]._id,
+              })
+            }
+            variantTitle="painting"
+          />
         </div>
         <button
           type="button"

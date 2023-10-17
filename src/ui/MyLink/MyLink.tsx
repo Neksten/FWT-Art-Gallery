@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Link, LinkProps } from "react-router-dom";
 import classNames from "classnames/bind";
+import { Link, LinkProps } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 
@@ -10,8 +10,8 @@ interface MyLinkProps extends LinkProps {
   theme?: "light" | "dark";
 }
 
-const MyLink: FC<MyLinkProps> = ({ theme = "light", className, ...props }) => {
-  return <Link {...props} className={cx("link", `link-${theme}`, className)} />;
-};
+const MyLink: FC<MyLinkProps> = ({ theme = "light", className, ...props }) => (
+  <Link {...props} className={cx("link", `link-${theme}`, className)} />
+);
 
 export default MyLink;

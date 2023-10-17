@@ -13,6 +13,7 @@ interface CardLinkProps extends LinkProps {
 
 const CardLink: FC<CardLinkProps> = ({ title, years, imgUrl, ...props }) => {
   const { theme } = useTheme();
+
   return (
     <Link {...props}>
       <Card title={title} years={years} imgUrl={imgUrl} theme={theme} />

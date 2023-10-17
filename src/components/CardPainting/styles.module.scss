@@ -16,8 +16,9 @@
   &__body {
     background: $color-secondary-white;
     margin-top: 2px;
-    padding: 16px 0;
+    padding: 5px 0;
     border-radius: 5px;
+    display: none;
     &::before {
       content: "";
       position: absolute;
@@ -25,10 +26,11 @@
       border: 5px solid transparent;
       border-bottom-color: $color-secondary-white;
     }
+    &.open {
+      display: block;
+    }
   }
   &__item {
-    font-weight: 700;
-    font-size: 12px;
     color: $color-primary-dark-gray;
     cursor: pointer;
     transition: all 0.2s ease-out;
@@ -39,6 +41,8 @@
     }
   }
   &__button {
+    font-weight: 700;
+    font-size: 10px;
     background: none;
     text-transform: capitalize;
     color: inherit;
@@ -60,6 +64,15 @@
         color: $color-accent-gold;
         background-color: $color-primary-black;
       }
+    }
+  }
+
+  @media (min-width: $md3) {
+    &__body {
+      padding: 16px 0;
+    }
+    &__button {
+      font-size: 12px;
     }
   }
 }

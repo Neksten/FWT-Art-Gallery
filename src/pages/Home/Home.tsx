@@ -1,18 +1,15 @@
-import { FC, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { FC, useEffect } from "react";
 import classNames from "classnames/bind";
+import { useLocation } from "react-router-dom";
 
 import { useGetArtistsQuery } from "@/store/artists/artist.api";
-import { useGetGenresQuery } from "@/store/genre/genre.api";
 import { useFilters } from "@/context/FiltersContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks/redux";
 
-import { FiltersModal } from "@/components/FiltersModal";
-import { ArtistModal } from "@/components/ArtistModal";
-import { HomeCards } from "@/pages/Home/HomeCards";
 import { HomeMenu } from "@/pages/Home/HomeMenu";
-import { Loader } from "@/ui/Loader";
+import { HomeCards } from "@/pages/Home/HomeCards";
+import { LoaderLayout } from "@/layouts/LoaderLayout";
 
 import styles from "./styles.module.scss";
 
@@ -23,8 +20,6 @@ const Home: FC = () => {
   const { pathname } = useLocation();
   const { filters, changeFilters } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
-  const [isOpenFiltersModal, setIsOpenFiltersModal] = useState(false);
   const {
     data: artistsData,
     isLoading,
@@ -43,10 +38,8 @@ const Home: FC = () => {
     },
     { skip: isAuth === null }
   );
-  const { data: genresData } = useGetGenresQuery(
-    { isAuth },
-    { skip: isAuth === null }
-  );
+
+  const artists = artistsData?.data;
 
   useEffect(() => {
     changeFilters({ ...filters, name: "" });
@@ -55,30 +48,15 @@ const Home: FC = () => {
 
   return (
     <main className={cx("home", `home-${theme}`)}>
-      {isAuth && isOpenFiltersModal && (
-        <FiltersModal setIsOpen={setIsOpenFiltersModal} />
-      )}
-      {isAuth && isOpenAddModal && genresData && (
-        <ArtistModal
-          genresList={genresData}
-          variant="add"
-          setIsOpen={setIsOpenAddModal}
-        />
-      )}
-      {!isLoading ? (
+      <LoaderLayout data={!isLoading && artists}>
         <section className={cx("home__content", "container")}>
-          <HomeMenu
-            setIsOpenAddModal={setIsOpenAddModal}
-            setIsOpenFiltersModal={setIsOpenFiltersModal}
-          />
+          <HomeMenu />
           <HomeCards
             artistsData={artistsData || null}
             isFetching={isFetching}
           />
         </section>
-      ) : (
-        <Loader />
-      )}
+      </LoaderLayout>
     </main>
   );
 };

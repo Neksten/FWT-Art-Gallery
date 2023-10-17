@@ -1,7 +1,20 @@
 import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
 import { apiService } from "@/api";
 import { IFilters } from "@/models/Filter";
-// import { IFiltersRequest } from "@/models/Filter";
+
+interface IGetArtist {
+  isAuth: boolean | null;
+}
+
+interface IDeleteArtistById {
+  artistId: string;
+}
+
+type IGetArtistById = IGetArtist & IDeleteArtistById;
+
+interface IEditArtist extends IDeleteArtistById {
+  data: FormData;
+}
 
 export const artistApi = apiService
   .enhanceEndpoints({
@@ -22,19 +35,13 @@ export const artistApi = apiService
         },
         providesTags: ["Artists", "ArtistsDetail"],
       }),
-      getArtistById: build.query<
-        IArtistProfile,
-        {
-          isAuth: boolean | null;
-          artistId: string;
-        }
-      >({
+      getArtistById: build.query<IArtistProfile, IGetArtistById>({
         query: ({ isAuth, artistId }) => ({
           url: isAuth ? `/artists/${artistId}` : `/artists/static/${artistId}`,
         }),
         providesTags: ["ArtistsDetail"],
       }),
-      deleteArtistById: build.mutation<{ artistId: string }, string>({
+      deleteArtistById: build.mutation<IDeleteArtistById, string>({
         query: (artistId) => ({
           url: `/artists/${artistId}`,
           method: "DELETE",
@@ -50,56 +57,13 @@ export const artistApi = apiService
         }),
         invalidatesTags: ["Artists"],
       }),
-      editArtist: build.mutation<void, { artistId: string; data: FormData }>({
+      editArtist: build.mutation<void, IEditArtist>({
         query: ({ artistId, data }) => ({
           url: `/artists/${artistId}`,
           method: "PUT",
           data,
         }),
         invalidatesTags: ["ArtistsDetail"],
-      }),
-      addArtistPainting: build.mutation<
-        void,
-        { artistId: string; data: FormData }
-      >({
-        query: ({ artistId, data }) => ({
-          url: `/artists/${artistId}/paintings`,
-          method: "POST",
-          data,
-        }),
-        invalidatesTags: ["ArtistsDetail"],
-      }),
-      editArtistPainting: build.mutation<
-        void,
-        { artistId: string; paintingId: string; data: FormData }
-      >({
-        query: ({ artistId, paintingId, data }) => ({
-          url: `/artists/${artistId}/paintings/${paintingId}`,
-          method: "PUT",
-          data,
-        }),
-        invalidatesTags: ["ArtistsDetail"],
-      }),
-      deleteArtistPainting: build.mutation<
-        void,
-        { artistId: string; paintingId: string }
-      >({
-        query: ({ artistId, paintingId }) => ({
-          url: `/artists/${artistId}/paintings/${paintingId}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: ["ArtistsDetail"],
-      }),
-      editArtistMainPainting: build.mutation<
-        void,
-        { artistId: string; paintingId: string }
-      >({
-        query: ({ artistId, paintingId }) => ({
-          url: `/artists/${artistId}/main-painting`,
-          method: "PATCH",
-          data: { mainPainting: paintingId },
-        }),
-        invalidatesTags: ["Artists", "ArtistsDetail"],
       }),
     }),
   });
@@ -110,8 +74,4 @@ export const {
   useDeleteArtistByIdMutation,
   useAddArtistMutation,
   useEditArtistMutation,
-  useAddArtistPaintingMutation,
-  useEditArtistPaintingMutation,
-  useEditArtistMainPaintingMutation,
-  useDeleteArtistPaintingMutation,
 } = artistApi;

@@ -1,10 +1,19 @@
 @import "../../_variables";
 
+.modal.drag .modal__right {
+  display: none;
+}
 .modal {
-  padding: 80px 30px;
   background-color: $color-secondary-white;
   &.drag {
+    height: 100%;
     overflow: hidden;
+    .modal {
+      height: 100%;
+      &__right {
+        display: none;
+      }
+    }
   }
   &__left {
     margin: 0 0 40px 0;
@@ -13,6 +22,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 80px 30px;
   }
   &__right {
     display: flex;
@@ -35,12 +45,12 @@
     }
   }
   @media (min-width: $maxWidthContainer) {
-    padding: 80px 100px;
     max-width: 800px;
     &__right {
       align-items: start;
     }
     &__content {
+      padding: 80px 100px;
       display: grid;
       column-gap: 60px;
       grid-template-columns: 200px 340px;

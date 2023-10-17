@@ -18,23 +18,21 @@ const Genre: FC<GenreProps> = ({
   className,
   children,
   ...props
-}) => {
-  return (
-    <button
-      type="button"
-      className={cx("genre", `genre-${theme}`, className, {
-        close,
-      })}
-      {...props}
-    >
-      {children}
-      {close && (
-        <div className={cx("genre__icon")}>
-          <Close />
-        </div>
-      )}
-    </button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    className={cx("genre", `genre-${theme}`, className, {
+      close,
+    })}
+    {...props}
+  >
+    {children}
+    {close && (
+      <div className={cx("genre__icon")}>
+        <Close />
+      </div>
+    )}
+  </button>
+);
 
 export default Genre;

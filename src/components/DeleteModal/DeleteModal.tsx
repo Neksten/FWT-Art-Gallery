@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 import classNames from "classnames/bind";
 
-import { useTheme } from "@/context/ThemeContext";
 import { useAppDispatch } from "@/hooks/redux";
+import { useTheme } from "@/context/ThemeContext";
 import { resetError } from "@/store/error/errorSlice";
 
 import { Modal } from "@/components/Modal";
@@ -13,18 +13,23 @@ import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);
 
+const variantsTitle = {
+  artist: "Do you want to delete this artist profile?",
+  painting: "Do you want to delete this picture?",
+};
+
 interface DeleteModalProps {
-  setIsOpen: (value: boolean) => void;
-  title: string;
+  variant?: "artist" | "painting";
   handleDelete: () => void;
   isSuccess: boolean;
+  setIsOpen: (value: boolean) => void;
 }
 
 const DeleteModal: FC<DeleteModalProps> = ({
-  setIsOpen,
-  title,
+  variant = "artist",
   handleDelete,
   isSuccess,
+  setIsOpen,
 }) => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
@@ -49,7 +54,9 @@ const DeleteModal: FC<DeleteModalProps> = ({
       <div className={cx("modal__icon")}>
         <Delete />
       </div>
-      <p className={cx("modal__title", "base", "md")}>{title}</p>
+      <p className={cx("modal__title", "base", "md")}>
+        {variantsTitle[variant]}
+      </p>
       <p className={cx("modal__text", "small", "lh")}>
         You will not be able to recover this profile afterwards.
       </p>

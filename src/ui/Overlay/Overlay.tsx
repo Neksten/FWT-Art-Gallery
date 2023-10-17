@@ -10,14 +10,12 @@ interface OverlayProps {
   className?: string;
 }
 
-const Overlay: FC<OverlayProps> = ({ onClick, className }) => {
-  return (
-    <div
-      role="presentation"
-      onClick={onClick}
-      className={cx("overlay", className)}
-    />
-  );
-};
+const Overlay: FC<OverlayProps> = ({ onClick, className }) => (
+  <div
+    role="presentation"
+    onClick={onClick}
+    className={cx("overlay", className)}
+  />
+);
 
 export default Overlay;

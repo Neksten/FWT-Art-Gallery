@@ -7,19 +7,12 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [["@", "./src"]],
-        "extensions": [".ts", ".tsx", ".js", ".json"]
-      }
-    }
+    "project": "tsconfig.json"
   },
   "rules": {
     // import
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
     // react
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
@@ -46,9 +39,14 @@
       }
     ],
     "@typescript-eslint/no-empty-interface": [
-      0
+      "off"
     ],
     "no-underscore-dangle": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ]
   }
 }

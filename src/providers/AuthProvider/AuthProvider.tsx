@@ -1,9 +1,9 @@
 import { FC, PropsWithChildren, useEffect } from "react";
 
-import { useAppDispatch } from "@/hooks/redux";
 import { authLocalStorage } from "@/utils/auth/authLocalStorage";
 import { isExpiredToken } from "@/store/auth/isExpiredToken";
 import { logout, setIsAuth } from "@/store/auth/authSlice";
+import { useAppDispatch } from "@/hooks/redux";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -11,13 +11,14 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const { refreshToken } = authLocalStorage.get();
 
-    if (!isExpiredToken(refreshToken)) {
-      dispatch(setIsAuth(true));
-    } else if (isExpiredToken(refreshToken)) {
+    if (isExpiredToken(refreshToken)) {
       dispatch(logout());
+      return;
     }
-    // eslint-disable-next-line
-  }, []);
+
+    dispatch(setIsAuth(true));
+  }, [dispatch]);
+
   return <div>{children}</div>;
 };
 

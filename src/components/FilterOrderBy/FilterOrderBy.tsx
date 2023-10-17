@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-import { useTheme } from "@/context/ThemeContext";
 import { IFilterValue } from "@/models/Filter";
+import { useTheme } from "@/context/ThemeContext";
 
 import { Filter } from "@/ui/Filter";
 

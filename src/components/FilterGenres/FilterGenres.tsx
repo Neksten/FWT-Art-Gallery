@@ -25,7 +25,7 @@ const FilterGenres: FC<FilterGenresProps> = ({ list }) => {
     <Filter
       title="Genres"
       list={list}
-      length={genres.values.length}
+      length={genres.length}
       theme={theme}
       onChange={handleChange}
       trackSelect={(item) => genres.some((i) => i === item._id)}

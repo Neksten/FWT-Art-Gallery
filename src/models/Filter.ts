@@ -9,7 +9,7 @@ export interface IFilters {
   orderBy: string;
   genres: string[];
   perPage: number;
-  pageNumber: number;
+  pageNumber?: number;
 }
 
 export interface IFiltersRequest {

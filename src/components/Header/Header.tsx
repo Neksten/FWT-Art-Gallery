@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 
 import { apiService } from "@/api";
-import { useTheme } from "@/context/ThemeContext";
 import { logout } from "@/store/auth/authSlice";
+import { useTheme } from "@/context/ThemeContext";
 import { useFilters } from "@/context/FiltersContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
@@ -12,10 +12,10 @@ import { HeaderModal } from "@/components/Header/HeaderModal";
 import { AuthModal } from "@/components/AuthModal";
 import { IconButton } from "@/ui/IconButton";
 import { InputSearch } from "@/ui/InputSearch";
+import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
 import { ReactComponent as Moon } from "@/assets/icons/moon.svg";
 import { ReactComponent as Logo } from "@/assets/icons/logo.svg";
 import { ReactComponent as Burger } from "@/assets/icons/burger.svg";
-import { ReactComponent as Sun } from "@/assets/icons/sun.svg";
 
 import styles from "./styles.module.scss";
 

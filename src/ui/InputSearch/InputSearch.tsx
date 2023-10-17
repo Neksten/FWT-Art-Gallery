@@ -9,11 +9,11 @@ import {
 import classNames from "classnames/bind";
 import debounce from "lodash/debounce";
 
+import { OutsideClickHandler } from "@/components/OutsideClickHandler";
 import { Error } from "@/ui/Error";
 import { ReactComponent as Search } from "@/assets/icons/search.svg";
 import { ReactComponent as Reset } from "@/assets/icons/close.svg";
 
-import { OutsideClickHandler } from "@/components/OutsideClickHandler";
 import styles from "./styles.module.scss";
 
 const cx = classNames.bind(styles);

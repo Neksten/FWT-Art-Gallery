@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames/bind";
 
-import { IMainPainting } from "@/models/IImage";
+import { IMainPainting } from "@/models/IPainting";
 import { useTheme } from "@/context/ThemeContext";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import {

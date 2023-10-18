@@ -1,6 +1,6 @@
-import { IMainPainting } from "@/models/IImage";
+import { IPaintingDrag } from "@/models/IPainting";
 
 export const rangePaintings = (
-  data: IMainPainting[],
+  data: IPaintingDrag[],
   activePage: number
-): IMainPainting[] => data.slice(6 * (activePage - 1), 6 * activePage);
+): IPaintingDrag[] => data.slice(6 * (activePage - 1), 6 * activePage);

@@ -4,7 +4,7 @@ import { Navigation, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import classNames from "classnames/bind";
 
-import { IMainPainting } from "@/models/IImage";
+import { IMainPainting } from "@/models/IPainting";
 import { useTheme } from "@/context/ThemeContext";
 import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
 import { handleEscapeKey } from "@/utils/handleEscapeKey";

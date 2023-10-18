@@ -1,5 +1,6 @@
 import { IGenre } from "@/models/IGenre";
-import { IImage, IMainPainting } from "@/models/IImage";
+import { IImage } from "@/models/IImage";
+import { IMainPainting } from "@/models/IPainting";
 
 export interface IArtistRoot {
   name: string;

@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import { rangePaintings } from "@/utils/getPaginatedImage";
 import { generateRange } from "@/utils/generateRange";
+import { IPaintingDrag } from "@/models/IPainting";
 import { IArtistProfile } from "@/models/IArtist";
 import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks/redux";
@@ -25,10 +26,11 @@ interface ArtworksProps {
 const Artworks: FC<ArtworksProps> = ({ data, artistId, handleClickCard }) => {
   const { theme } = useTheme();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [pages, setPages] = useState<number[]>([]);
   const [activePage, setActivePage] = useState(1);
 
-  const dataPaintings = data ? data.paintings : [];
+  const [dataPaintings, setDataPaintings] = useState<IPaintingDrag[]>(
+    data ? data.paintings.map((i, idx) => ({ ...i, order: idx })) : []
+  );
   const dataPages = generateRange(dataPaintings.length / 6);
 
   return (
@@ -40,17 +42,15 @@ const Artworks: FC<ArtworksProps> = ({ data, artistId, handleClickCard }) => {
       {data.paintings.length > 0 ? (
         <>
           <Paintings
-            data={{
-              ...data,
-              paintings: rangePaintings(dataPaintings, activePage),
-            }}
+            data={dataPaintings}
+            cardList={rangePaintings(dataPaintings, activePage)}
+            mainPaintingId={data.mainPainting?._id || ""}
+            setCardList={setDataPaintings}
             artistId={artistId}
             handleClickCard={handleClickCard}
           />
           {dataPaintings.length / 6 > 1 && (
             <Pagination
-              pages={pages}
-              setPages={setPages}
               initialPages={dataPages}
               activePage={activePage}
               setActivePage={setActivePage}

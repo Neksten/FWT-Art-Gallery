@@ -1,16 +1,18 @@
-import { FC, useState } from "react";
+import { DragEvent, FC, useState } from "react";
 import classNames from "classnames/bind";
 
+import { prefixBaseUrl } from "@/utils/prefixBaseUrl";
+import { IPaintingDrag } from "@/models/IPainting";
 import { useTheme } from "@/context/ThemeContext";
 import {
   useDeleteArtistPaintingMutation,
   useEditArtistMainPaintingMutation,
 } from "@/store/painting/painting.api";
 
-import { OutsideClickHandler } from "@/components/OutsideClickHandler";
-import { EditPaintingButton } from "@/components/EditPaintingButton";
-import { DeleteButton } from "@/components/DeleteButton";
 import { Card } from "@/ui/Card";
+import { DeleteButton } from "@/components/DeleteButton";
+import { EditPaintingButton } from "@/components/EditPaintingButton";
+import { OutsideClickHandler } from "@/components/OutsideClickHandler";
 import { ReactComponent as Settings } from "@/assets/icons/settings.svg";
 
 import styles from "./styles.module.scss";
@@ -18,32 +20,37 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 interface CardArtistProps {
-  title: string;
-  years: string;
-  paintingId: string;
+  painting: IPaintingDrag;
   mainPaintingId: string;
   artistId: string;
-  imgUrl?: string;
   onClick?: () => void;
+  handleDragOver: (e: DragEvent<HTMLDivElement>, card: IPaintingDrag) => void;
+  handleDragEnd: (e: DragEvent<HTMLDivElement>, card: IPaintingDrag) => void;
 }
 
 const CardPainting: FC<CardArtistProps> = ({
-  title,
-  years,
-  paintingId,
+  painting,
   artistId,
-  imgUrl,
   onClick,
   mainPaintingId,
+  handleDragOver,
+  handleDragEnd,
 }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [editMainPainting] = useEditArtistMainPaintingMutation();
+  const { _id: paintingId, name, yearOfCreation, image } = painting;
+  const imgUrl = prefixBaseUrl(image?.src);
   const [deleteArtistPainting, { isSuccess: isSuccessDelete }] =
     useDeleteArtistPaintingMutation();
 
   return (
-    <div className={cx("card-artist", `card-artist-${theme}`)}>
+    <div
+      draggable
+      onDragOver={(e) => handleDragOver(e, painting)}
+      onDragEnd={(e) => handleDragEnd(e, painting)}
+      className={cx("card-artist", `card-artist-${theme}`)}
+    >
       <div className={cx("card-artist__settings")}>
         <OutsideClickHandler onOutsideClick={() => setIsOpen(false)}>
           <button
@@ -77,9 +84,9 @@ const CardPainting: FC<CardArtistProps> = ({
               <li className={cx("card-artist__item")}>
                 <EditPaintingButton
                   initialData={{
-                    name: title,
-                    yearOfCreation: years,
-                    image: imgUrl || "",
+                    name,
+                    yearOfCreation,
+                    image: imgUrl,
                   }}
                   paintingId={paintingId}
                   artistId={artistId}
@@ -107,10 +114,11 @@ const CardPainting: FC<CardArtistProps> = ({
       </div>
       <Card
         onClick={onClick}
-        title={title}
-        years={years}
+        title={name}
+        years={yearOfCreation}
         imgUrl={imgUrl}
         theme={theme}
+        className={cx("card-artist__card")}
       />
     </div>
   );

@@ -2,6 +2,9 @@
 
 .card-artist {
   position: relative;
+  &__card {
+    cursor: grab;
+  }
   &__settings {
     position: absolute;
     z-index: 5;

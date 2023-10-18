@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { uid } from "uid";
 
@@ -14,8 +14,6 @@ const cx = classNames.bind(styles);
 interface PaginationProps {
   theme?: "light" | "dark";
   initialPages: number[];
-  pages: number[];
-  setPages: (value: number[]) => void;
   activePage: number;
   setActivePage: (value: number) => void;
 }
@@ -23,11 +21,11 @@ interface PaginationProps {
 const Pagination: FC<PaginationProps> = ({
   theme = "light",
   initialPages,
-  pages,
-  setPages,
   activePage,
   setActivePage,
 }) => {
+  const [pages, setPages] = useState<number[]>([]);
+
   useEffect(() => {
     setPages(getPageRange(initialPages, activePage));
     // eslint-disable-next-line

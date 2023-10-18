@@ -46,6 +46,7 @@ const InputSearch: FC<InputSearchProps> = ({
   const handleOnClickClear = () => {
     setValue("");
     setSearch("");
+
     if (ref.current) {
       ref.current?.focus();
     }

@@ -6,5 +6,6 @@ export const handleEscapeKey = (action: () => void) => {
   };
 
   window.addEventListener("keydown", close);
+
   return () => window.removeEventListener("keydown", close);
 };

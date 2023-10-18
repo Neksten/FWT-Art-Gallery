@@ -29,6 +29,7 @@ const Header: FC = () => {
   const handleClickLogout = () => {
     dispatch(apiService.util.resetApiState());
     dispatch(logout());
+    window.location.href = window.location.origin + window.location.pathname;
   };
 
   return (

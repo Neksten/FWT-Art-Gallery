@@ -1,16 +1,19 @@
 import { IArtistProfile, IArtistResponse } from "@/models/IArtist";
-import { apiService } from "@/api";
 import { IFilters } from "@/models/Filter";
+import { apiService } from "@/api";
 
 interface IGetArtist {
   isAuth: boolean | null;
+  filters: IFilters;
 }
 
 interface IDeleteArtistById {
   artistId: string;
 }
 
-type IGetArtistById = IGetArtist & IDeleteArtistById;
+type IGetArtistById = {
+  isAuth: boolean | null;
+} & IDeleteArtistById;
 
 interface IEditArtist extends IDeleteArtistById {
   data: FormData;
@@ -22,10 +25,7 @@ export const artistApi = apiService
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getArtists: build.query<
-        IArtistResponse,
-        { isAuth: boolean | null; filters: IFilters }
-      >({
+      getArtists: build.query<IArtistResponse, IGetArtist>({
         query: ({ isAuth, filters }) => ({
           url: isAuth ? "/artists" : "/artists/static",
           params: filters,

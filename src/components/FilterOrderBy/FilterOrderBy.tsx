@@ -18,16 +18,12 @@ const FilterOrderBy: FC<FilterSortByProps> = ({
 }) => {
   const { theme } = useTheme();
 
-  const handleChange = (item: IFilterValue) => {
-    setValueSelect(item);
-  };
-
   return (
     <Filter
       title="Sort By"
       list={list}
       theme={theme}
-      onChange={handleChange}
+      onChange={(item) => setValueSelect(item)}
       trackSelect={(item) => valueSelect._id === item._id}
     />
   );

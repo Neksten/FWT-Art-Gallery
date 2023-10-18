@@ -7,8 +7,8 @@ import { Filter } from "@/ui/Filter";
 
 export interface FilterGenresProps {
   list: IFilterValue[];
-  listSelect: IFilterValue[];
-  setListSelect: (value: IFilterValue[]) => void;
+  listSelect: string[];
+  setListSelect: (value: string[]) => void;
 }
 
 const FilterGenres: FC<FilterGenresProps> = ({
@@ -19,9 +19,9 @@ const FilterGenres: FC<FilterGenresProps> = ({
   const { theme } = useTheme();
 
   const handleChange = (item: IFilterValue) => {
-    const values = listSelect.some((i) => i._id === item._id)
-      ? listSelect.filter((i) => i._id !== item._id)
-      : [...listSelect, item];
+    const values = listSelect.some((i) => i === item._id)
+      ? listSelect.filter((i) => i !== item._id)
+      : [...listSelect, item._id];
 
     setListSelect(values);
   };
@@ -33,7 +33,7 @@ const FilterGenres: FC<FilterGenresProps> = ({
       length={listSelect.length}
       theme={theme}
       onChange={handleChange}
-      trackSelect={(item) => listSelect.some((i) => i._id === item._id)}
+      trackSelect={(item) => listSelect.some((i) => i === item._id)}
     />
   );
 };

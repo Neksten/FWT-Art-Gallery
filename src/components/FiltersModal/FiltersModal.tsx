@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
+import qs from "qs";
 
 import { IFilterValue } from "@/models/Filter";
 import { useAppSelector } from "@/hooks/redux";
@@ -19,42 +21,43 @@ interface FiltersModalProps {
   setIsOpen: (value: boolean) => void;
 }
 
-interface IFiltersSelect {
-  genres: IFilterValue[];
-  orderBy: IFilterValue;
-}
-
 const orderByList: IFilterValue[] = [
   { _id: "1", name: "A-Z" },
   { _id: "2", name: "Z-A" },
 ];
 
-const defaultFilters: IFiltersSelect = {
-  genres: [],
-  orderBy: orderByList[0],
-};
-
 const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
   const { theme } = useTheme();
-  const { clearFilters, changeFilters, filters } = useFilters();
+  const navigate = useNavigate();
+  const {
+    clearFilters,
+    changeFilters,
+    filtersLoaded,
+    filters,
+    initialFilters,
+  } = useFilters();
   const { isAuth } = useAppSelector((state) => state.authSlice);
-  const [filtersSelect, setFiltersSelect] = useState(defaultFilters);
+  const [filtersSelect, setFiltersSelect] = useState(filtersLoaded);
   const { data: genresData } = useGetGenresQuery(
     { isAuth },
     { skip: isAuth === null }
   );
 
   const handleSubmit = () => {
-    changeFilters({
+    const filtersSending = {
       ...filters,
-      genres: filtersSelect.genres.map((i) => i._id),
-      orderBy: filtersSelect.orderBy.name,
-    });
+      genres: filtersSelect.genres,
+      orderBy: filtersSelect.orderBy,
+    };
+
+    changeFilters(filtersSending);
+    navigate(`?${qs.stringify(filtersSending)}`);
   };
 
   const handleClickClear = () => {
     clearFilters();
-    setFiltersSelect(defaultFilters);
+    setFiltersSelect(initialFilters);
+    navigate(`?${qs.stringify(initialFilters)}`);
   };
 
   return (
@@ -74,9 +77,12 @@ const FiltersModal: FC<FiltersModalProps> = ({ setIsOpen }) => {
         />
         <FilterOrderBy
           list={orderByList}
-          valueSelect={filtersSelect.orderBy}
+          valueSelect={
+            orderByList.find((i) => i.name === filtersSelect.orderBy) ||
+            orderByList[0]
+          }
           setValueSelect={(orderBy) =>
-            setFiltersSelect((prev) => ({ ...prev, orderBy }))
+            setFiltersSelect((prev) => ({ ...prev, orderBy: orderBy.name }))
           }
         />
       </div>
